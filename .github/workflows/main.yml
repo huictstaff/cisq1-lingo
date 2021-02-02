@@ -1,4 +1,4 @@
-name: Java CI
+name: Build and test
 
 on: [push]
 
@@ -13,4 +13,4 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
-        run: mvn verify -Dspring.profiles.active=ci
+        run: mvn -B verify -Dspring.profiles.active=ci
