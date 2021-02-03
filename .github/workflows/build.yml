@@ -22,7 +22,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }} -m2
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvnw -B verify -Dspring.profiles.active=ci
+      - run: mvn --batch-mode --update-snapshots verify
       - run: mkdir staging && cp target/*.jar staging
       - run: actions/upload-artifact@v2
         with:
