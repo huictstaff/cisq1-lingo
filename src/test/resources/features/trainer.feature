@@ -41,3 +41,32 @@ Feature: Trainer for Lingo
       | panic              | plasti  | *p*-l-+a+-s--t-+i+
       | puzzle             | muzzle  | -m-*u**z**z**l**e*
       | jacuzzi            | jazzman | *j**a*+z++z++a+-n-
+
+  Scenario: Score increase
+    Given the "guess" is correct
+    When  the round is over
+    Then  increase the score
+
+  Scenario: User eliminated
+    When I am eliminated
+    Then I cannot guess a new word
+
+  Scenario: Word already guessed
+    When I already guessed the word
+    Then I cannot guess the word
+
+  Scenario: eliminated user tries to guess
+    Given  I am eliminated
+    When   I try to guess again
+    Then   I get notified that I am eliminated
+    And    I need to start a new game in order to play
+
+  Scenario: guessing user tries to start a new round
+    When  I haven't guessed a word (yet)
+    And   I am not eliminated
+    Then  I can't start a new round
+
+  Scenario: no existing game
+    Given use case isn't start a game
+    When  there is no existing game
+    Then  I get notified that I have to start a new game in order to play
