@@ -31,6 +31,7 @@ jobs:
       run: mvn -Dspring.profiles.active=ci --batch-mode --update-snapshots verify
  
     # name: Upload artifact
+    - run: mkdir staging && cp target/*.jar staging
     - uses: actions/upload-artifact@v2
       with:
         name: Package
