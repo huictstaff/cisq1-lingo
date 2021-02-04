@@ -44,3 +44,31 @@ Examples:
   | word | guess | feedback |
   | hugoo| hygge | CORRECT, ABSENT, CORRECT, ABSENT, ABSENT  |
   | hugoo| huggo | CORRECT, CORRECT, CORRECT, ABSENT, CORRECT |
+
+Scenario: winning a round
+  Given a "word" has been guessed
+  And all the letters are correct
+  Then the round has ended
+  And the player has won
+  And the score increases
+
+Scenario: increasing score
+  Given a round has been won
+  Then the score increases by 5*(5-number of rounds)+5
+
+#failure
+Scenario: Player defeated
+  Given an active round
+  When I guesses a "word"
+  And the guess is incorrect
+  And it's the 5th round
+  Then the round has been lost
+  And the player has been defeated
+
+#failure
+Scenario: Cannot guess a word that has already been guessed
+  Given an active round
+  When I guess a "word"
+  And it is already present in the "guess" list
+  Then I cannot guess that "word"
+
