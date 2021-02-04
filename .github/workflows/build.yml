@@ -22,7 +22,7 @@ jobs:
         run: mvn test "-Dspring.profiles.active=ci"
       - run: mvn --batch-mode --update-snapshots verify
       - run: mkdir staging && cp target/*.jar staging
-      - run: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: Package
           path: staging
