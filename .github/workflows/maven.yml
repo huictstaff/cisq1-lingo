@@ -6,8 +6,8 @@ name: Run Forest
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  #pull_request:
+    #branches: [ main ]
 
 jobs:
   build:
@@ -20,18 +20,19 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Build with Maven
-      run: mvn -Dspring.profiles.active=ci -B package --file pom.xml
-    - run: mvn --batch-mode --update-snapshots verify
-    - run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Package
-        path: staging
+
     - name: Cache Maven packages
       uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
-      
+    - name: Build with Maven
+      run: mvn -Dspring.profiles.active=ci --batch-mode --update-snapshots verify
+ 
+    # name: Upload artifact
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Package
+        path: staging
