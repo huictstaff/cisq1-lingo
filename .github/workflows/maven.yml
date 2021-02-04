@@ -4,10 +4,8 @@
 name: Run Forest
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
-  #pull_request:
-    #branches: [ main ]
 
 jobs:
   build:
