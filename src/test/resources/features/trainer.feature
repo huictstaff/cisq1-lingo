@@ -5,9 +5,42 @@ Feature: Displaying first letter
 
 Scenario: Starting a new game
   When I click the start button
-  Then A new game should start
+  Then a new game should start
+  And sees a new word displayed
 
+  #obselete
 Scenario: Starting a new round
   Given the game has been started
+  And the last round was won
   When I see a new letter
   Then I can guess the word
+
+Scenario Outline: Start a new round
+  Given I am playing a game
+  And the round was won
+  And the last word had <previous length> letters
+  When I start a new round
+  Then the word to guess has <next length> letters
+
+Examples:
+  | previous length | next length |
+  | 5               | 6           |
+  | 6               | 7           |
+  | 7               | 5           |
+
+# Failure path
+Scenario: Ending Game
+  Given I am playing a game
+  And the round was lost
+  Then I cannot start a new round
+
+Scenario Outline: Guessing a word
+  Given a game has been started
+  And a letter is displayed from an active <word>
+  When I make a <guess>
+  Then the game provides <feedback>
+
+Examples:
+  | word | guess | feedback |
+  | hugoo| hygge | CORRECT, ABSENT, CORRECT, ABSENT, ABSENT  |
+  | hugoo| huggo | CORRECT, CORRECT, CORRECT, ABSENT, CORRECT |
