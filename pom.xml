@@ -15,7 +15,7 @@
     <description>Lingo trainer for CISQ1 at the HU</description>
 
     <properties>
-        <java.version>14</java.version>
+        <java.version>14.0.2</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -71,6 +71,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>14.0.2</source>
                     <target>14.0.2</target>
