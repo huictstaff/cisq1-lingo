@@ -21,7 +21,6 @@ jobs:
       - name: Build with Maven
         run: mvn test "-Dspring.profiles.active=ci" verify
       - run: mkdir staging && cp target/*.jar staging
-      - run: mvn --batch-mode --update-snapshots verify
       - uses: actions/upload-artifact@v2
         with:
           name: Package
