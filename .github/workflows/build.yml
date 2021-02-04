@@ -1,8 +1,6 @@
 name: Build and Deploy
 
-on:
-  push:
-  pull-request:
+on: [push, pull_request]
     branches:
       - main
 
