@@ -13,20 +13,53 @@ Feature: Getting a word
   I want to get a 5-7 letter long word,
   in order to practice my Lingo skills
 
-Feature: Entering words
+Feature: Guessing a word
   As a User,
-  I want to enter in a word,
+  I want to guess a word,
   in order to get feedback
 
-Feature:
-  As a User,
-  I want to only be able to enter in words that exist and words that have the right amount of letters,
-  in order to make sure I'm not guessing wrong things
+  Scenario Outline: Guessing a word
+    Given I am playing a round
+    And I haven't won or lost yet
+    And the <guessed word length> is the <actual word length>
+    And the word exists
+    And I haven't guessed that word yet
+    When I send the word
+    Then I should get feedback
+
+    Examples:
+      | actual word length | guessed word length |
+      |5                |5            |
+      |6                |6            |
+      |7                |7            |
+
+#    Failure path for after the round is finished
+    Given I am playing a round
+    And the round was finished
+    Then I cannot guess a word
+
+#    Failure path for when the word has already been guessed
+    Given I am playing a round
+    And the word has already been guessed
+    Then I cannot guess a word
 
 Feature: Getting feedback
   As a User,
   I want to get feedback on my guess,
   in order to improve my next guess
+
+  Scenario Outline: Getting feedback
+    Given I am playing a round
+    And I haven't won or lost yet
+    And I have submitted a word
+    When the system checks per <letter position>
+    Then I should get <feedback>
+
+    Examples:
+      | letter position | feedback |
+      | "in the right spot" | "CORRECT" |
+      | "in the word"       | "PRESENT" |
+      | "not in the word"   | "ABSENT"  |
 
 Feature: Getting right feedback
   As a User,
@@ -42,6 +75,28 @@ Feature: Starting a new round
   As a User,
   I want to be able to start a new round,
   in order to get a new word
+  Scenario Outline: Start a new round
+    Given I am playing a game
+    And the round was finished
+    And the last word had "<previous length>" letters
+    And this is not my 5th round
+    When I start the new round
+    Then the next word to guess has "<next length>" letters
+
+    Examples:
+      | previous length | next length |
+      |5                |6            |
+      |6                |7            |
+      |7                |5            |
+
+#    Failure path for losing a game
+    Given I am playing a game
+    And the round was lost
+    Then I cannot start a new round
+#    Failure path for still being in a game
+    Given I am playing a game
+    And I haven't won or lost yet
+    Then I cannot start a new round
 
 Feature: Pausing the game
   As a User,
