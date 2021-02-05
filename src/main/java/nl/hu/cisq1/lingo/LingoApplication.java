@@ -9,3 +9,5 @@ public class LingoApplication {
         SpringApplication.run(LingoApplication.class, args);
     }
 }
+
+//test
