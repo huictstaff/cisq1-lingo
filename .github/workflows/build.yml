@@ -13,4 +13,10 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
-        run: mvnw -B verify "-Dspring.profiles.active=ci"
+        run: mvn -B verify "-Dspring.profiles.active=ci"
+      - name: Cache Maven packages
+          uses: actions/cache@v1
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2
