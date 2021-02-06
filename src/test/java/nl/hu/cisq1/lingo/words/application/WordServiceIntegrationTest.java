@@ -37,6 +37,7 @@ class WordServiceIntegrationTest {
 
             // Printing is not necessary in most tests
             // (done here for verification of student configuration)
+            // bad practice
             System.out.println("Random word: " + randomWord);
         }
     }

@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import java.util.List;
 import lombok.*;
-import nl.hu.cisq1.lingo.words.application.WordService;
 
 @ToString @EqualsAndHashCode
 public class Feedback {
@@ -17,4 +16,9 @@ public class Feedback {
     public boolean isWordGuessed() {
         for (Mark m : mark) if (m != Mark.CORRECT) return false; return true;
     }
+
+    public boolean isGuessValid(){
+        return attempt.length() >=5 && attempt.length() <= 7;
+    }
+
 }
