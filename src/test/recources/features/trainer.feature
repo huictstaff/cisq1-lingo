@@ -32,3 +32,17 @@ Feature: Training for Lingo
     Given I am playing a game
     And the round was lost
     Then I cannot start a new round
+
+    Scenario: Guessing a word
+      Given a game has been started
+      And the fist letter of the <word> is active
+      When i submit the word <gues>
+      And the <gues> was wrong
+      And the <gues> consisted out a present letter
+      Then i will get feedback
+
+      Examples:
+        | word    | guess   | feedback                                                    |
+        | bread   | breed   | correct, correct, correct, present, correct                 |
+        | ape     | api     | correct , correct, absent                                   |
+        | Isogram | Pangram | absent, absent, absent, correct, correct , correct , correct|
