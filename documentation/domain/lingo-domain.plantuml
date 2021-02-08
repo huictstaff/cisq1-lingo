@@ -1,0 +1,39 @@
+@startuml domain
+
+class Game {
+  - score: int
+}
+
+class Round {
+  - roundNumber: int
+}
+
+class Player {
+  - name: String
+}
+
+class Word {
+  - letters: String
+  - length: int
+}
+
+class Guess {
+  - letters: String
+  - length: int
+  - feedback: Feedback
+}
+
+enum Feedback {
+  CORRECT
+  PRESENT
+  ABSENT
+  INVALID
+}
+
+Game "0..*" -- "1" Player 
+Game "1" -- "1..*" Round : has
+Round "1..*" -- "1" Word
+Round "1..*" -- "1" Guess
+
+
+@enduml
