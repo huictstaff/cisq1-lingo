@@ -1,7 +1,7 @@
 FROM postgres:13-alpine
 
 # Copy SQL for setting up words table and importing words
-COPY lingo_words.sql /data/lingo_words.sql
+COPY cisq1-lingo.sql /data/cisq1-lingo.sql
 
 # Copy bash scripts to run when building
 COPY create_users.sh /docker-entrypoint-initdb.d/01-create_users.sh
