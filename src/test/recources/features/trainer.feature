@@ -46,3 +46,32 @@ Feature: Training for Lingo
         | bread   | breed   | correct, correct, correct, present, correct                 |
         | ape     | api     | correct , correct, absent                                   |
         | Isogram | Pangram | absent, absent, absent, correct, correct , correct , correct|
+
+    Scenario: The guess was correct
+      Given the game has been started
+      And i guessed the word
+      Then the round has been ended
+      And my score increses by 5*(5-number of "rounds")+5
+
+    Scenario: Lost a game
+      Given a round has started
+      And i used 4 chances
+      When i try to guess a word
+      And the guess was wrong
+      Then the round is over
+      And the player lost a game
+
+    Scenario: Using a Winning word from a earlier round
+      Given a round has been won
+      And a new one has started
+      When i try to guess the word with the winnig word from an earlier round
+      Then i can not subbmit the guess with that word
+
+    Scenario: player can not guess a word when he lost
+      Given the player hav lost a game
+      Then the player cannot guess a word
+
+    Scenario: player can not start a new round when the player is still playing
+      Given a round is active
+      When the player is trying to start a new one
+      Then the new game wil not start
