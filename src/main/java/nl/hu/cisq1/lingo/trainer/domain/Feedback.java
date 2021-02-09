@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import lombok.*;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedBackException;
@@ -31,10 +32,7 @@ public class Feedback {
 
         if (!isWordGuessed() && isGuessValid()) {
             for (int i = 0; i < at.length; i++) {
-                if (at[i] == g[i]) {
-                    prevHint.add(i, at[i]);
-                }
-                else prevHint.add(i, '.');
+                prevHint.add(i, at[i] == g[i] ? at[i] : '.');
             }
         }
         return prevHint;

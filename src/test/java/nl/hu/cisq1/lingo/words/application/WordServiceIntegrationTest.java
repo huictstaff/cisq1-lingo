@@ -34,11 +34,6 @@ class WordServiceIntegrationTest {
         for (int wordLength = 5; wordLength <= 7; wordLength++) {
             String randomWord = this.service.provideRandomWord(wordLength);
             assertEquals(wordLength, randomWord.length());
-
-            // Printing is not necessary in most tests
-            // (done here for verification of student configuration)
-            // bad practice
-            System.out.println("Random word: " + randomWord);
         }
     }
 }

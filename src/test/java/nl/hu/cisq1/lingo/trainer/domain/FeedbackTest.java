@@ -55,7 +55,8 @@ class FeedbackTest {
     void giveHint(String wordToGuess, String attempt, List<Character> hint){
         List<Mark> result = List.of(Mark.CORRECT, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID);
         Feedback f = new Feedback(attempt, result);
-        List c = new ArrayList<>();
+        ArrayList<Character> c = new ArrayList<>();
+        //@TODO this should work with char[] also but assertion error
 
         assertEquals(f.giveHint(c, wordToGuess), hint);
     }
