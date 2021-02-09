@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -15,7 +16,7 @@ class FeedbackTest {
 
     @Test
     @DisplayName("Word is guessed if all letters are correct")
-    private void wordIsGuessed(){
+    void wordIsGuessed(){
         List<Mark> result = List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT);
         Feedback f = new Feedback("woord", result);
 
@@ -23,7 +24,7 @@ class FeedbackTest {
     }
     @Test
     @DisplayName("Some letters are incorrect")
-    private void wordIsNotGuessed(){
+    void wordIsNotGuessed(){
         List<Mark> result = List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.INVALID, Mark.CORRECT);
         Feedback f = new Feedback("woord", result);
 
@@ -32,7 +33,7 @@ class FeedbackTest {
 
     @Test
     @DisplayName("Guess is valid")
-    private void guessIsValid(){
+    void guessIsValid(){
         List<Mark> result = List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT);
         Feedback f = new Feedback("woord", result);
 
@@ -41,7 +42,7 @@ class FeedbackTest {
 
     @Test
     @DisplayName("Guess invalid")
-    private void guessIsInvalid(){
+    void guessIsInvalid(){
         List<Mark> result = List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT);
         Feedback f = new Feedback("woo", result);
 
@@ -51,17 +52,19 @@ class FeedbackTest {
     @ParameterizedTest
     @DisplayName(value = "provide hints")
     @MethodSource("provideHintExamples")
-    private void giveHint(String wordToGuess, String attempt, char[] hint){
-        List<Mark> result = List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT);
-        //reformat marks to parameterized tests also
-    }
+    void giveHint(String wordToGuess, String attempt, List<Character> hint){
+        List<Mark> result = List.of(Mark.CORRECT, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID);
+        Feedback f = new Feedback(attempt, result);
+        List c = new ArrayList<>();
 
+        assertEquals(f.giveHint(c, wordToGuess), hint);
+    }
 
     private static Stream<Arguments> provideHintExamples(){
         return Stream.of(
-                Arguments.of("woord", "wezel", new char[]{'w', '.', '.', '.', '.'}),
-                Arguments.of("beter", "boter", new char[]{'b', '.', 't', 'e', 'r'}),
-                Arguments.of("hoogtes", "higgess", new char[]{'h', '.', '.', 'g', '.', '.', '.'})
+                Arguments.of("woord", "wezel", List.of('w', '.', '.', '.', '.')),
+                Arguments.of("beter", "boter", List.of('b', '.', 't', 'e', 'r')),
+                Arguments.of("hoogtes", "higgess", List.of('h', '.', '.', 'g', '.', '.', 's'))
         );
     }
 

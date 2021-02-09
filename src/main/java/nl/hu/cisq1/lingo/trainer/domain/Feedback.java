@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import java.util.List;
 
 import lombok.*;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedBackException;
 
 @ToString @EqualsAndHashCode
 public class Feedback {
@@ -23,25 +24,19 @@ public class Feedback {
         return attempt.length() >= 5 && attempt.length() <= 7;
     }
 
-    public char[] giveHint(String wordToGuess) {
-        char[] hint = new char[7];
+    @NonNull
+    public List<Character> giveHint(List<Character> prevHint, String wordToGuess) {
         char[] at = attempt.toCharArray();
         char[] g = wordToGuess.toCharArray();
 
         if (!isWordGuessed() && isGuessValid()) {
             for (int i = 0; i < at.length; i++) {
                 if (at[i] == g[i]) {
-                    hint[i] = at[i];
-                    mark.set(i, Mark.CORRECT);
-                } 
-                else hint[i] = '.';
-                invalidPresentOrAbsent(i);
+                    prevHint.add(i, at[i]);
+                }
+                else prevHint.add(i, '.');
             }
         }
-        return hint;
-    }
-
-    private List<Mark> invalidPresentOrAbsent(int i) {
-        return null;
+        return prevHint;
     }
 }
