@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.words.domain;
 
+import nl.hu.cisq1.lingo.words.domain.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,22 +15,35 @@ class FeedbackTest {
         Feedback feedback = new Feedback("woord", List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT));
         assertTrue(feedback.isWordGuessed());
     }
+
     @Test
     @DisplayName("Word is not guessed if all letters correspond with the word.")
-    void wordIsNotGuessed(){
+    void wordIsNotGuessed() {
         Feedback feedback = new Feedback("woord", List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.ABSENT, Rating.CORRECT));
         assertFalse(feedback.isWordGuessed());
     }
+
     @Test
     @DisplayName("Word has invalid characters")
     void guessIsInvalid() {
         Feedback feedback = new Feedback("woord", List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.INVALID, Rating.CORRECT));
         assertTrue(feedback.isWordInvalid());
     }
+
     @Test
     @DisplayName("Word doesn't have invalid characters.")
-    void guessIsNotInvalid(){
+    void guessIsNotInvalid() {
         Feedback feedback = new Feedback("woord", List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT));
         assertFalse(feedback.isWordInvalid());
     }
+
+    @Test
+    @DisplayName("Feedback throws exception if Rating hasn't same length")
+    void feedbackIsNotValid() {
+        assertThrows(InvalidFeedbackException.class,
+                () -> new Feedback("woord", List.of(Rating.CORRECT))
+        );
+    }
+
+
 }
