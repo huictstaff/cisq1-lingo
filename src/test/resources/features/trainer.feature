@@ -46,15 +46,28 @@ Feature: Getting words
       | Banana          | Baadden     | Ba.....
       | Banana          | bagatel     | Ba.a...
 
-  Scenario Outline: Start a new round
+  Scenario Outline: Player wins game
     Given I am playing a game
     And the round was won
     And the last "<last score>" points
+    And I did <tries> tries
     When I start a new round
-    Then the new "<new score>"
+    Then the new "<new score> = <last score> + (5 * (5 - <tries>) +5)"
 
     Examples:
-      | last score |new score |
-      | 5          | 6        |
-      | 6          | 7        |
-      | 7          | 5        |
+      | last score |new score | tries |
+      | 5          | 20       | 3     |
+      | 15         | 35       | 2     |
+      | 7          | 17       | 4     |
+
+    #todo toevoegen:
+#  2.	Na vijf raadpogingen binnen een ronde is de speler af
+  Scenario: Player loses game
+    Given I have tried five words
+    And none of the words was correct.
+    Then the game is over.
+
+#  3.	Speler kan geen woord raden als het woord al geraden is
+#  4.	Speler kan geen woord raden als speler af is
+#  5.	Speler kan geen nieuwe ronde starten als speler nog aan het raden is
+#  6.	Speler kan geen nieuwe ronde starten als speler geen spel heeft
