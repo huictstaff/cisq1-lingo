@@ -43,6 +43,7 @@ Feature: See the first letter of a random word
     Examples:
     | word | guess | feedback |
     | games | bruut | absent, absent, absent, absent, absent |
+    | games | gaming | invalid, invalid, invalid, invalid, invalid, invalid |
     | games | broek | absent, absent, absent, correct, absent |
     | games | gapen | correct, correct, absent, correct, absent |
     | games | surft | present, absent, absent, absent, absent   |
