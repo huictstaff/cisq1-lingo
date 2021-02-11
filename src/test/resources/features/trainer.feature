@@ -27,3 +27,23 @@ Feature: See the first letter of a random word
       | 5               | 6           |
       | 6               | 7           |
       | 7               | 5           |
+
+    # Failure path
+  Scenario: End game
+    Given I am playing a game
+    And the round was lost
+    Then I cannot start a new round
+
+  Scenario Outline: Guessing a word
+    Given a game started
+    And a letter is displayed from an random <word>
+    When I make a <guess>
+    Then the game provides <feedback>
+
+    Examples:
+    | word | guess | feedback |
+    | games | bruut | absent, absent, absent, absent, absent |
+    | games | broek | absent, absent, absent, correct, absent |
+    | games | gapen | correct, correct, absent, correct, absent |
+    | games | surft | present, absent, absent, absent, absent   |
+    | games | games | correct, correct, correct, correct, correct |
