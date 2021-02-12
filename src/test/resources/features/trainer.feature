@@ -41,11 +41,11 @@ Feature: Training for Lingo
 
     Examples:
     | word  | guess  | feedback                                             |
-    | Baard | Bergen | INVALID, INVALID, INVALID, INVALID, INVALID, INVALID |
-    | Baard | Bonje  | CORRECT, ABSENT, ABSENT, ABSENT, ABSENT              |
-    | Baard | Barst  | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT            |
-    | Baard | Draad  | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT           |
-    | Baard | Baard  | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT          |
+    | BAARD | BERGEN | INVALID, INVALID, INVALID, INVALID, INVALID, INVALID |
+    | BAARD | BONJE  | CORRECT, ABSENT, ABSENT, ABSENT, ABSENT              |
+    | BAARD | BARST  | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT            |
+    | BAARD | DRAAD  | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT           |
+    | BAARD | BAARD  | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT          |
 
     Given I have started a round
     And the round is not over
