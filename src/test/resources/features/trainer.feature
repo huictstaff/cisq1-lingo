@@ -25,6 +25,12 @@ Scenario Outline: Start a new round
   And the round was lost
   Then I cannot start a new round
   
+  Given I am guessing a word
+  Then I cannot start a new round
+  
+  Given I am not playing a game
+  Then I cannot start a new round
+  
 Scenario Outline: Guessing a word
   Given I am playing a game
   And a "<word>" has been chosen
@@ -38,3 +44,20 @@ Scenario Outline: Guessing a word
   | BAARD | BARST  | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT			  |
   | BAARD | DRAAD  | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT 		  |
   | BAARD | BAARD  | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT 		  |
+  
+  Given I am playing a game
+  When I successfully guessed the word
+  Then the score should be increased by 1
+  
+  Given I am playing a game
+  When I try to guess a word
+  And I already guessed the word
+  Then I should not be able to guess anymore
+  
+  Given I lost
+  When I try to guess a word
+  Then I should not be able to guess anymore
+  
+  Given I am playing a game
+  When I unsuccessfully guessed the word for the "5" st/nd/rd/th time
+  Then I lost the game
