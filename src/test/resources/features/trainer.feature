@@ -7,9 +7,9 @@ Feature: Trainer for Lingo
 
   Scenario: Start a new game
     When  I start a new game
-    Then  the word to guess has "5" letters
+    Then  the word to guess has "<amount>" letters
     And   I should see the first letter
-    And   my score is "0"
+    And   my score is "<score>"
 
   Scenario Outline: Start a new round
     Given I am playing a game
@@ -29,21 +29,21 @@ Feature: Trainer for Lingo
     Then  I cannot start a new round
 
   Scenario Outline: Guessing a word
-    Given the word is "word"
-    When  I guess "guess"
-    Then  the feedback should be "feedback"
+    Given the word is "<word>"
+    When  I guess "<guess>"
+    Then  the feedback should be "<feedback>"
 
     Examples:
     Between * means correct, letter is present in the to be guessed word and at the right index
     Between + means present in the "word" but at the wrong index
     Between - means absent. Letter is not present in "word"
-      | Word to be guessed | Guess   | Result
+      | word               | guess   | feedback
       | panic              | plasti  | *p*-l-+a+-s--t-+i+
       | puzzle             | muzzle  | -m-*u**z**z**l**e*
-      | jacuzzi            | jazzman | *j**a*+z++z++a+-n-
+      | jacuzzi            | jazzman | *j**a*+z++z+-a--n-
 
   Scenario: Score increase
-    Given the "guess" is correct
+    Given the "<guess>" is correct
     When  the round is over
     Then  increase the score
 
