@@ -33,19 +33,18 @@ Feature: Training for Lingo
     And the round was lost
     Then I cannot start a new round
 
-    Scenario: Guessing a word
+    Scenario Outline: Guessing a word
       Given a game has been started
-      And the fist letter of the <word> is active
-      When i submit the word <gues>
-      And the <gues> was wrong
-      And the <gues> consisted out a present letter
-      Then i will get feedback
+      And the first letter of the <word> is present
+      When i submit the word <guess>
+      And the <guess> was wrong
+      Then i will get <feedback>
 
       Examples:
-        | word    | guess   | feedback                                                    |
-        | bread   | breed   | correct, correct, correct, present, correct                 |
-        | ape     | api     | correct , correct, absent                                   |
-        | Isogram | Pangram | absent, absent, absent, correct, correct , correct , correct|
+        | word    | guess   | feedback                                                     |
+        | bread   | breed   | correct, correct, correct, present, correct                  |
+        | ape     | api     | correct , correct, absent                                    |
+        | Isogram | Pangram | absent, absent, absent, correct, correct , correct , correct |
 
     Scenario: The guess was correct
       Given the game has been started
