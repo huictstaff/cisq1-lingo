@@ -50,7 +50,16 @@ Feature: Training for Lingo
     Given I have started a round
     And the round is not over
     When I guess correct
-    Then my score should be increased
+    And I have guessed "<attempts>" times
+    Then my score should increase by "<score>"
+
+    Examples:
+    | attempts | score |
+    | 1        | 25    |
+    | 2        | 20    |
+    | 3        | 15    |
+    | 4        | 10    |
+    | 5        | 5     |
 
     Given I have started a round
     And the round is not over
