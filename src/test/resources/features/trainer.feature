@@ -47,7 +47,7 @@ Scenario Outline: Guessing a word
   
   Given I am playing a game
   When I successfully guessed the word
-  Then the score should be increased by 1
+  Then the score should be increased according to the Lingo rules
   
   Given I am playing a game
   When I try to guess a word
@@ -59,5 +59,5 @@ Scenario Outline: Guessing a word
   Then I should not be able to guess anymore
   
   Given I am playing a game
-  When I unsuccessfully guessed the word for the "5" st/nd/rd/th time
+  When I unsuccessfully guessed the word "5" times
   Then I lost the game
