@@ -36,7 +36,8 @@ Feature: Guessing a word
 
 Scenario Outline: Guessing a word
   Given User is playing a game
-  When User his "<guess>" is compared with "<word>"
+  When User makes a "<guess>"
+  And User his "<guess>" is compared with the "<word>"
   Then "<feedback>" is given
 
   Examples:
