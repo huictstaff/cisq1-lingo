@@ -41,4 +41,3 @@ Feature: Lingo Trainer
       | BAARD | BARST   | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT                         |
       | BAARD | DRAAD   | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT                        |
       | BAARD | BAARD   | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT                       |
-

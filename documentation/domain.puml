@@ -1,0 +1,47 @@
+@startuml
+
+Class Game {
+    -id : UUID
+    -score : int
+    -rounds : List<Round>
+
+    +nextRound() : Round
+}
+
+Class Round {
+    -wordToGuess : String
+    -attempts : List<Attempt>
+}
+
+Class Attempt {
+    -attempt : String
+    -feedback : List<Mark>
+
+    -getFeedback() : List<Mark>
+    +makeAttempt(guess : String) : List<Mark>
+}
+
+Enum Mark {
+    CORRECT
+    INCORRECT
+    PRESENT
+    INVALID
+}
+
+Enum GameState {
+PLAYING
+    LOST
+    FINISHED
+}
+
+Mark <<Enumeration>>
+GameState <<Enumeration>>
+
+Game -- Round : Has >
+Game -- GameState : Has >
+Attempt -- Mark : Gets >
+Attempt -- Round : < Has
+
+
+
+@enduml
