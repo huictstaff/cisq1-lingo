@@ -68,7 +68,5 @@ Feature: Training for Lingo
     Then the game should be over
 
     Given I have started a round
-    And the round is not over
-    When I guess a word that has already been guessed
-    Then my guesses shouldn't increase
-    And I shouldn't receive feedback
+    And the word has already been guessed
+    Then I should get another word
