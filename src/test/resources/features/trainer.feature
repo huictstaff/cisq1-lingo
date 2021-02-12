@@ -25,6 +25,13 @@ Feature: Training for Lingo
     Given I am playing a game
     And the round was lost
     Then I cannot start a new round
+
+    Given I am playing a game
+    And the round is still going
+    Then I cannot start a new round
+
+    Given I am not playing a game
+    Then I cannot start a new round
   Scenario Outline: Guessing a word
     Given I have started a round
     And the round is not over
@@ -40,3 +47,19 @@ Feature: Training for Lingo
     | Baard | Draad  | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT           |
     | Baard | Baard  | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT          |
 
+    Given I have started a round
+    And the round is not over
+    When I guess correct
+    Then my score should be increased
+
+    Given I have started a round
+    And the round is not over
+    And I have guessed 4 times
+    When I guess incorrect
+    Then the game should be over
+
+    Given I have started a round
+    And the round is not over
+    When I guess a word that has already been guessed
+    Then my guesses shouldn't increase
+    And I shouldn't receive feedback
