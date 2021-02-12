@@ -22,3 +22,23 @@ Feature: Lingo Trainer
       | 5               | 6           |
       | 6               | 7           |
       | 7               | 5           |
+
+    #Failure path
+    Given I am playing a game
+    And the round was lost
+    Then I cannot start a new round
+
+  Scenario Outline: Guessing a word
+    Given The current "<word>" is not yet guessed
+    And "<word>" and "<guess>" do not match
+    When I make a new "<guess>"
+    Then I should recieve "<feedback>"
+
+    Examples:
+      | word  | guess   | feedback                                                          |
+      | BAARD | BERGEN  | INCORRECT, INCORRECT, INCORRECT, INCORRECT, INCORRECT, INCORRECT  |
+      | BAARD | BONJE   | CORRECT, ABSENT, ABSENT, ABSENT, ABSENT                           |
+      | BAARD | BARST   | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT                         |
+      | BAARD | DRAAD   | ABSENT, PRESENT, CORRECT, PRESENT, CORRECT                        |
+      | BAARD | BAARD   | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT                       |
+
