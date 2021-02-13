@@ -1,5 +1,6 @@
-Feature: Searching on Wikipedia
-  As a User,
-  I want to find information by a relevant keyword,
-  In order to easily find entries without having to browse each page by hand
-
+Feature: Start a new round
+  Given I am playing a game
+  And the round was won
+  And the last round had "5" letters
+  When I start a new round
+  Then the word to guess has "6" letters
