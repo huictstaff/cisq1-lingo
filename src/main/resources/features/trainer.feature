@@ -1,3 +1,7 @@
+Feature: Start a new game
+  When I start a new game
+  Then I get a word to guess that has "5" letters
+
 Feature: Start a new round
   Given I am playing a game
   And the round was won
