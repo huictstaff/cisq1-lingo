@@ -10,3 +10,8 @@ Feature: Start a new round
     | 5               | 6           |
     | 6               | 7           |
     | 7               | 5           |
+
+  # Failure path
+  Given I am playing a game
+  And the round was lost
+  Then I cannot start a new round
