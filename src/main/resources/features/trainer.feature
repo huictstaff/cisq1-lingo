@@ -1,6 +1,12 @@
 Feature: Start a new game
   When I start a new game
-  Then I get a word to guess that has "5" letters
+  Then I get to see my score counter, a list of letters with a certain <length> and a start letter as a hint
+
+  Examples:
+    | length |
+    | 5      |
+    | 6      |
+    | 7      |
 
 Feature: Start a new round
   Given I am playing a game
