@@ -1,12 +1,15 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
+
 import java.util.List;
 import java.util.Objects;
 
 public class Feedback {
     private List<Mark> marks;
 
-    public Feedback(List<Mark> marks) {
+    public Feedback(String wordToGuess, List<Mark> marks) throws InvalidFeedbackException {
+        if(marks.size() != wordToGuess.length()) throw new InvalidFeedbackException();
         this.marks = marks;
     }
 
