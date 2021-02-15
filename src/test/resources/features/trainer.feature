@@ -55,9 +55,9 @@ Feature: Starting a game
       # Feedback legend
       # C = Correct letter
       # P = Position is wrong
-      # I = Incorrect letter
+      # A = Absent
       Examples:
         |     guess   |   word     |    feedback    |
-        | bingo       | apple      | IIIII          |
-        | apace       | apple      | CPPIC          |
+        | bingo       | apple      | AAAAA          |
+        | apace       | apple      | CPPAC          |
         | apple       | apple      | CCCCC          |
