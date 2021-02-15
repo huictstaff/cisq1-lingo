@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class Feedback {
+    private String attempt;
     private List<Mark> marks;
 
-    public Feedback(String wordToGuess, List<Mark> marks) throws InvalidFeedbackException {
-        if(marks.size() != wordToGuess.length()) throw new InvalidFeedbackException();
+    public Feedback(String attempt, List<Mark> marks) throws InvalidFeedbackException {
+        if(marks.size() != attempt.length()) throw new InvalidFeedbackException();
         this.marks = marks;
+        this.attempt = attempt;
     }
 
     public boolean isWordGuessed() {
