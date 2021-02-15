@@ -12,36 +12,36 @@ class FeedbackTest {
     @Test
     @DisplayName("word is guessed if all letters are correct")
     void wordIsGuessed() {
-        Feedback feedback = new Feedback(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT));
+        Feedback feedback = new Feedback(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT),"banaan");
         assertTrue(feedback.isWordGuessed());
     }
 
     @Test
     @DisplayName("word is not guessed if not all letters are correct")
     void wordIsNotGuessed() {
-        Feedback feedback = new Feedback(List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT));
+        Feedback feedback = new Feedback(List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT), "banaan");
         assertFalse(feedback.isWordGuessed());
     }
 
     @Test
     @DisplayName("word is invalid if all letters are invalid")
     void wordIsInvalid() {
-        Feedback feedback = new Feedback(List.of(INVALID, INVALID, INVALID, INVALID, INVALID));
+        Feedback feedback = new Feedback(List.of(INVALID, INVALID, INVALID, INVALID, INVALID),"banaan");
         assertTrue(feedback.isWordInvalid());
     }
 
     @Test
     @DisplayName("word is valid if not all letters are marked as invalid")
     void wordIsValid() {
-        Feedback feedback = new Feedback(List.of(INVALID, ABSENT, CORRECT, CORRECT, CORRECT));
+        Feedback feedback = new Feedback(List.of(INVALID, ABSENT, CORRECT, CORRECT, CORRECT),"banaan");
         assertFalse(feedback.isWordInvalid());
     }
 
     @Test
     @DisplayName("feedback is different if values different")
     void feedbackIsDifferent() {
-        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT));
-        Feedback feedbackB = new Feedback(List.of(CORRECT, INVALID));
+        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT),"banaan");
+        Feedback feedbackB = new Feedback(List.of(CORRECT, INVALID),"banaan");
 
         assertNotEquals(feedbackB, feedbackA);
     }
@@ -49,8 +49,8 @@ class FeedbackTest {
     @Test
     @DisplayName("feedback is same if values same")
     void feedbackIsSame() {
-        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT));
-        Feedback feedbackB = new Feedback(List.of(CORRECT, CORRECT));
+        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT),"banaan");
+        Feedback feedbackB = new Feedback(List.of(CORRECT, CORRECT),"banaan");
 
         assertEquals(feedbackB, feedbackA);
     }
@@ -58,8 +58,8 @@ class FeedbackTest {
     @Test
     @DisplayName("hashcade is generated based on values")
     void hashCodeGeneration() {
-        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT));
-        Feedback feedbackB = new Feedback(List.of(CORRECT, CORRECT));
+        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT),"banaan");
+        Feedback feedbackB = new Feedback(List.of(CORRECT, CORRECT),"banaan");
 
         assertEquals(feedbackB.hashCode(), feedbackA.hashCode());
     }
@@ -67,7 +67,7 @@ class FeedbackTest {
     @Test
     @DisplayName("toString contains class name")
     void convertedToString() {
-        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT));
+        Feedback feedbackA = new Feedback(List.of(CORRECT, CORRECT),"banaan");
         assertTrue(feedbackA.toString().contains("Feedback"));
     }
 }

@@ -5,10 +5,16 @@ import java.util.Objects;
 
 public class Feedback {
     private final List<Mark> marks;
+    private String attempt;
 
-    public Feedback(List<Mark> marks) {
+    public Feedback(List<Mark> marks, String attempt) {
         this.marks = marks;
+        this.attempt = attempt;
     }
+
+//    public Feedback(List<Mark> marks) {
+//        this.marks = marks;
+//    }
 
     public boolean isWordGuessed() {
         return this.marks.stream()
