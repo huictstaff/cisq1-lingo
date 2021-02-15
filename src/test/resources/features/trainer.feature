@@ -48,3 +48,39 @@ Feature: See the first letter of a random word
     | games | gapen | correct, correct, absent, correct, absent |
     | games | surft | present, absent, absent, absent, absent   |
     | games | games | correct, correct, correct, correct, correct |
+
+
+  Scenario Outline: Score increases based on number of attempts
+    Given I am playing a game
+    And the score is "<current score>"
+    And the word to guess is "games"
+    When I guess "games" in "<attempts>" attempts
+    Then the score is "<new score>"
+
+    Examples:
+      | current score | attempts | new score |
+      | 0             | 1        | 25        |
+      | 5             | 1        | 30        |
+      | 0             | 2        | 20        |
+      | 5             | 2        | 25        |
+      | 0             | 3        | 15        |
+      | 5             | 3        | 20        |
+      | 0             | 4        | 10        |
+      | 5             | 4        | 15        |
+      | 0             | 5        | 5         |
+      | 5             | 5        | 10        |
+
+  Scenario: Cannot start a round if still guessing
+    Given I am playing a game
+    And I am still guessing a word
+    Then I cannot start a new round
+
+  Scenario: Cannot start a round if eliminated
+    Given I am playing a game
+    And I have been eliminated
+    Then I cannot start a new round
+
+  Scenario: Cannot guess word if round not started
+    Given I am playing a game
+    And the round was won
+    Then I cannot guess the word
