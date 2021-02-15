@@ -21,7 +21,7 @@ Feature: Guessing a word
   Scenario Outline: Guessing a word
     Given I am playing a round
     And I haven't won or lost yet
-    And the <guessed word length> is the <actual word length>
+    And the "<guessed word length>" is the "<actual word length>"
     And the word exists
     And I haven't guessed that word yet
     When I send the word
@@ -29,9 +29,9 @@ Feature: Guessing a word
 
     Examples:
       | actual word length | guessed word length |
-      |5                |5            |
-      |6                |6            |
-      |7                |7            |
+      | 5                  | 5                   |
+      | 6                  | 6                   |
+      | 7                  | 7                   |
 
 #    Failure path for after the round is finished
     Given I am playing a round
@@ -51,15 +51,15 @@ Feature: Getting feedback
   Scenario Outline: Getting feedback
     Given I am playing a round
     And I haven't won or lost yet
-    And I have submitted a word
-    When the system checks per <letter position>
-    Then I should get <feedback>
+    And the word is "<word>"
+    When I submit a "<guess>"
+    Then I should get "<feedback>"
 
     Examples:
-      | letter position | feedback |
-      | "in the right spot" | "CORRECT" |
-      | "in the word"       | "PRESENT" |
-      | "not in the word"   | "ABSENT"  |
+      | word | guess | feedback                           |
+      | test | tien  | CORRECT, ABSENT, PRESENT, ABSENT   |
+      | test | tent  | CORRECT, PRESENT, ABSENT, CORRECT  |
+      | test | test  | CORRECT, CORRECT, CORRECT, CORRECT |
 
 Feature: Getting right feedback
   As a User,
@@ -85,9 +85,9 @@ Feature: Starting a new round
 
     Examples:
       | previous length | next length |
-      |5                |6            |
-      |6                |7            |
-      |7                |5            |
+      | 5               | 6           |
+      | 6               | 7           |
+      | 7               | 5           |
 
 #    Failure path for losing a game
     Given I am playing a game
