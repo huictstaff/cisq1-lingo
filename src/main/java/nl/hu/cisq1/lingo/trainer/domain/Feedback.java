@@ -29,13 +29,14 @@ public class Feedback {
         return true;
     }
 
+    //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT else "-" is appended
     public String giveHint() {
         StringBuilder hint = new StringBuilder("" + guess.charAt(0));
         for(int i = 1; i < this.guess.length(); i++) {
             if(this.markPerLetter.get(i) == Mark.CORRECT) {
                 hint.append(this.guess.charAt(i));
             } else {
-                hint.append(".");
+                hint.append("-");
             }
         }
         return hint.toString();
