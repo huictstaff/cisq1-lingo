@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidHintException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,8 +40,15 @@ class FeedbackTest {
 
     @Test
     @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
-    void sizeExceptionWorks() {
+    void invalidFeedbackExceptionWorks() {
         assertThrows(InvalidFeedbackException.class, () -> new Feedback("word", List.of(Mark.CORRECT)));
+    }
+
+    @Test
+    @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
+    void invalidHintExceptionWorks() {
+        Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
+        assertThrows(InvalidHintException.class, () -> feedback.giveHint("wor", "wor"));
     }
 
     @ParameterizedTest
