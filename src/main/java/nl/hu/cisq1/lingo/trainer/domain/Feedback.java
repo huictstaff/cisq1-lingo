@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidHintException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +33,19 @@ public class Feedback {
     }
 
     public String giveHint(String previousHint, String wordToGuess) {
+
+        // Check if length is the same
+        if(previousHint.length() != this.marks.size() || wordToGuess.length() != this.marks.size()) {
+            throw new InvalidHintException();
+        }
+
+        // Check if feedback is correct
+
+
+        // Result to return
         String hint = "";
 
-        // Put correctly guessed characters into hint
+        // Add correctly guessed characters to the hint
         for (int i = 0; i < this.marks.size(); i++) {
             if (previousHint.charAt(i) != '.' || this.marks.get(i).equals(Mark.CORRECT)) {
                 hint += wordToGuess.charAt(i);
@@ -43,6 +54,7 @@ public class Feedback {
             }
         }
 
+        // Return
         return hint;
     }
 }
