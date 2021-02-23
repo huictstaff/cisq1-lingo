@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.Mark;
+import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,22 +34,23 @@ class FeedbackTest {
         assertThrows(InvalidFeedbackException.class, () -> new Feedback("woord", List.of(Mark.ABSENT)));
     }
 
-    static Stream<Arguments> provideHintExamples() {
-        return Stream.of(
-                Arguments.of("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
-                Arguments.of("b-----", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT)),
-                Arguments.of("b----a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
-                Arguments.of("b-n--a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
-                Arguments.of("b-n-na", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
-                Arguments.of("ban-na", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT))
-        );
-    }
-
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("Give correct feedback")
-    void giveFullFeedback(String expected,List<Mark> marks) {
-        Feedback feedback = new Feedback("banana", marks);
+    void giveFullFeedback(String word, String expected, List<Mark> marks) {
+        Feedback feedback = new Feedback(word, marks);
         assertEquals(expected, feedback.giveHint());
+    }
+
+    static Stream<Arguments> provideHintExamples() {
+        return Stream.of(
+                Arguments.of("banana", "banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banana", "b-----", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT)),
+                Arguments.of("banana", "b----a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
+                Arguments.of("banana", "b-n--a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
+                Arguments.of("banana", "b-n-na", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banana", "ban-na", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banaan", "bana**", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.PRESENT, Mark.PRESENT))
+        );
     }
 }

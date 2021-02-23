@@ -2,7 +2,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import nl.hu.cisq1.lingo.trainer.Mark;
+import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
 import java.util.List;
@@ -29,14 +29,23 @@ public class Feedback {
         return true;
     }
 
-    //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT else "-" is appended
+    //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT,
+    //if character is present "*" is appended
+    //else(absent) "-" is appended
+    //ToDo: use other hints(combine them) https://discord.com/channels/747833599952420895/804818719976587274/810932393300197436
     public String giveHint() {
-        StringBuilder hint = new StringBuilder("" + guess.charAt(0));
-        for(int i = 1; i < this.guess.length(); i++) {
-            if(this.markPerLetter.get(i) == Mark.CORRECT) {
-                hint.append(this.guess.charAt(i));
-            } else {
-                hint.append("-");
+        StringBuilder hint = new StringBuilder();
+        for(int i = 0; i < this.guess.length(); i++) {
+            switch (this.markPerLetter.get(i)) {
+                case CORRECT:
+                    hint.append(this.guess.charAt(i));
+                    break;
+                case PRESENT:
+                    hint.append("*");
+                    break;
+                default: //can also be Present
+                    hint.append("-");
+                    break;
             }
         }
         return hint.toString();
