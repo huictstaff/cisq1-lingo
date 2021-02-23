@@ -25,4 +25,22 @@ class FeedbackTest {
 
 		assertFalse(feedback.isWordGuessed());
 	}
+
+	@Test
+	@DisplayName("the attempt is invalid")
+	void attemptIsInvalid(){
+		List marks = List.of(Mark.INVALID, Mark.INVALID,Mark.INVALID,Mark.INVALID,Mark.INVALID,Mark.INVALID);
+		Feedback feedback = new Feedback("woord", marks);
+
+		assertFalse(feedback.attemptIsValid());
+	}
+
+	@Test
+	@DisplayName("the attempt is valid")
+	void attemptIsNotInvalid(){
+		List marks = List.of(Mark.ABSENT, Mark.ABSENT,Mark.PRESENT,Mark.ABSENT,Mark.CORRECT);
+		Feedback feedback = new Feedback("woord", marks);
+
+		assertTrue(feedback.attemptIsValid());
+	}
 }
