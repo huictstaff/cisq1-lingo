@@ -28,21 +28,21 @@ class FeedbackTest {
 	}
 
 	@Test
-	@DisplayName("the attempt is invalid")
-	void attemptIsInvalid(){
+	@DisplayName("the guess is invalid")
+	void guessIsInvalid(){
 		List marks = List.of(Mark.INVALID, Mark.INVALID,Mark.INVALID,Mark.INVALID,Mark.INVALID,Mark.INVALID);
 		Feedback feedback = new Feedback("woord", marks);
 
-		assertFalse(feedback.attemptIsValid());
+		assertFalse(feedback.guessIsValid());
 	}
 
 	@Test
-	@DisplayName("the attempt is valid")
-	void attemptIsNotInvalid(){
+	@DisplayName("the guess is valid")
+	void guessIsNotInvalid(){
 		List marks = List.of(Mark.ABSENT, Mark.ABSENT,Mark.PRESENT,Mark.ABSENT,Mark.CORRECT);
 		Feedback feedback = new Feedback("woord", marks);
 
-		assertTrue(feedback.attemptIsValid());
+		assertTrue(feedback.guessIsValid());
 	}
 
 	@Test

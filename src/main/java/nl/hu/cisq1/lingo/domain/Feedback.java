@@ -21,7 +21,7 @@ public class Feedback {
 		return this.marks.stream().allMatch(str -> str.equals(Mark.CORRECT));
 	}
 
-	public boolean attemptIsValid(){
+	public boolean guessIsValid(){
 		return this.marks.stream().noneMatch(str -> str.equals(Mark.INVALID));
 	}
 }

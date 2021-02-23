@@ -1,20 +1,21 @@
 package nl.hu.cisq1.lingo.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Hint {
-	private List<Character> characters;
+	private List<String> characters;
 
 	public static Hint giveHint(Hint previousHint, String wordToGuess, List<Mark> marks){
-		List<Character> list = new ArrayList<>();
+		List<String> list = List.of("a","b","c");
 
-		for(char c : "abc".toCharArray()) {
-			list.add(c);
-		}
 		return new Hint(list);
 	}
 }
