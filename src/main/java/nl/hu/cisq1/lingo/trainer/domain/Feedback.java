@@ -1,14 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
 import java.util.List;
 
-@EqualsAndHashCode
-@ToString
 public class Feedback {
     private String guess;
     private List<Mark> markPerLetter;
@@ -23,10 +19,7 @@ public class Feedback {
 
     //return true when all marks in markPerLetter are correct else false
     public Boolean isWordGuessed() {
-        if(this.markPerLetter.contains(Mark.ABSENT) || this.markPerLetter.contains(Mark.PRESENT)) {
-            return false;
-        }
-        return true;
+        return !this.markPerLetter.contains(Mark.PRESENT) || !this.markPerLetter.contains(Mark.ABSENT);
     }
 
     //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT,
@@ -43,7 +36,7 @@ public class Feedback {
                 case PRESENT:
                     hint.append("*");
                     break;
-                default: //can also be Present
+                default: //ABSENT
                     hint.append("-");
                     break;
             }

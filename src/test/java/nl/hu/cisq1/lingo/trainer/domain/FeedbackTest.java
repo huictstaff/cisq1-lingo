@@ -22,9 +22,9 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("Word is not guessed if some or all letters are incorrect")
+    @DisplayName("Word is not guessed if some or all letters are incorrect or present")
     void wordIsNotGuessed() {
-        Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT, Mark.CORRECT));
         assertFalse(feedback.isWordGuessed());
     }
 
