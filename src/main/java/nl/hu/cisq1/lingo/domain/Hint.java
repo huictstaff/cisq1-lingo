@@ -14,7 +14,7 @@ public class Hint {
 	private List<String> characters;
 
 	public static Hint giveHint(Hint previousHint, String wordToGuess, List<Mark> marks){
-		List<String> list = List.of("a","b","c");
+		List<String> list = List.of("k",".",".","e","l");
 
 		return new Hint(list);
 	}

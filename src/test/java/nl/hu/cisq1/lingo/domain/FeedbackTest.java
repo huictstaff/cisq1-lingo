@@ -50,7 +50,7 @@ class FeedbackTest {
 	void feedbackIsInvalid(){
 		assertThrows(
 				InvalidFeedbackException.class,
-				() -> new Feedback("woord", List.of(Mark.CORRECT))
+				() -> Feedback.correct("woord", List.of(Mark.CORRECT))
 		);
 	}
 }
