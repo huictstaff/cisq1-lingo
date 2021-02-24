@@ -1,7 +1,7 @@
-package nl.hu.cisq1.lingo.domain;
+package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Data;
-import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.Collections;
