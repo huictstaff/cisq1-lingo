@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import trainer.domain.exception.InvalidFeedbackException;
 
+import java.beans.FeatureDescriptor;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,5 +45,33 @@ class FeedbackTest {
                 InvalidFeedbackException.class,
                 () -> new Feedback("woord", List.of(Mark.CORRECT))
         );
+    }
+
+
+
+
+    @Test
+    void wordViaStaticFactoryIsGuessed() {
+        Feedback feedback = Feedback.forCorrect("woord");
+        assertTrue(feedback.isWordGuessed());
+    }
+
+    @Test
+    void wordViaStaticFactoryIsNotGuessed() {
+        Feedback feedback = Feedback.forInvalid("woord");
+        assertFalse(feedback.isWordGuessed());
+    }
+
+
+    @Test
+    void guessViaStaticFactoryIsValid() {
+        Feedback feedback = Feedback.forCorrect("woord");
+        assertTrue(feedback.isGuessValid());
+    }
+
+    @Test
+    void guessViaStaticFactoryIsNotValid() {
+        Feedback feedback = Feedback.forInvalid("woord");
+        assertFalse(feedback.isGuessValid());
     }
 }
