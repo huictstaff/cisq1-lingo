@@ -1,12 +1,12 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.domain;
 
 import lombok.Data;
-import trainer.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Data
@@ -50,4 +50,29 @@ public class Feedback {
         }
         return false;
     }
+
+    public Hint giveHint(Hint earlierHint, String wordToGuess) {
+        int index = earlierHint.getNextHintIndex();
+
+        // convert wordToGet to a list of chars
+        List<Character> WTGLetterList =  wordToGuess
+                .chars()
+                .mapToObj(e -> (char)e)
+                .collect(Collectors.toList());
+
+        // this gets the earlier hint's letterslist and converts it to an ArrayList
+        List<Character> newHintLettersList = new ArrayList<>(earlierHint.getLettersList());
+
+        // here is the placeholder of the new hinted letter replaced by the letter itself that
+        // we get from the WTG, based on the index
+        newHintLettersList.set(index, WTGLetterList.get(index));
+
+        // return the new instantiated hint
+        return new Hint(newHintLettersList);
+    }
+
+
+
+
+
 }

@@ -1,8 +1,7 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.domain;
 
 import lombok.Data;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Data

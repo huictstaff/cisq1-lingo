@@ -1,4 +1,4 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.domain;
 
 import org.junit.jupiter.api.Test;
 

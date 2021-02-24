@@ -1,15 +1,26 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import trainer.domain.exception.InvalidFeedbackException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
 
-import java.beans.FeatureDescriptor;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
+
+    private static Stream<Arguments> provideHappyFlowHintExamples() {
+        return Stream.of(
+                Arguments.of(new Hint(List.of('w', '.', '.', '.', '.')), "woord", new Hint(List.of('w', 'o', '.', '.', '.'))),
+                Arguments.of(new Hint(List.of('w', 'o', 'o', 'r', '.')), "woord", new Hint(List.of('w', 'o', 'o', 'r', 'd'))),
+                Arguments.of(new Hint(List.of('.', '.', '.', '.', '.')), "woord", new Hint(List.of('w', '.', '.', '.', '.')))
+            );
+    }
 
 
     @Test
@@ -74,4 +85,12 @@ class FeedbackTest {
         Feedback feedback = Feedback.forInvalid("woord");
         assertFalse(feedback.isGuessValid());
     }
+
+    @ParameterizedTest
+    @MethodSource("provideHappyFlowHintExamples")
+    void giveHint(Hint earlierHint, String wordToGuess, Hint expected) {
+        Feedback feedback = Feedback.forInvalid(wordToGuess);
+        assertEquals(expected, feedback.giveHint(earlierHint, wordToGuess));
+    }
+
 }
