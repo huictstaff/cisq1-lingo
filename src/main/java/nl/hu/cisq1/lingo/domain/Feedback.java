@@ -11,6 +11,7 @@ import java.util.List;
 public class Feedback {
     private final String attempt;
     private final List<Mark> marks;
+    private Hint hint;
 
     public Feedback(String attempt, List<Mark> marks) {
         if (attempt.length() != marks.size()) {

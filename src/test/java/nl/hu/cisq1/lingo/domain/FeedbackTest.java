@@ -13,7 +13,7 @@ class FeedbackTest {
     @Test
     @DisplayName("Word is guessed if all letters are correct")
     void wordisGuessed() {
-        Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 
         assertTrue(feedback.isWordGuessed());
     }
@@ -21,7 +21,7 @@ class FeedbackTest {
     @Test
     @DisplayName("Word is not guessed if one or more letters are incorrect")
     void wordisNotGuessed() {
-        Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
+        Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.PRESENT));
 
         assertFalse(feedback.isWordGuessed());
     }
