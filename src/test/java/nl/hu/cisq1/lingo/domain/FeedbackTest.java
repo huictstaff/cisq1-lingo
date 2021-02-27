@@ -51,13 +51,13 @@ class FeedbackTest {
         assertThrows(InvalidFeedbackException.class, ()-> new Feedback("woord", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID)));
     }
 
-    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} |" )
+    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
     @DisplayName("A hint by a guessed word")
     @MethodSource("provideHintExamples")
     void giveHint(String attempt, List<Mark> marks, List<Character> hint) {
         Feedback feedback = new Feedback(attempt, marks);
 
-        assertEquals(feedback.giveHint(), hint);
+        assertEquals(hint, feedback.giveHint());
     }
 
     private static Stream<Arguments> provideHintExamples() {
