@@ -1,10 +1,14 @@
 package nl.hu.cisq1.lingo.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import nl.hu.cisq1.lingo.words.domain.Word;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode
+@ToString
 public class Round {
     private int number;
     private Word word;
