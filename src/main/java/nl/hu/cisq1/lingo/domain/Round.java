@@ -33,5 +33,26 @@ public class Round {
 
         return characters;
     }
-}
 
+
+    public Feedback guessWord(String attempt) {
+        this.number ++;
+
+        List<Mark> marks = new ArrayList<>();
+
+        for (int i=0; i< this.word.getLength(); i++) {
+
+            if (attempt.charAt(i) == word.getValue().charAt(i)) {
+                marks.add(Mark.CORRECT);
+            } else if (word.getValue().contains(attempt.charAt(i) + "")) {
+              marks.add(Mark.PRESENT);
+            } else {
+                marks.add(Mark.ABSENT);
+            }
+        }
+
+        Feedback feedback = new Feedback(attempt, marks);
+
+        return feedback;
+    }
+}
