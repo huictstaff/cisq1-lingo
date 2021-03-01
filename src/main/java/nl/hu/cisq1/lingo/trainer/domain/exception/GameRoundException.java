@@ -14,6 +14,16 @@ public class GameRoundException extends RuntimeException {
         );
     }
 
+
+    public static GameRoundException cantGetHintsForAnEndedRound() {
+        return new GameRoundException(
+                String.format(
+                        "Can't gets hinst anymore for an ended round"
+                )
+        );
+    }
+
+
     public static GameRoundException noMoreHintsLeft() {
         return new GameRoundException(
                 String.format(

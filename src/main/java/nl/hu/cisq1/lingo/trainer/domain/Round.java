@@ -83,41 +83,44 @@ public class Round {
     public Hint getHint() {
         if (hints_left > 0) {
 
-            List<Mark> marksList = getLatestFeedback().getMarks();
-            List<Integer> shownLettersIndexes = new ArrayList<>();
-            List<Character> lettersList = new ArrayList<>();
+            if (numOfAttemptsLeft() > 0) {
+
+                List<Mark> marksList = getLatestFeedback().getMarks();
+                List<Integer> shownLettersIndexes = new ArrayList<>();
+                List<Character> lettersList = new ArrayList<>();
 
 
-            for (int i = 0; i < marksList.size(); i++) {
-                if (marksList.get(i) != Mark.CORRECT) {
-                    shownLettersIndexes.add(i);
-                    break;
+                for (int i = 0; i < marksList.size(); i++) {
+                    if (marksList.get(i) != Mark.CORRECT) {
+                        shownLettersIndexes.add(i);
+                        break;
+                    }
                 }
-            }
 
 
-            for (int i = 0; i < marksList.size(); i++) {
-                if (marksList.get(i) == Mark.CORRECT) {
-                    shownLettersIndexes.add(i);
+                for (int i = 0; i < marksList.size(); i++) {
+                    if (marksList.get(i) == Mark.CORRECT) {
+                        shownLettersIndexes.add(i);
+                    }
                 }
-            }
 
-            List<Character> WTGLetterList = WORD_TO_GUESS
-                    .chars()
-                    .mapToObj(e -> (char) e)
-                    .collect(Collectors.toList());
+                List<Character> WTGLetterList = WORD_TO_GUESS
+                        .chars()
+                        .mapToObj(e -> (char) e)
+                        .collect(Collectors.toList());
 
 
-            for (int i = 0; i < WTGLetterList.size(); i++) {
-                if (shownLettersIndexes.contains(i)) {
-                    lettersList.add(WTGLetterList.get(i));
-                } else {
-                    lettersList.add('-');
+                for (int i = 0; i < WTGLetterList.size(); i++) {
+                    if (shownLettersIndexes.contains(i)) {
+                        lettersList.add(WTGLetterList.get(i));
+                    } else {
+                        lettersList.add('-');
+                    }
                 }
-            }
 
-            return new Hint(lettersList);
+                return new Hint(lettersList);
 
+            } else throw GameRoundException.cantGetHintsForAnEndedRound();
         } else throw GameRoundException.noMoreHintsLeft();
     }
 
