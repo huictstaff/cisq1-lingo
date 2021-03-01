@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class FeedbackTest {
     @Test
     @DisplayName("Word is guessed if all letters are correct")
-    void wordIsGuessed() {
+    void isWordGuessed() {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
         assertTrue(feedback.isWordGuessed());
     }
 
     @Test
     @DisplayName("Word is not guessed if some or all letters are incorrect or present")
-    void wordIsNotGuessed() {
+    void isWordNotGuessed() {
         Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT, Mark.CORRECT));
         assertFalse(feedback.isWordGuessed());
     }
@@ -37,7 +37,7 @@ class FeedbackTest {
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("Give correct feedback")
-    void giveFullFeedback(String word, String expected, List<Mark> marks) {
+    void giveHint(String word, String expected, List<Mark> marks) {
         Feedback feedback = new Feedback(word, marks);
         assertEquals(expected, feedback.giveHint("......"));
     }
@@ -52,5 +52,33 @@ class FeedbackTest {
                 Arguments.of("banana", "ban.na", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
                 Arguments.of("banaan", "bana..", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.PRESENT, Mark.PRESENT))
         );
+    }
+
+    @Test
+    @DisplayName("Give correct first hint, only shows first letter")
+    void createFirstHint() {
+        assertEquals("b.....", Feedback.createFirstHint("banana"));
+    }
+
+    @Test
+    @DisplayName("Get guess")
+    void getGuess() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals("banana", feedback.getGuess());
+    }
+
+    @Test
+    @DisplayName("Get marks")
+    void getMarkPerLetter() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), feedback.getMarkPerLetter());
+    }
+
+    @Test
+    @DisplayName("Equals working correctly")
+    void testEquals() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        Feedback feedback2 = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals(feedback, feedback2);
     }
 }

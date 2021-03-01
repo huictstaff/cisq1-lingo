@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode
 public class Round implements Serializable {
     @Getter private int tries;
     @Getter private List<Feedback> allFeedback;

@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
@@ -9,6 +10,7 @@ import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import java.io.Serializable;
 import java.util.List;
 
+@EqualsAndHashCode
 @NoArgsConstructor
 public class Feedback implements Serializable {
     @Getter
