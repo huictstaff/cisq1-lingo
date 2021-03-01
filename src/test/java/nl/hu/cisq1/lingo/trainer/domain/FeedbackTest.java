@@ -12,40 +12,32 @@ class FeedbackTest {
     @Test
     @DisplayName("word is guessed if all letters are correct")
     void wordIsGuessed() {
-        // given
-        // when
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        // then
+
         assertTrue(feedback.isWordGuessed());
     }
 
     @Test
     @DisplayName("word is not guessed if not all letters are correct")
     void wordIsNotGuessed() {
-        // given
-        // when
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
-        // then
+
         assertFalse(feedback.isWordGuessed());
     }
 
     @Test
     @DisplayName("word is invalid if any letter is invalid")
     void wordIsNotInvalid() {
-        // given
-        // when
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.INVALID, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
-        // then
+
         assertFalse(feedback.isWordValid());
     }
 
     @Test
     @DisplayName("word is valid if no letters are invalid")
     void wordIsValid() {
-        // given
-        // when
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT));
-        // then
+
         assertTrue(feedback.isWordValid());
     }
 
