@@ -17,8 +17,10 @@ public class Round {
     public Feedback guessWord(String attempt) {
         // Generate marks
         List<Mark> marks = new ArrayList<>();
-        for(int i = 0; i < this.wordToGuess.length(); i++) {
-            if(this.wordToGuess.charAt(i) == attempt.charAt(i)) {
+        for(int i = 0; i < attempt.length(); i++) {
+            if(attempt.length() != this.wordToGuess.length()) {
+                marks.add(Mark.INVALID);
+            } else if(this.wordToGuess.charAt(i) == attempt.charAt(i)) {
                 marks.add(Mark.CORRECT);
             } else if(this.wordToGuess.substring(i).contains(String.valueOf(attempt.charAt(i)))) {
                 marks.add(Mark.PRESENT);

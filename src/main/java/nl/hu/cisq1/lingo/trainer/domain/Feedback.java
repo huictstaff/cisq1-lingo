@@ -7,23 +7,31 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Feedback {
+    private String attempt = null;
+    private List<Mark> marks = null;
+
     public Feedback(String attempt, List<Mark> marks) {
         this.attempt = attempt;
         this.marks = marks;
 
-        if (attempt.length() != marks.size()) {
+        if (attempt.length() != marks.size() && marks.stream().noneMatch(Predicate.isEqual(Mark.INVALID))) {
             throw new InvalidFeedbackException();
         }
     }
-
-    private String attempt = null;
-    private List<Mark> marks = null;
 
     public boolean isWordGuessed() {
         return this.marks.stream().allMatch(Predicate.isEqual(Mark.CORRECT));
     }
 
+    public boolean isWordInvalid() {
+        return this.marks.stream().anyMatch(Predicate.isEqual(Mark.INVALID));
+    }
+
     public String giveHint(String previousHint, String wordToGuess) {
+        // Return the previous hint when invalid
+        if(isWordInvalid()) {
+            return previousHint;
+        }
 
         // Check if length is the same
         if (previousHint.length() != this.marks.size() || wordToGuess.length() != this.marks.size()) {
@@ -44,5 +52,9 @@ public class Feedback {
 
         // Return
         return hint;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
     }
 }

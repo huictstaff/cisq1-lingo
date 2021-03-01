@@ -18,9 +18,16 @@ public class Progress {
         score += value;
     }
 
-    public void nextRound() {
+    public void nextRound(String wordToGuess) {
         currentRound++;
         hints.clear();
+
+        // Compose first hint
+        String hint = "";
+        for(int i = 0; i < wordToGuess.length(); i++) {
+            hint += ((i == 0) ? wordToGuess.charAt(i) : '.');
+        }
+        hints.add(hint);
     }
 
     public void addHint(String hint) {

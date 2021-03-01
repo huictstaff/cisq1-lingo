@@ -1,9 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.AlreadyGuessedException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.AlreadyPlayingException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.AlreadyPlayingGameException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.LostGameException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.NotPlayingException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.NotPlayingGameException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,41 +20,32 @@ public class Game {
 
     public void startNewRound(String wordToGuess) {
         if (gameStatus.equals(GameStatus.PLAYING)) {
-            throw new AlreadyPlayingException();
+            throw new AlreadyPlayingGameException();
         } else if (gameStatus.equals(GameStatus.LOST)) {
             throw new LostGameException();
         } else {
             rounds.add(new Round(wordToGuess));
             gameStatus = GameStatus.PLAYING;
-            progress.nextRound();
-
-            // Compose first hint
-            String hint = "";
-            for(int i = 0; i < wordToGuess.length(); i++) {
-                hint += ((i == 0) ? wordToGuess.charAt(i) : '.');
-            }
-            progress.addHint(hint);
+            progress.nextRound(wordToGuess);
         }
     }
 
     public Feedback guessWord(String attempt) {
-        // Temporary values
-        Round currentRound = this.rounds.get(rounds.size() - 1);
-
         // Exceptions
         if (gameStatus.equals(GameStatus.WAITING)) {
-            throw new NotPlayingException();
+            throw new NotPlayingGameException();
         } else if (gameStatus.equals(GameStatus.LOST)) {
             throw new LostGameException();
-        } else if(currentRound.getAttempts().contains(attempt)) {
-            throw new AlreadyGuessedException();
         }
+
+        // Temporary values
+        Round currentRound = this.rounds.get(rounds.size() - 1);
+        String previousHint = this.progress.getHints().get(this.progress.getHints().size() - 1);
 
         // Try guess & retrieve feedback
         Feedback feedback = currentRound.guessWord(attempt);
 
         // Add hint
-        String previousHint = this.progress.getHints().get(this.progress.getHints().size() - 1);
         String hint = feedback.giveHint(previousHint, currentRound.getWordToGuess());
         this.progress.addHint(hint);
 
@@ -73,5 +63,17 @@ public class Game {
 
     public Progress getProgress() {
         return progress;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public int getWordToGuessLength() {
+        return this.rounds.get(rounds.size() - 1).getWordToGuess().length();
     }
 }
