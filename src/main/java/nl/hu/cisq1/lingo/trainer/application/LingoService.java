@@ -1,38 +1,62 @@
 package nl.hu.cisq1.lingo.trainer.application;
 
 import lombok.RequiredArgsConstructor;
-import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.data.Game;
+import nl.hu.cisq1.lingo.trainer.data.GameRepository;
+import nl.hu.cisq1.lingo.trainer.domain.LingoGame;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
-import nl.hu.cisq1.lingo.trainer.presentation.dto.HintDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
+import nl.hu.cisq1.lingo.words.data.SpringWordRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LingoService {
     private final WordService wordService;
-    private Game game;
+    private final GameRepository gameRepository;
+    private final SpringWordRepository springWordRepository;
 
-    public Game startGame() {
-        Game game = new Game();
-        game.newRound(wordService.provideRandomWord(game.generateType().number()));
-        this.game = game;
-        return (game);
+    //ToDo get "continuing a game" working
+    public LingoGame startOrContinueGame() {
+//        Optional<Game> lastLingoGame = this.gameRepository.findTopByGameDoneOrderByIdDesc(false);
+//        if (lastLingoGame.isPresent()) {
+//            return lastLingoGame.get().getLingoGame();
+//        }
+
+        LingoGame lingoGame = new LingoGame();
+        lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
+
+        this.gameRepository.save(new Game(lingoGame, false));
+
+        return (lingoGame);
     }
 
-    public HintDTO makeGuess(GuessDTO guess) {
-        System.out.println(this.game.lastRound());
-        if (!this.game.getGameOver()) {
-            this.game.lastRound().makeGuessAndGiveHint(guess.guess);
+    //ToDo check if word exists in database
+    public LingoGame makeGuess(GuessDTO guess) {
+        LingoGame lingoGame = this.retrieveLingoGame().getLingoGame();
+        lingoGame.getLastRound().checkIfRoundIsLostOrWon();
 
-            if (this.game.lastRound().isRoundOver()) {
-                this.game.newRound(wordService.provideRandomWord(game.generateType().number())); //generate word
+        lingoGame.getLastRound().makeGuessAndGiveHint(guess.guess, this.springWordRepository.existsByValue(guess.guess));
+
+        switch (lingoGame.getLastRound().getRoundState()) {
+            case LOST -> {
+                this.gameRepository.save(new Game(lingoGame, true));
+                return lingoGame;
+            }
+            case WON -> {
+                lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
+                this.gameRepository.save(new Game(lingoGame, false));
             }
         }
-        return new HintDTO(
-                this.game.lastRound().getTries(),
-                this.game.lastRound().getAllFeedback().get(this.game.lastRound().getAllFeedback().size() -1),
-                this.game.lastRound().getAllFeedback().get(this.game.lastRound().getAllFeedback().size() -1).giveHint()
-        );
+        this.gameRepository.save(new Game(lingoGame, false));
+        return lingoGame;
+    }
+
+    private Game retrieveLingoGame() {
+        return this.gameRepository.findTopByGameDoneOrderByIdDesc(false)
+                .orElseThrow(() -> new RuntimeException("⏺ ⏺ ⏺ ⏺ Game has not started yet! ⏺ ⏺ ⏺ ⏺"));
     }
 }

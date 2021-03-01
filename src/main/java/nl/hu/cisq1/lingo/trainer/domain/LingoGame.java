@@ -1,36 +1,25 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Game {
-    @Getter
-    private UUID gameId;
+public class LingoGame implements Serializable {
     @Getter
     private int score;
     @Getter
     private List<Round> allRounds;
-    @Setter
-    @Getter
-    private Boolean gameOver;
 
-    public Game() {
-        this.gameId = UUID.randomUUID();
+    public LingoGame() {
         this.score = 0;
         this.allRounds = new ArrayList<>();
-        this.gameOver = false;
-
     }
 
     public void newRound(String wordToGuess) {
-        if (this.gameOver) {
-            throw new RuntimeException("You have LOST this game, please start a new one");
-        }
         Round round = new Round(this.generateType(), wordToGuess, this);
         this.allRounds.add(round);
     }
@@ -44,6 +33,7 @@ public class Game {
         };
     }
 
+    @JsonIgnore
     private RoundType getTypeOfLastRound() {
         if (this.allRounds.isEmpty()) {
             return RoundType.SEVENLETTERS;
@@ -51,7 +41,11 @@ public class Game {
         return this.allRounds.get(this.allRounds.size() - 1).getType();
     }
 
-    public Round lastRound() {
+    @JsonIgnore
+    public Round getLastRound() {
+        if (this.allRounds.isEmpty()) {
+            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Zero rounds found! ⏺ ⏺ ⏺ ⏺");
+        }
         return this.allRounds.get(this.allRounds.size() - 1);
     }
 

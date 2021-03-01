@@ -1,12 +1,16 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Feedback {
+@NoArgsConstructor
+public class Feedback implements Serializable {
     @Getter
     private String guess;
     @Getter
@@ -14,7 +18,7 @@ public class Feedback {
 
     public Feedback(String guess, List<Mark> markPerLetter) {
         if(guess.length() != markPerLetter.size()) {
-            throw new InvalidFeedbackException("Length of the guess is not the same as the amount of marks");
+            throw new InvalidFeedbackException("⏺ ⏺ ⏺ ⏺ Length of the guess is not the same as the amount of marks ⏺ ⏺ ⏺ ⏺");
         }
         this.guess = guess;
         this.markPerLetter = markPerLetter;
@@ -25,19 +29,27 @@ public class Feedback {
         return !this.markPerLetter.contains(Mark.PRESENT) && !this.markPerLetter.contains(Mark.ABSENT);
     }
 
-    //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT,
-    //if character is present "*" is appended
-    //else(absent) "-" is appended
-    //ToDo: use other hints(combine them) https://discord.com/channels/747833599952420895/804818719976587274/810932393300197436
-    public String giveHint() {
+    //character is appended to hint if the corresponding index in markPerLetter is Mark.CORRECT
+    //  or if the index already has a letter in the lastHint,
+    //else(absent) "." is appended
+    public String giveHint(String lastHint) {
         StringBuilder hint = new StringBuilder();
         for(int i = 0; i < this.guess.length(); i++) {
-            switch (this.markPerLetter.get(i)) {
-                case CORRECT -> hint.append(this.guess.charAt(i));
-                case PRESENT -> hint.append("*");
-                default -> hint.append("-");
+            if(this.markPerLetter.get(i).equals(Mark.CORRECT))
+                hint.append(this.guess.charAt(i));
+            else if(lastHint.charAt(i) != '.') {
+                hint.append(lastHint.charAt(i));
+            }
+            else {
+                hint.append('.');
             }
         }
         return hint.toString();
+    }
+
+    @JsonIgnore
+    public static String createFirstHint(String word) {
+        return word.charAt(0) +
+                ".".repeat(word.length() - 1);
     }
 }
