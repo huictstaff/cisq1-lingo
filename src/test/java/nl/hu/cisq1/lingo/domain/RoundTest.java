@@ -22,7 +22,7 @@ class RoundTest {
 
         Round round = new Round(1, word,  new ArrayList<>());
 
-        assertEquals(Arrays.asList('w', '_', '_', '_', '_'), round.startRound());
+        assertEquals(Arrays.asList('w', '.', '.', '.', '.'), round.startRound());
     }
 
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
