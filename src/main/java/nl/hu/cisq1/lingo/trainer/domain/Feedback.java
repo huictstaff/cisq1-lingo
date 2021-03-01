@@ -33,15 +33,9 @@ public class Feedback {
         StringBuilder hint = new StringBuilder();
         for(int i = 0; i < this.guess.length(); i++) {
             switch (this.markPerLetter.get(i)) {
-                case CORRECT:
-                    hint.append(this.guess.charAt(i));
-                    break;
-                case PRESENT:
-                    hint.append("*");
-                    break;
-                default: //ABSENT
-                    hint.append("-");
-                    break;
+                case CORRECT -> hint.append(this.guess.charAt(i));
+                case PRESENT -> hint.append("*");
+                default -> hint.append("-");
             }
         }
         return hint.toString();

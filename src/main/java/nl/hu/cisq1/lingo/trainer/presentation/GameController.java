@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.presentation;
 import lombok.RequiredArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.application.LingoService;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.HintDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.LingoDTO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class GameController {
     }
 
     @PostMapping("guess")
-    public LingoDTO makeGuess(@RequestBody GuessDTO guess) {
-        return new LingoDTO(this.lingoService.makeGuess(guess));
+    public HintDTO makeGuess(@RequestBody GuessDTO guess) {
+        return this.lingoService.makeGuess(guess);
     }
 }

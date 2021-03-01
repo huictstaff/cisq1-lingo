@@ -3,7 +3,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import lombok.Getter;
 import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
-import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,8 @@ public class Game {
     private int score;
     @Getter
     private List<Round> allRounds;
-    @Setter @Getter
+    @Setter
+    @Getter
     private Boolean gameOver;
 
     public Game() {
@@ -28,7 +28,7 @@ public class Game {
     }
 
     public void newRound(String wordToGuess) {
-        if (this.gameOver == true) {
+        if (this.gameOver) {
             throw new RuntimeException("You have LOST this game, please start a new one");
         }
         Round round = new Round(this.generateType(), wordToGuess, this);
@@ -37,18 +37,22 @@ public class Game {
 
 
     public RoundType generateType() {
-        try {
-            switch (this.allRounds.get(allRounds.size() - 1).getType()) {
-                case FIVELETTERS:
-                    return RoundType.SIXLETTERS;
-                case SIXLETTERS:
-                    return RoundType.SEVENLETTERS;
-                default:
-                    return RoundType.FIVELETTERS;
-            }
-        } catch (IndexOutOfBoundsException ioe) {
-            return RoundType.FIVELETTERS;
+        return switch (getTypeOfLastRound()) {
+            case FIVELETTERS -> RoundType.SIXLETTERS;
+            case SIXLETTERS -> RoundType.SEVENLETTERS;
+            default -> RoundType.FIVELETTERS;
+        };
+    }
+
+    private RoundType getTypeOfLastRound() {
+        if (this.allRounds.isEmpty()) {
+            return RoundType.SEVENLETTERS;
         }
+        return this.allRounds.get(this.allRounds.size() - 1).getType();
+    }
+
+    public Round lastRound() {
+        return this.allRounds.get(this.allRounds.size() - 1);
     }
 
     public void addScore(int score) {

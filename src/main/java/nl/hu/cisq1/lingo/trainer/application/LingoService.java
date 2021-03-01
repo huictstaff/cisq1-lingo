@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import lombok.RequiredArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.HintDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,19 @@ public class LingoService {
         return (game);
     }
 
-    public Game makeGuess(GuessDTO guess) {
+    public HintDTO makeGuess(GuessDTO guess) {
+        System.out.println(this.game.lastRound());
         if (!this.game.getGameOver()) {
-            this.game.getAllRounds().get(
-                    this.game.getAllRounds().size() - 1)
-                    .makeGuessAndGiveHint(guess.guess);
+            this.game.lastRound().makeGuessAndGiveHint(guess.guess);
 
-            if (this.game.getAllRounds().get(
-                    this.game.getAllRounds().size() - 1).isRoundOver()) {
+            if (this.game.lastRound().isRoundOver()) {
                 this.game.newRound(wordService.provideRandomWord(game.generateType().number())); //generate word
             }
         }
-        return this.game;
+        return new HintDTO(
+                this.game.lastRound().getTries(),
+                this.game.lastRound().getAllFeedback().get(this.game.lastRound().getAllFeedback().size() -1),
+                this.game.lastRound().getAllFeedback().get(this.game.lastRound().getAllFeedback().size() -1).giveHint()
+        );
     }
 }

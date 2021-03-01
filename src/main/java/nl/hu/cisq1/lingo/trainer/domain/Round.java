@@ -25,9 +25,6 @@ public class Round {
 
     public String makeGuessAndGiveHint(String guess) {
         this.tries += 1;
-        if(this.tries == 5) {
-            this.wordIsNotGuessed();
-        }
         Feedback feedback = new Feedback(
                 guess,
                 ConvertGuessToMarks.Converter(
@@ -35,7 +32,12 @@ public class Round {
                         guess
                 ));
         this.allFeedback.add(feedback);
-        if (feedback.isWordGuessed()) {
+
+        if(this.tries == 5 && !feedback.isWordGuessed()) {
+            this.wordIsNotGuessed();
+        }
+
+        else if (feedback.isWordGuessed()) {
             this.wordIsGuessed();
         }
         return feedback.giveHint();
