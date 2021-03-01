@@ -17,10 +17,11 @@ import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 class FeedbackTest {
     private static Stream<Arguments> provideHintExamples() {
         return Stream.of(
-                Arguments.of("....", "word", "wars", List.of(CORRECT, ABSENT, ABSENT, ABSENT), "w..."),
-                Arguments.of("w...", "word", "wolf", List.of(CORRECT, CORRECT, ABSENT, ABSENT), "wo.."),
-                Arguments.of("wo..", "word", "worm", List.of(CORRECT, CORRECT, CORRECT, ABSENT), "wor."),
-                Arguments.of("wor.", "word", "hack", List.of(ABSENT, ABSENT, ABSENT, ABSENT), "wor.")
+                Arguments.of("w...", "word", "words", List.of(INVALID, INVALID, INVALID, INVALID, INVALID), "w..."),
+                Arguments.of("w...", "word", "wars", List.of(CORRECT, ABSENT, CORRECT, ABSENT), "w.r."),
+                Arguments.of("w.r.", "word", "wolf", List.of(CORRECT, CORRECT, ABSENT, ABSENT), "wor."),
+                Arguments.of("wor.", "word", "worm", List.of(CORRECT, CORRECT, CORRECT, ABSENT), "wor."),
+                Arguments.of("wor.", "word", "word", List.of(CORRECT, CORRECT, CORRECT, CORRECT), "word")
         );
     }
 
@@ -39,13 +40,27 @@ class FeedbackTest {
     }
 
     @Test
+    @DisplayName("guess is invalid if any mark is invalid")
+    void guessIsInvalid() {
+        Feedback feedback = new Feedback("word", List.of(INVALID, INVALID, INVALID, INVALID));
+        assertTrue(feedback.isWordInvalid());
+    }
+
+    @Test
+    @DisplayName("guess is not invalid if all marks are not invalid")
+    void guessIsNotInvalid() {
+        Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
+        assertFalse(feedback.isWordInvalid());
+    }
+
+    @Test
     @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
     void invalidFeedbackExceptionWorks() {
         assertThrows(InvalidFeedbackException.class, () -> new Feedback("word", List.of(Mark.CORRECT)));
     }
 
     @Test
-    @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
+    @DisplayName("exception must be thrown if previousHint or wordToGuess is not of the same size of the feedback")
     void invalidHintExceptionWorks() {
         Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
         assertThrows(InvalidHintException.class, () -> feedback.giveHint("wor", "wor"));
@@ -54,7 +69,7 @@ class FeedbackTest {
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("an attempt must have a corresponding hint")
-    void guessHasHint(String previousHint, String wordToGuess, String attempt, List<Mark> marks, String result) {
+    void attemptHasHint(String previousHint, String wordToGuess, String attempt, List<Mark> marks, String result) {
         Feedback feedback = new Feedback(attempt, marks);
         assertEquals(result, feedback.giveHint(previousHint, wordToGuess));
     }
