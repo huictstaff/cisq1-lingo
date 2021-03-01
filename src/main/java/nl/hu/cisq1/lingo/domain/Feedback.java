@@ -34,14 +34,10 @@ public class Feedback {
         int index = 0;
 
         for (Mark mark : this.marks) {
-            if (mark.equals(Mark.INVALID)) {
-                characters.add('-');
-            } else if (mark.equals(Mark.ABSENT)) {
-                characters.add('.');
-            } else if (mark.equals(Mark.PRESENT)) {
-                characters.add('+');
-            } else if (mark.equals(Mark.CORRECT)) {
+            if (mark.equals(Mark.CORRECT)) {
                 characters.add(this.attempt.charAt(index));
+            } else {
+                characters.add('.');
             }
 
             index++;

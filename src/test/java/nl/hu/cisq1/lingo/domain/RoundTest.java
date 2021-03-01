@@ -41,7 +41,7 @@ class RoundTest {
         return Stream.of(
                 Arguments.of("woord", "woord", Arrays.asList('w', 'o', 'o', 'r', 'd')),
                 Arguments.of("woord", "soort", Arrays.asList('.', 'o', 'o', 'r', '.')),
-                Arguments.of("woord", "breuk", Arrays.asList('.', '+', '.', '.', '.'))
+                Arguments.of("woord", "breuk", Arrays.asList('.', '.', '.', '.', '.'))
         );
     }
 }
