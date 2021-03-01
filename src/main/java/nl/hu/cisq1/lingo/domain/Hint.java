@@ -3,8 +3,6 @@ package nl.hu.cisq1.lingo.domain;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
