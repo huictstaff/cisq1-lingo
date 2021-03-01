@@ -1,22 +1,30 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Progress {
-    private int score = 0;
-    private int currentRound = 0;
-    private List<String> hints;
+    private int score = -1;
+    private int currentRound = -1;
+    private List<String> hints = null;
+
+    Progress() {
+        score = 0;
+        currentRound = 0;
+        hints = new ArrayList<>(5);
+    }
 
     public void increaseScore(int value) {
-        this.score += value;
+        score += value;
     }
 
     public void nextRound() {
-        this.currentRound++;
+        currentRound++;
+        hints.clear();
     }
 
     public void addHint(String hint) {
-        this.hints.add(hint);
+        hints.add(hint);
     }
 
     public int getScore() {

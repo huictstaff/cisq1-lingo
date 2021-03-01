@@ -3,7 +3,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidHintException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -20,14 +19,6 @@ public class Feedback {
     private String attempt = null;
     private List<Mark> marks = null;
 
-    public String getAttempt() {
-        return attempt;
-    }
-
-    public List<Mark> getMarks() {
-        return marks;
-    }
-
     public boolean isWordGuessed() {
         return this.marks.stream().allMatch(Predicate.isEqual(Mark.CORRECT));
     }
@@ -35,12 +26,9 @@ public class Feedback {
     public String giveHint(String previousHint, String wordToGuess) {
 
         // Check if length is the same
-        if(previousHint.length() != this.marks.size() || wordToGuess.length() != this.marks.size()) {
+        if (previousHint.length() != this.marks.size() || wordToGuess.length() != this.marks.size()) {
             throw new InvalidHintException();
         }
-
-        // Check if feedback is correct
-
 
         // Result to return
         String hint = "";

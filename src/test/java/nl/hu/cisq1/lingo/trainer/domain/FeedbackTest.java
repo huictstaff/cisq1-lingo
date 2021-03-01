@@ -45,7 +45,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
+    @DisplayName("exception must be thrown if previousHint or wordToGuess is not of the same size of the feedback")
     void invalidHintExceptionWorks() {
         Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
         assertThrows(InvalidHintException.class, () -> feedback.giveHint("wor", "wor"));
