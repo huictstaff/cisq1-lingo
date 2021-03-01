@@ -51,4 +51,20 @@ public class Feedback {
                 "marks=" + marks +
                 '}';
     }
+    public String getHint(String oldMarks,String wordToGuess ){
+        String woord = "";
+        String[] letters  = wordToGuess.split("");
+//        if (!isWordGuessed() && !isWordInvalid() ){
+            if (oldMarks == null){
+                for (int i = 0; i < letters.length; i++){
+                    if (this.marks.get(i).equals(Mark.CORRECT)){
+                        woord += letters[i];
+                    }else{
+                        woord += ".";
+                    }
+                }
+            }
+//        }
+        return woord;
+    }
 }

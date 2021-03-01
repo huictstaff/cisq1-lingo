@@ -1,10 +1,15 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import net.bytebuddy.asm.Advice;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,6 +91,36 @@ class FeedbackTest {
         assertThrows(
                 InvalidFeedbackException.class,
                 () -> new Feedback(List.of(Mark.CORRECT), "woord")
+        );
+    }
+//    @ParameterizedTest
+//    @DisplayName("the user guessed some letters of the word")
+//    @MethodSource("provideHints")
+//    void giveHint(String hint, String testHint){
+//        assertEquals(hint,testHint);
+//    }
+//
+//    private static Stream<Arguments> provideHints(){
+//        return Stream.of(
+//                Arguments.of("h..l.","h..l."),
+//                Arguments.of("ha.l.","h..l."),
+//                Arguments.of("h..lo","h..lo")
+//        );
+//    }
+
+    @ParameterizedTest
+    @DisplayName("the user guessed some letters of the word")
+    @MethodSource("provideHints")
+    void giveHint(String hint, String wordToGues){
+        Feedback feedback = new Feedback(List.of(CORRECT, ABSENT, CORRECT),"kit");
+        assertEquals(hint,feedback.getHint(null, wordToGues));
+    }
+
+    private static Stream<Arguments> provideHints(){
+        return Stream.of(
+//                Arguments.of("h..l.","h..l."),
+//                Arguments.of("ha.l.","h..l."),
+                Arguments.of("kat","kat")
         );
     }
 
