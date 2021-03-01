@@ -128,7 +128,7 @@ public class Round {
     }
 
     public int numOfAttemptsLeft() {
-        return this.WORD_TO_GUESS.length() - numOfTriedAttempts();
+        return this.WORD_TO_GUESS.length() - 1 - numOfTriedAttempts();
     }
 
     public Feedback getLatestFeedback() {

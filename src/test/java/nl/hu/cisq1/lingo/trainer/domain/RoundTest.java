@@ -20,7 +20,7 @@ class RoundTest {
         Round round = new Round("woord");
         round.tryAGuess("wooof");
         assertEquals(1, round.numOfTriedAttempts());
-        assertEquals(4, round.numOfAttemptsLeft());
+        assertEquals(3, round.numOfAttemptsLeft());
     }
 
     @Test
@@ -30,6 +30,9 @@ class RoundTest {
         round.tryAGuess("wooof");
         round.tryAGuess("wooof");
         round.tryAGuess("wooof");
+
+
+        assertEquals(0, round.numOfAttemptsLeft());
 
         assertThrows(GameRoundException.class,
                 () -> round.tryAGuess("wooof"));
