@@ -5,11 +5,10 @@ public class GameRoundException extends RuntimeException {
         super(message);
     }
 
-    public static GameRoundException guessAttemptsSurpassWordLength(int attemptsNum, int wordLength) {
+    public static GameRoundException guessAttemptsSurpassWordLength(int wordLength) {
         return new GameRoundException(
                 String.format(
-                        "number of attempts (%s) surpasses word length (%s)",
-                        attemptsNum,
+                        "number of attempts surpasses word length (%s)",
                         wordLength
                 )
         );
