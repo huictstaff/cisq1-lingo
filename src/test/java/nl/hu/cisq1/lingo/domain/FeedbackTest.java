@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.domain;
 
-import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.domain.exception.FeedbackInvalidException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
@@ -48,7 +49,7 @@ class FeedbackTest {
     @Test
     @DisplayName("Exception: The amount of marks is not the same as the length of the word!")
     void attemptNotSameAsMarks() {
-        assertThrows(InvalidFeedbackException.class, ()-> new Feedback("woord", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID)));
+        assertThrows(FeedbackInvalidException.class, ()-> new Feedback("woord", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID)));
     }
 
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
@@ -63,7 +64,7 @@ class FeedbackTest {
     private static Stream<Arguments> provideHintExamples() {
         return Stream.of(
                 Arguments.of("woord", Arrays.asList(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), Arrays.asList('w', 'o', 'o', 'r', 'd')),
-                Arguments.of("woord", Arrays.asList(Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.PRESENT), Arrays.asList('+', '.', 'o', '.', '+')),
+                Arguments.of("woord", Arrays.asList(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.PRESENT), Arrays.asList('w', '.', 'o', '.', '+')),
                 Arguments.of("woord", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID), Arrays.asList('-', '-', '-', '-', '-'))
         );
     }
