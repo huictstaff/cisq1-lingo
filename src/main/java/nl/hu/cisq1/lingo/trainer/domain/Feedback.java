@@ -10,7 +10,7 @@ public class Feedback {
     private List<Mark> marks;
 
     public Feedback(String attempt, List<Mark> marks) throws InvalidFeedbackException {
-        if(marks.size() != attempt.length()) throw new InvalidFeedbackException();
+        if(marks.size() != attempt.length()) throw new InvalidFeedbackException("Amount of marks doesn't equal length of attempt");
         this.marks = marks;
         this.attempt = attempt;
     }
