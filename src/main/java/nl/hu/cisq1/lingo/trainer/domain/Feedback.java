@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import lombok.Data;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
+import java.net.CacheRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,9 +71,5 @@ public class Feedback {
         // return the new instantiated hint
         return new Hint(newHintLettersList);
     }
-
-
-
-
 
 }

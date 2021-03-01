@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.IllegalRoundArgumentException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.GameRoundException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,40 +15,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
 
-    private static Stream<Arguments> providedLastAttemptsExamples() {
-        return Stream.of(
-                Arguments.of()
-        );
-    }
-
     @Test
-    public void instantiationWithAttempsSurpassingTriesLimit() {
-        assertThrows(IllegalRoundArgumentException.class,
-                () -> new Round("woord", List.of("woooa", "wooob", "woooc", "woood", "woooe", "wooof")));
+    public void tryAGuessHappyFlow() {
+        Round round = new Round("woord");
+        round.tryAGuess("wooof");
+        assertEquals(1, round.numOfTriedAttempts());
+        assertEquals(4, round.numOfAttemptsLeft());
     }
 
     @Test
     public void attempsSurpassTriesLimit() {
-        Round round = new Round("woord", List.of("woooa", "wooob", "woooc", "woood", "woooe"));
-        assertThrows(IllegalRoundArgumentException.class,
-                () -> round.addAttempt("woof"));
-    }
+        Round round = new Round("woord");
+        round.tryAGuess("wooof");
+        round.tryAGuess("wooof");
+        round.tryAGuess("wooof");
+        round.tryAGuess("wooof");
 
-
-    @ParameterizedTest
-    @MethodSource("providedLastAttemptsExamples")
-    public void getFeedbackOnLastAttempt(Feedback expectedFeedback, String wordToGuess, List<String> attemptsList) {
-        Round round = new Round(wordToGuess, attemptsList);
-
-        assertEquals(expectedFeedback, round.getFeedbackOnLastAttempt());
+        assertThrows(GameRoundException.class,
+                () -> round.tryAGuess("wooof"));
     }
 
     @Test
     public void getFeedbackOnNoAttempt() {
 
-        Round round = new Round("woord", Collections.<String>emptyList());
-        assertThrows(IllegalRoundArgumentException.class,
-                () -> round.getFeedbackOnLastAttempt());
+        Round newlyStartedRound = new Round("woord");
+        assertThrows(GameRoundException.class,
+                () -> newlyStartedRound.getLatestFeedback());
     }
 
 }
