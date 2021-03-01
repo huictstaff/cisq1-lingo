@@ -8,7 +8,7 @@ public class Progress {
     private int currentRound = -1;
     private List<String> hints = null;
 
-    Progress() {
+    public Progress() {
         score = 0;
         currentRound = 0;
         hints = new ArrayList<>(5);

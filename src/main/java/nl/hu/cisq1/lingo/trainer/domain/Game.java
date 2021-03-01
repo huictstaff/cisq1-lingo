@@ -13,7 +13,7 @@ public class Game {
     private List<Round> rounds = null;
     private GameStatus gameStatus = null;
 
-    Game() {
+    public Game() {
         this.progress = new Progress();
         this.rounds = new ArrayList<>();
         this.gameStatus = GameStatus.WAITING;
@@ -28,6 +28,13 @@ public class Game {
             rounds.add(new Round(wordToGuess));
             gameStatus = GameStatus.PLAYING;
             progress.nextRound();
+
+            // Compose first hint
+            String hint = "";
+            for(int i = 0; i < wordToGuess.length(); i++) {
+                hint += ((i == 0) ? wordToGuess.charAt(i) : '.');
+            }
+            progress.addHint(hint);
         }
     }
 
@@ -48,7 +55,7 @@ public class Game {
         Feedback feedback = currentRound.guessWord(attempt);
 
         // Add hint
-        String previousHint = this.progress.getHints().get(this.progress.getHints().size());
+        String previousHint = this.progress.getHints().get(this.progress.getHints().size() - 1);
         String hint = feedback.giveHint(previousHint, currentRound.getWordToGuess());
         this.progress.addHint(hint);
 
@@ -64,7 +71,7 @@ public class Game {
         return feedback;
     }
 
-    public GameStatus getGameStatus() {
-        return this.gameStatus;
+    public Progress getProgress() {
+        return progress;
     }
 }
