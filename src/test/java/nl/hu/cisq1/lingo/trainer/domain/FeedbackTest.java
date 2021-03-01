@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.Mark;
+import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,15 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FeedbackTest {
     @Test
     @DisplayName("Word is guessed if all letters are correct")
-    void wordIsGuessed() {
+    void isWordGuessed() {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
         assertTrue(feedback.isWordGuessed());
     }
 
     @Test
-    @DisplayName("Word is not guessed if some or all letters are incorrect")
-    void wordIsNotGuessed() {
-        Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+    @DisplayName("Word is not guessed if some or all letters are incorrect or present")
+    void isWordNotGuessed() {
+        Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT, Mark.CORRECT));
         assertFalse(feedback.isWordGuessed());
     }
 
@@ -34,22 +34,51 @@ class FeedbackTest {
         assertThrows(InvalidFeedbackException.class, () -> new Feedback("woord", List.of(Mark.ABSENT)));
     }
 
-    static Stream<Arguments> provideHintExamples() {
-        return Stream.of(
-                Arguments.of("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
-                Arguments.of("b-----", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT)),
-                Arguments.of("b----a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
-                Arguments.of("b-n--a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
-                Arguments.of("b-n-na", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
-                Arguments.of("ban-na", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT))
-        );
-    }
-
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("Give correct feedback")
-    void giveFullFeedback(String expected,List<Mark> marks) {
-        Feedback feedback = new Feedback("banana", marks);
-        assertEquals(expected, feedback.giveHint());
+    void giveHint(String word, String expected, List<Mark> marks) {
+        Feedback feedback = new Feedback(word, marks);
+        assertEquals(expected, feedback.giveHint("......"));
+    }
+
+    static Stream<Arguments> provideHintExamples() {
+        return Stream.of(
+                Arguments.of("banana", "banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banana", "b.....", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT)),
+                Arguments.of("banana", "b....a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
+                Arguments.of("banana", "b.n..a", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT)),
+                Arguments.of("banana", "b.n.na", List.of(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banana", "ban.na", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("banaan", "bana..", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.PRESENT, Mark.PRESENT))
+        );
+    }
+
+    @Test
+    @DisplayName("Give correct first hint, only shows first letter")
+    void createFirstHint() {
+        assertEquals("b.....", Feedback.createFirstHint("banana"));
+    }
+
+    @Test
+    @DisplayName("Get guess")
+    void getGuess() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals("banana", feedback.getGuess());
+    }
+
+    @Test
+    @DisplayName("Get marks")
+    void getMarkPerLetter() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), feedback.getMarkPerLetter());
+    }
+
+    @Test
+    @DisplayName("Equals working correctly")
+    void testEquals() {
+        Feedback feedback = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        Feedback feedback2 = new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertEquals(feedback, feedback2);
     }
 }
