@@ -51,20 +51,38 @@ public class Feedback {
                 "marks=" + marks +
                 '}';
     }
-    public String getHint(String oldMarks,String wordToGuess ){
+    public String getHint(String oldHint,String wordToGuess ){
         String woord = "";
         String[] letters  = wordToGuess.split("");
-//        if (!isWordGuessed() && !isWordInvalid() ){
-            if (oldMarks == null){
-                for (int i = 0; i < letters.length; i++){
+
+        if (oldHint == null){
+            woord += letters[0];
+            for (int i = 1; i < letters.length; i++){
+                if (this.marks.get(i).equals(Mark.CORRECT)){
+                    woord += letters[i];
+                }else{
+                    woord += ".";
+                }
+            }
+        }
+        else{
+            String[] oldHintLetters = oldHint.split("");
+            woord += letters[0];
+            for (int i = 1; i < letters.length; i++){
+                if (!oldHintLetters[i].equals(".")){
+                    woord += oldHintLetters[i];
+                    System.out.println("test");
+                }
+                else {
                     if (this.marks.get(i).equals(Mark.CORRECT)){
                         woord += letters[i];
-                    }else{
+                    }else {
                         woord += ".";
                     }
                 }
             }
-//        }
+
+        }
         return woord;
     }
 }

@@ -111,16 +111,16 @@ class FeedbackTest {
     @ParameterizedTest
     @DisplayName("the user guessed some letters of the word")
     @MethodSource("provideHints")
-    void giveHint(String hint, String wordToGues){
-        Feedback feedback = new Feedback(List.of(CORRECT, ABSENT, CORRECT),"kit");
-        assertEquals(hint,feedback.getHint(null, wordToGues));
+    void giveHint(String testword, String wordToGues){
+        Feedback feedback = new Feedback(List.of(ABSENT, ABSENT, ABSENT,ABSENT),"hond");
+        assertEquals(testword,feedback.getHint(".o..", wordToGues));
     }
 
     private static Stream<Arguments> provideHints(){
         return Stream.of(
 //                Arguments.of("h..l.","h..l."),
 //                Arguments.of("ha.l.","h..l."),
-                Arguments.of("kat","kat")
+                Arguments.of("hond","hond")
         );
     }
 
