@@ -35,7 +35,7 @@ public class RoundTest {
     private static Stream<Arguments> attemptsExamples(){
         return Stream.of(
                 Arguments.of("woord", "wezel", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT)),
-                Arguments.of(("beter", "boter", List.of(Mark.CORRECT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
+                Arguments.of("beter", "boter", List.of(Mark.CORRECT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)),
                 Arguments.of("hoogtes", "higgess", List.of(Mark.CORRECT, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.PRESENT, Mark.PRESENT, Mark.CORRECT))
         );
     }

@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class InvalidFeedBackExceptionTest {
 
-    @Test
-    @DisplayName("Invalid length")
-    void InvalidFeedback(){
-        assertThrows(
-                InvalidFeedBackException.class,
-                () -> new Feedback("woord", List.of(Mark.CORRECT)));
-    }
+//    @Test
+//    @DisplayName("Invalid length")
+//    void InvalidFeedback(){
+//        assertThrows(
+//                InvalidFeedBackException.class,
+//                () -> new Feedback("woord", List.of(Mark.CORRECT)));
+//    }
 }

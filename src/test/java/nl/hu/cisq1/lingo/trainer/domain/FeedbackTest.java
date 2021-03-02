@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedBackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -68,5 +69,12 @@ class FeedbackTest {
                 Arguments.of("hoogtes", "higgess", List.of('h', '.', '.', 'g', '.', '.', 's'))
         );
     }
+//    @Test
+//    @DisplayName("Invalid length")
+//    void InvalidFeedbackLength(){
+//        assertThrows(
+//                InvalidFeedBackException.class,
+//                () -> new Feedback("woord", List.of(Mark.CORRECT)));
+//    }
 
 }
