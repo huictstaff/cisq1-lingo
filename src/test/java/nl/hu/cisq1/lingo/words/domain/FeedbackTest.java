@@ -74,4 +74,28 @@ class FeedbackTest {
         Feedback feedback = new Feedback(marks);
         assertEquals(newHint, feedback.giveHint(prevHint, wordToGuess));
     }
+
+    static Stream<Arguments> provideRatingExamples() {
+        return Stream.of(
+                Arguments.of(
+                        "banaan",
+                        "bonbia",
+                        List.of(Rating.CORRECT, Rating.ABSENT,Rating.CORRECT,Rating.PRESENT,Rating.ABSENT,Rating.PRESENT)),
+                Arguments.of(
+                        "fiets",
+                        "fietsen",
+                        List.of(Rating.INVALID, Rating.INVALID, Rating.INVALID, Rating.INVALID, Rating.INVALID, Rating.INVALID, Rating.INVALID)),
+                Arguments.of(
+                        "telefoon",
+                        "telefoon",
+                        List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.CORRECT))
+
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("provideRatingExamples")
+    @DisplayName("Test if giveRating returns right rating.")
+    void giveRatingTest(String wordToGuess, String attempt, List<Rating> ratings) {
+        assertEquals(ratings, Feedback.generateRatings(attempt, wordToGuess));
+    }
 }

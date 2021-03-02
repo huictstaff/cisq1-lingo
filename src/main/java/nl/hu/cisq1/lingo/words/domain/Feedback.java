@@ -24,6 +24,29 @@ public class Feedback {
         this.ratings = rating;
     }
 
+    public static List<Rating> generateRatings(String attempt, String wordToGuess){
+        List<Rating> ratings = new ArrayList<>();
+
+        if(attempt.length() != wordToGuess.length()){
+            for(int i = 0; attempt.length() > i; i++){
+                ratings.add(Rating.INVALID);
+            }
+            return ratings;
+        }
+        for(int i = 0; i < attempt.length(); i++){
+            if(attempt.charAt(i) == wordToGuess.charAt(i)){
+                ratings.add(Rating.CORRECT);
+            }else{
+                if(wordToGuess.contains(String.valueOf(attempt.charAt(i)))){
+                    ratings.add(Rating.PRESENT);
+                }else{
+                    ratings.add(Rating.ABSENT);
+                }
+            }
+        }
+        return ratings;
+    }
+
     public boolean isWordGuessed() {
         for (Rating rating : this.ratings) {
             if (rating == Rating.ABSENT || rating == Rating.PRESENT) {
