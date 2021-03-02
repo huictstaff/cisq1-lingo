@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoundTest {
 
     @Test
-    @DisplayName("Start round and first letter of word is shown")
+    @DisplayName("start round and first letter of word is shown")
     void showFirstLetterOfWord() {
         Word word = new Word("woord");
 
@@ -26,7 +25,7 @@ class RoundTest {
     }
 
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
-    @DisplayName("Attempt compared to word")
+    @DisplayName("attempt compared to word")
     @MethodSource("provideGuessExamples")
     void guessWord(String word, String attempt, List<Character> hint) {
         Round round = new Round(1, new Word(word), new ArrayList<>());

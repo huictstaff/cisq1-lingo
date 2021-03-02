@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FeedbackTest {
 
     @Test
-    @DisplayName("Word is guessed if all letters are correct")
+    @DisplayName("word is guessed if all letters are correct")
     void wordisGuessed() {
         Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 
@@ -23,7 +23,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("Word is not guessed if one or more letters are incorrect")
+    @DisplayName("word is not guessed if one or more letters are incorrect")
     void wordisNotGuessed() {
         Feedback feedback = new Feedback("woord", Arrays.asList(Mark.CORRECT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.PRESENT));
 
@@ -31,7 +31,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("Guess is invalid")
+    @DisplayName("guess is invalid")
     void guessIsInvalid() {
         Feedback feedback = new Feedback("hetzelfde", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID));
 
@@ -39,7 +39,7 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("Guess is not invalid")
+    @DisplayName("guess is not invalid")
     void guessIsNotInvalid() {
         Feedback feedback = new Feedback("woord", Arrays.asList(Mark.ABSENT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT));
 
@@ -47,13 +47,13 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("Exception: The amount of marks is not the same as the length of the word!")
+    @DisplayName("exception: the amount of marks is not the same as the length of the word!")
     void attemptNotSameAsMarks() {
         assertThrows(FeedbackInvalidException.class, ()-> new Feedback("woord", Arrays.asList(Mark.INVALID, Mark.INVALID, Mark.INVALID)));
     }
 
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
-    @DisplayName("A hint by a guessed word")
+    @DisplayName("a hint by a guessed word")
     @MethodSource("provideHintExamples")
     void giveHint(String attempt, List<Mark> marks, List<Character> hint) {
         Feedback feedback = new Feedback(attempt, marks);

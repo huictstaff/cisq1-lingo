@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2} " )
-    @DisplayName("Score based on attempts in round")
+    @DisplayName("score based on attempts in round")
     @MethodSource("provideAttemptExamples")
     void addScore(String word, int attempts, int score) {
         Game game = new Game(1L,  0, new ArrayList<>());
@@ -38,7 +38,7 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("Add one new rounds to game")
+    @DisplayName("add one new round to game")
     void newRound() {
         Game game = new Game(1L,  0, new ArrayList<>());
 
