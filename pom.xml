@@ -72,8 +72,26 @@
 
     <build>
         <plugins>
+            <!--PITest-->
             <plugin>
-                <!--jacoco-->
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.6.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.12</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!--minimum coverage pitest-->
+                    <mutationThreshold>90</mutationThreshold>
+                    <timestampedReports>false</timestampedReports>
+                </configuration>
+            </plugin>
+            <!--jacoco-->
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
@@ -106,6 +124,7 @@
                                 <rule>
                                     <element>BUNDLE</element>
                                     <limits>
+                                        <!--minimum coverage jacoco-->
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
