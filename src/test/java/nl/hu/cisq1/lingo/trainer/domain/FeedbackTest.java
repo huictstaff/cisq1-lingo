@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedBackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,7 +56,6 @@ class FeedbackTest {
         List<Mark> result = List.of(Mark.CORRECT, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID);
         Feedback f = new Feedback(attempt, result);
         ArrayList<Character> c = new ArrayList<>();
-        //@TODO this should work with char[] also but assertion error
 
         assertEquals(f.giveHint(c, wordToGuess), hint);
     }
@@ -69,12 +67,4 @@ class FeedbackTest {
                 Arguments.of("hoogtes", "higgess", List.of('h', '.', '.', 'g', '.', '.', 's'))
         );
     }
-//    @Test
-//    @DisplayName("Invalid length")
-//    void InvalidFeedbackLength(){
-//        assertThrows(
-//                InvalidFeedBackException.class,
-//                () -> new Feedback("woord", List.of(Mark.CORRECT)));
-//    }
-
 }

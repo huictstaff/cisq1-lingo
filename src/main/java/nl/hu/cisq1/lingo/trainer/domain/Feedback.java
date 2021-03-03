@@ -25,17 +25,14 @@ public class Feedback {
 
     @NonNull
     public List<Character> giveHint(List<Character> prevHint, String wordToGuess) {
-        if (!isWordGuessed() && isGuessValid()) {
-            char[] at = attempt.toCharArray();
-            char[] g = wordToGuess.toCharArray();
+        char[] at = attempt.toCharArray();
+        char[] g = wordToGuess.toCharArray();
 
-            if (!isWordGuessed() && isGuessValid()) {
-                for (int i = 0; i < at.length; i++) {
-                    prevHint.add(i, at[i] == g[i] ? at[i] : '.');
-                }
+        if (!isWordGuessed() && isGuessValid()) {
+            for (int i = 0; i < at.length; i++) {
+                prevHint.add(i, at[i] == g[i] ? at[i] : '.');
             }
-            return prevHint;
         }
-        else throw new InvalidFeedBackException("Invalid Length");
+        return prevHint;
     }
 }
