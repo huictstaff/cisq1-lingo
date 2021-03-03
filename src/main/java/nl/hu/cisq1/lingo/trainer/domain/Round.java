@@ -22,20 +22,19 @@ public class Round {
     public Feedback activeRound (Word input){
         Turn turn = new Turn(validator, input, actualWord);
 
-        if (turnList.isEmpty()) {
-            currentHint=provideStartHint();
-        }
 
-        if(!isRoundCompleted()){
-            turnList.add(turn);
-            //do turn
-            Feedback feedback = turn.turn();
-            feedbackList.add(feedback);
+        if (turnList.isEmpty()) currentHint = provideStartHint();
 
-            List<Character> hint = feedback.giveHint(currentHint, actualWord.getValue());
-            return feedback;
-        }
-        else throw new RoundCompletedException();
+        if(!isRoundCompleted()) throw new RoundCompletedException();
+
+        turnList.add(turn);
+        //do turn
+        Feedback feedback = turn.turn();
+        feedbackList.add(feedback);
+
+        List<Character> hint = feedback.giveHint(currentHint, actualWord.getValue());
+        return feedback;
+
     }
     private boolean isRoundCompleted(){
         if(turnList.size()>= maxTurns) return true;
@@ -44,9 +43,9 @@ public class Round {
 
     private List<Character> provideStartHint(){
         int r = new Random().nextInt(actualWord.getLength());
-        var a = actualWord.getValue().charAt(r);
+        char a = actualWord.getValue().charAt(r);
 
-        var startHint = new ArrayList<Character>();
+        ArrayList<Character> startHint = new ArrayList<>();
         for (int i=0;i<actualWord.getLength();i++) startHint.add('.');
         startHint.add(r,a);
         return startHint;
