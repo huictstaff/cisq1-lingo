@@ -1,13 +1,9 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
-import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,33 +72,5 @@ class RoundTest {
     void throwErrorWhenRoundIsAlreadyLost() {
         round.wordIsNotGuessed();
         assertThrows(RuntimeException.class, () -> round.checkIfRoundIsLostOrWon());
-    }
-
-    @Test
-    void getTries() {
-    }
-
-    @Test
-    void getAllFeedback() {
-        round.makeGuessAndGiveHint("banana", true);
-        assertEquals(List.of(new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT))), round.getAllFeedback());
-    }
-
-    @Test
-    @DisplayName("Get roundState correctly")
-    void getRoundState() {
-        assertEquals(RoundState.ONGOING, round.getRoundState());
-    }
-
-    @Test
-    @DisplayName("Get roundType correctly")
-    void getType() {
-        assertEquals(RoundType.FIVELETTERS, round.getType());
-    }
-
-    @Test
-    @DisplayName("Get word to guess correctly")
-    void getWordToGuess() {
-        assertEquals("banana", round.getWordToGuess());
     }
 }

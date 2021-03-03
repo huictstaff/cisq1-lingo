@@ -44,23 +44,4 @@ class LingoGameTest {
         this.game.addScore(500);
         assertEquals(500, this.game.getScore());
     }
-
-    @Test
-    @DisplayName("get score works correctly")
-    void getScore() {
-        assertEquals(0, this.game.getScore());
-    }
-
-    @Test
-    @DisplayName("Get all rounds works correctly")
-    void getAllRounds() {
-        this.game.newRound("apple");
-        assertEquals(List.of(new Round(RoundType.FIVELETTERS, "apple", this.game)), this.game.getAllRounds());
-    }
-
-    @Test
-    @DisplayName("get last rounds throws error when allrounds is empty")
-    void getLastRoundThrows() {
-        assertThrows(RuntimeException.class, () -> this.game.getLastRound());
-    }
 }
