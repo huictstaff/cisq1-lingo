@@ -7,6 +7,7 @@ public class Validator {
     public Feedback validate(Word attempt, Word actualWord) {
         if(!isAttemptValid(attempt)) throw new LengthInvalidException();
         if(attempt.equals(actualWord)) return Feedback.correct(attempt.getValue());
+        return null;
     }
 
     private boolean isAttemptValid(Word attempt){
