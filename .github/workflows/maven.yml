@@ -36,11 +36,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Build with Maven
-        run: mvn -Dspring.profiles.active=ci --batch-mode --update-snapshots verify
+        run: mvn -Dspring.profiles.active=ci --batch-mode --update-snapshots verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
       # name: Upload artifact
-      - run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Package
-          path: staging
+      #- run: mkdir staging && cp target/*.jar staging
+      #- uses: actions/upload-artifact@v2
+        #with:
+          #name: Package
+          #path: staging
+
+
+
+
