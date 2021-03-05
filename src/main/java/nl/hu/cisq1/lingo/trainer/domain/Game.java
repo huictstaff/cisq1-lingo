@@ -30,7 +30,7 @@ public class Game {
         }
     }
 
-    public Feedback guessWord(String attempt) {
+    public void guessWord(String attempt) {
         // Exceptions
         if (gameStatus.equals(GameStatus.WAITING)) {
             throw new NotPlayingGameException();
@@ -40,25 +40,21 @@ public class Game {
 
         // Temporary values
         Round currentRound = this.rounds.get(rounds.size() - 1);
-        String previousHint = this.progress.getHints().get(this.progress.getHints().size() - 1);
+        String previousHint = this.progress.getFeedbacks().get(this.progress.getFeedbacks().size() - 1).getHint();
 
-        // Try guess & retrieve feedback
+        // Try guess & save feedback
         Feedback feedback = currentRound.guessWord(attempt);
-
-        // Add hint
-        String hint = feedback.giveHint(previousHint, currentRound.getWordToGuess());
-        this.progress.addHint(hint);
+        feedback.generateHint(previousHint, currentRound.getWordToGuess());
+        this.progress.addFeedback(feedback);
 
         // Check if player guessed the word right
         if(feedback.isWordGuessed()) {
-            int score = 5 * (5 - currentRound.getAttempts().size()) + 5;
+            int score = 5 * (5 - currentRound.getAttempts()) + 5;
             this.progress.increaseScore(score);
             this.gameStatus = GameStatus.WAITING;
-        } else if(currentRound.getAttempts().size() == 5) {
+        } else if(currentRound.getAttempts() == 5) {
             this.gameStatus = GameStatus.LOST;
         }
-
-        return feedback;
     }
 
     public Progress getProgress() {
@@ -73,7 +69,12 @@ public class Game {
         return gameStatus;
     }
 
-    public int getWordToGuessLength() {
-        return this.rounds.get(rounds.size() - 1).getWordToGuess().length();
+    public int getNextWordLength() {
+        int currentLength = this.rounds.get(rounds.size() - 1).getWordToGuess().length();
+        if(currentLength == 7) {
+            return 5;
+        }else {
+            return currentLength + 1;
+        }
     }
 }

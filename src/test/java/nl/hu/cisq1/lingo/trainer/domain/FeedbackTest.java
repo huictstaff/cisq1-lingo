@@ -47,6 +47,13 @@ class FeedbackTest {
     }
 
     @Test
+    @DisplayName("attempt must be saved after feedback creation")
+    void attemptIsSaved() {
+        Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
+        assertEquals("word", feedback.getAttempt());
+    }
+
+    @Test
     @DisplayName("guess is not invalid if all marks are not invalid")
     void guessIsNotInvalid() {
         Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
@@ -63,7 +70,7 @@ class FeedbackTest {
     @DisplayName("exception must be thrown if previousHint or wordToGuess is not of the same size of the feedback")
     void invalidHintExceptionWorks() {
         Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
-        assertThrows(InvalidHintException.class, () -> feedback.giveHint("wor", "wor"));
+        assertThrows(InvalidHintException.class, () -> feedback.generateHint("wor", "wor"));
     }
 
     @ParameterizedTest
@@ -71,6 +78,7 @@ class FeedbackTest {
     @DisplayName("an attempt must have a corresponding hint")
     void attemptHasHint(String previousHint, String wordToGuess, String attempt, List<Mark> marks, String result) {
         Feedback feedback = new Feedback(attempt, marks);
-        assertEquals(result, feedback.giveHint(previousHint, wordToGuess));
+        feedback.generateHint(previousHint, wordToGuess);
+        assertEquals(result, feedback.getHint());
     }
 }

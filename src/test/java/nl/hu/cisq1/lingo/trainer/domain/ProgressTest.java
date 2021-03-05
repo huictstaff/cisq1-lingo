@@ -26,22 +26,22 @@ class ProgressTest {
     }
 
     @Test
-    @DisplayName("hints should be reset when a new round starts")
-    void hintIsReset() {
+    @DisplayName("feedback should be reset when a new round starts")
+    void feedbackIsReset() {
         Progress progress = new Progress();
         progress.nextRound("apple");
-        progress.addHint("ap...");
-        progress.addHint("ap..e");
+        progress.addFeedback(new Feedback("", List.of()));
+        progress.addFeedback(new Feedback("", List.of()));
         progress.nextRound("beard");
-        assertEquals(1, progress.getHints().size());
+        assertEquals(1, progress.getFeedbacks().size());
     }
 
     @Test
-    @DisplayName("hints should be the first character of the word to guess when a new round starts")
+    @DisplayName("feedback hint should be the first character of the word to guess when a new round starts")
     void hintIsCorrect() {
         Progress progress = new Progress();
         progress.nextRound("apple");
-        assertEquals("a....", progress.getHints().get(0));
+        assertEquals("a....", progress.getFeedbacks().get(0).getHint());
     }
 
     @Test

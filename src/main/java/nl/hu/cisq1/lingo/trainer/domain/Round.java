@@ -5,13 +5,11 @@ import java.util.List;
 
 public class Round {
     private String wordToGuess = null;
-    private List<String> attempts = null;
-    private List<Feedback> feedbacks = null;
+    private int attempts = -1;
 
     public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
-        this.attempts = new ArrayList<>(5);
-        this.feedbacks = new ArrayList<>(5);
+        this.attempts = 0;
     }
 
     public Feedback guessWord(String attempt) {
@@ -29,10 +27,9 @@ public class Round {
             }
         }
 
+        // Generate feedback
         Feedback feedback = new Feedback(attempt, marks);
-        this.feedbacks.add(feedback);
-        this.attempts.add(attempt);
-
+        this.attempts++;
         return feedback;
     }
 
@@ -40,11 +37,7 @@ public class Round {
         return this.wordToGuess;
     }
 
-    public List<String> getAttempts() {
+    public int getAttempts() {
         return attempts;
-    }
-
-    public List<Feedback> getFeedbacks() {
-        return feedbacks;
     }
 }
