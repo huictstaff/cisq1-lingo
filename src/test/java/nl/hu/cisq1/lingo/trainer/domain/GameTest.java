@@ -97,4 +97,18 @@ class GameTest {
         game.guessWord("warn");
         assertThrows(LostGameException.class, () -> game.guessWord("word"));
     }
+
+    @Test
+    @DisplayName("next word length must be according to the Lingo rules")
+    void nextWordLengthIsCorrect() {
+        Game game1 = new Game();
+        game1.startNewRound("words");
+        assertEquals(6, game1.getNextWordLength());
+        Game game2 = new Game();
+        game2.startNewRound("wordss");
+        assertEquals(7, game2.getNextWordLength());
+        Game game3 = new Game();
+        game3.startNewRound("wordsss");
+        assertEquals(5, game3.getNextWordLength());
+    }
 }

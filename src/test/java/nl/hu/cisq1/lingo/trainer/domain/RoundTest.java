@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RoundTest {
     private static Stream<Arguments> provideFeedbackExamples() {
         return Stream.of(
-                Arguments.of("sheep", "ship", List.of(INVALID, INVALID, INVALID, INVALID)),
+                Arguments.of("sheep", "ship",  List.of(INVALID, INVALID, INVALID, INVALID)),
                 Arguments.of("sheep", "ships", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT)),
                 Arguments.of("sheep", "shear", List.of(CORRECT, CORRECT, CORRECT, ABSENT, ABSENT)),
                 Arguments.of("sheep", "sheet", List.of(CORRECT, CORRECT, CORRECT, CORRECT, ABSENT)),
@@ -31,16 +31,17 @@ class RoundTest {
     @DisplayName("attempt must have corresponding feedback")
     void attemptHasFeedback(String wordToGuess, String attempt, List<Mark> result) {
         Round round = new Round(wordToGuess);
-        round.guessWord(attempt);
-        assertEquals(result, round.getFeedbacks().get(0).getMarks());
+        Feedback feedback = round.guessWord(attempt);
+        assertEquals(result, feedback.getMarks());
     }
 
     @Test
-    @DisplayName("attempt must be saved after a guess")
+    @DisplayName("attempts must be increased after a guess")
     void attemptIsSaved() {
         Round round = new Round("word");
+        assertEquals(0, round.getAttempts());
         round.guessWord("wolf");
-        assertEquals("wolf", round.getAttempts().get(0));
+        assertEquals(1, round.getAttempts());
     }
 
     @Test

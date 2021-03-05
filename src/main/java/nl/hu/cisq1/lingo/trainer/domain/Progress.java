@@ -1,17 +1,18 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Progress {
     private int score = -1;
     private int currentRound = -1;
-    private List<String> hints = null;
+    private List<Feedback> feedbacks = null;
 
     public Progress() {
         score = 0;
         currentRound = 0;
-        hints = new ArrayList<>(5);
+        feedbacks = new ArrayList<>(5);
     }
 
     public void increaseScore(int value) {
@@ -20,18 +21,24 @@ public class Progress {
 
     public void nextRound(String wordToGuess) {
         currentRound++;
-        hints.clear();
+        feedbacks.clear();
 
-        // Compose first hint
-        String hint = "";
-        for(int i = 0; i < wordToGuess.length(); i++) {
-            hint += ((i == 0) ? wordToGuess.charAt(i) : '.');
+        // Compose first feedback
+        String attempt = String.valueOf(wordToGuess.charAt(0));
+        String initialHint = String.valueOf(wordToGuess.charAt(0));
+        List<Mark> marks = new ArrayList<>(Arrays.asList(Mark.CORRECT));
+        for(int i = 1; i < wordToGuess.length(); i++) {
+            attempt += ' ';
+            initialHint += '.';
+            marks.add(Mark.ABSENT);
         }
-        hints.add(hint);
+        Feedback feedback = new Feedback(attempt, marks);
+        feedback.generateHint(initialHint, wordToGuess);
+        feedbacks.add(feedback);
     }
 
-    public void addHint(String hint) {
-        hints.add(hint);
+    public void addFeedback(Feedback feedback) {
+        feedbacks.add(feedback);
     }
 
     public int getScore() {
@@ -42,7 +49,7 @@ public class Progress {
         return currentRound;
     }
 
-    public List<String> getHints() {
-        return hints;
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
     }
 }
