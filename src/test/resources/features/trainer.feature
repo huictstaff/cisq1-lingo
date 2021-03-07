@@ -29,14 +29,54 @@ Scenario Outline: Start a new round
   Then I cannot start a new round
 
 
-Scenario: Guessing a word
+Scenario Outline: Guessing a word
   Given I playing a round
   And   The word is "<word>"
   When  I guess a "<guess>"
   Then  The feedback should be "<feedback>"
 
   Examples:
-    | word            | guess       | feedback    |
-    |Brood            | Breeo       | correct, correct, absent, absent, present   |
-    |Brood            | Board       | correct, present, absent, present, correct  |
-    |Brood            | Brood       | correct, correct, correct, correct, correct |
+    | word  | guess | feedback                                    |
+    | Brood | Breeo | correct, correct, absent, absent, present   |
+    | Brood | Board | correct, present, absent, present, correct  |
+    | Brood | Brood | correct, correct, correct, correct, correct |
+
+Scenario Outline: Win a round
+  Given I playing a round
+  When  I guess the correct word from the "<attempt>" attempt
+  Then  I won the round
+  And   My score should be increased "<point>" points
+
+  Examples:
+    | attempt | point |
+    |   1     | 25    |
+    |   2     | 20    |
+    |   3     | 15    |
+    |   4     | 10    |
+    |   5     | 5     |
+
+
+Scenario: Lose a game
+  Given I playing a round
+  When  I guess 5 wrong words
+  Then  The round should ends
+  And   I lost the game
+
+Scenario: Guessing the same word
+  Given I playing a round
+  When  I guess the word "A"
+  Then  I can not guess the same word "A" again
+
+Scenario: Lose a game
+  Given I am playing a game
+  And the round was lost
+  Then I cannot guess a new word
+
+Scenario: playing a round
+  Given I playing a round
+  When  The round not ended
+  Then  I cannot start a new round
+
+Scenario: Start a game
+  When I dont have a game
+  Then I cannot start a new round
