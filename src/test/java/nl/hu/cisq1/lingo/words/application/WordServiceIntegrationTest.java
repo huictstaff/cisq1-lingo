@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * This integration test integrates between the service layer,
  * the data layer and the framework.
  * In a dev environment, we test against the actual database.
- *
+ * <p>
  * In continuous integration pipelines, we should not
  * use the actual database as we don't have one.
  * We want to replace it with an in-memory database.
- *
+ * <p>
  * Set the profile to CI, so that application-ci.properties is loaded
  * and an import script is run.
  **/

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * This is a unit test.
- *
+ * <p>
  * It tests the behaviors of our system under test,
  * WordService, in complete isolation:
  * - its methods are called by the test framework instead of a controller

@@ -11,7 +11,9 @@ public class Word {
     private String value;
     private Integer length;
 
-    public Word() {}
+    public Word() {
+    }
+
     public Word(String word) {
         this.value = word;
         this.length = word.length();

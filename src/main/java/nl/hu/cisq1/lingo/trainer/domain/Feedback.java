@@ -1,11 +1,17 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@ToString
+@Getter
+@Setter
 public class Feedback {
     private final List<Mark> marks;
     private String attempt;
@@ -14,38 +20,33 @@ public class Feedback {
     public Feedback(String wordToGuess, String attempt) {
         this.wordToGuess = wordToGuess;
         this.attempt = attempt;
-        this.marks = makeGuess(attempt,wordToGuess);
-        if (this.marks.contains(Mark.INVALID)){
-            throw new InvalidFeedbackException();
-        }
+        this.marks = makeGuess(attempt, wordToGuess);
+
+//        if (this.marks.contains(Mark.INVALID)) {
+//            throw new InvalidFeedbackException();
+//        }
     }
 
-//    public Feedback(List<Mark> marks, String attempt) {
-//        if (!(marks.size() == attempt.length())){
-//            throw new InvalidFeedbackException();
-//        }else{
-//            this.marks = marks;
-//            this.attempt = attempt;
-//        }
-//    }
-    public List<Mark> makeGuess(String attenpt, String wordToGuess){
+    private List<Mark> makeGuess(String attenpt, String wordToGuess) {
         String[] attemptLetters = attenpt.split("");
         String[] awnserLetters = wordToGuess.split("");
         List<Mark> markList = new ArrayList<>();
-        if(awnserLetters.length != attemptLetters.length) {
-            markList.add(Mark.INVALID);
-        }else {
-            for (int i = 0; i < awnserLetters.length; i++){
-                if (awnserLetters[i].equals(attemptLetters[i])){
-                    markList.add(Mark.CORRECT);
-                }else if (awnserLetters[i].contains(attemptLetters[i])){
-                    markList.add(Mark.PRESENT);
-                }
-                else{
-                    markList.add(Mark.ABSENT);
-                }
+
+        if (awnserLetters.length != attemptLetters.length) {
+//            markList.add(Mark.INVALID);
+            isWordInvalid();
+        }
+
+        for (int i = 0; i < awnserLetters.length; i++) {
+            if (awnserLetters[i].equals(attemptLetters[i])) {
+                markList.add(Mark.CORRECT);
+            } else if (awnserLetters[i].contains(attemptLetters[i])) {
+                markList.add(Mark.PRESENT);
+            } else {
+                markList.add(Mark.ABSENT);
             }
         }
+
 
         return markList;
     }
@@ -59,9 +60,8 @@ public class Feedback {
                 .allMatch(Mark.CORRECT::equals);
     }
 
-    public boolean isWordInvalid() {
-        return this.marks.stream()
-                .allMatch(Mark.INVALID::equals);
+    public void isWordInvalid() {
+        throw new InvalidFeedbackException();
     }
 
     @Override
@@ -84,36 +84,24 @@ public class Feedback {
                 '}';
     }
 
-    public String getHint(String oldHint){
+    public String getHint(String oldHint) {
         String woord = "";
-        String[] letters  = this.wordToGuess.split("");
+        String[] letters = this.wordToGuess.split("");
 
-        if (oldHint == null){
-            woord += letters[0];
-            for (int i = 1; i < letters.length; i++){
-                if (this.marks.get(i).equals(Mark.CORRECT)){
-                    woord += letters[i];
-                }else{
-                    woord += ".";
-                }
+        if (oldHint == null) {
+            oldHint = letters[0] + ".".repeat(letters.length - 1);
+        }
+
+        String[] oldHintLetters = oldHint.split("");
+
+        for (int i = 0; i < letters.length; i++) {
+            if (this.marks.get(i).equals(Mark.CORRECT)) {
+                woord += letters[i];
+            } else {
+                woord += oldHintLetters[i];
             }
         }
-        else{
-            String[] oldHintLetters = oldHint.split("");
-            woord += letters[0];
-            for (int i = 1; i < letters.length; i++){
-                if (!oldHintLetters[i].equals(".")){
-                    woord += oldHintLetters[i];
-                }
-                else {
-                    if (this.marks.get(i).equals(Mark.CORRECT)){
-                        woord += letters[i];
-                    }else {
-                        woord += ".";
-                    }
-                }
-            }
-        }
+
         return woord;
     }
 }
