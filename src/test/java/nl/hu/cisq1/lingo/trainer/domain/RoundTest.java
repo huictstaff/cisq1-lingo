@@ -1,9 +1,12 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.GameEndedException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RoundTest {
 
@@ -49,6 +52,22 @@ class RoundTest {
         round.guessing("borak");
         round.guessing("baner");
         assertEquals(round.getStatus(), GameState.ELIMINATED);
+    }
+
+    @Test
+    @DisplayName("the user tries to play but the round has already ended")
+    void roundIsNotPlaying() {
+        Round round = new Round("baard");
+        round.guessing("bakke");
+        round.guessing("balde");
+        round.guessing("bored");
+        round.guessing("borak");
+        round.guessing("baner");
+
+        assertThrows(
+                GameEndedException.class,
+                () ->  round.guessing("baner")
+        );
     }
 
 }
