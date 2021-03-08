@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertGuessToMarks {
-    private ConvertGuessToMarks() {
-        throw new IllegalStateException("Utility class,with only static methods, constructor should not be used");
-    }
     //ToDo:
     // Mark.PRESENT conditions should be more clear, in the current state it just checks if the character is in the word
     //  - if a character only appears once in a word but it appears more than once in the guess it should only be PRESENT on the first appearance in the word
@@ -22,12 +19,12 @@ public class ConvertGuessToMarks {
         for(int i = 0; i < wordToGuess.length(); i++) {
            if(wordToGuess.charAt(i) == guess.charAt(i)) {
                marks.add(Mark.CORRECT);
-           }
-           else if(wordToGuess.charAt(i) != guess.charAt(i) && wordToGuess.indexOf(guess.charAt(i)) != -1) {
-               marks.add(Mark.PRESENT);
-           }
-           else if(wordToGuess.charAt(i) != guess.charAt(i) && wordToGuess.indexOf(guess.charAt(i)) == -1) {
-               marks.add(Mark.ABSENT);
+           } else {
+               if (wordToGuess.indexOf(guess.charAt(i)) != -1) {
+                   marks.add(Mark.PRESENT);
+               } else {
+                   marks.add(Mark.ABSENT);
+               }
            }
         }
         return marks;

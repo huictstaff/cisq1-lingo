@@ -21,10 +21,7 @@
         <sonar.projectKey>Rubenvdbrink_cisq1-lingo</sonar.projectKey>
         <sonar.organization>rubenvdbrink</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
-        <sonar.exclusions>**/trainer/application/**/*</sonar.exclusions>
-        <sonar.exclusions>**/trainer/presentation/**/*</sonar.exclusions>
-        <sonar.exclusions>**/trainer/data/**/*</sonar.exclusions>
+        <sonar.exclusions>**/LingoApplication.*, **/trainer/application/**/*, **/trainer/presentation/**/*, **/trainer/data/**/*</sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -122,11 +119,11 @@
                                 <exclude>**/LingoApplication.*</exclude>
                                 <exclude>**/trainer/domain/enums/**/*</exclude>
                                 <exclude>**/exception/**/*</exclude>
+
                                 <!--Tijdelijk excluded omdat ik al verder ben met opdr5-->
                                 <exclude>**/trainer/application/**/*</exclude>
                                 <exclude>**/trainer/presentation/**/*</exclude>
                                 <exclude>**/trainer/data/**/*</exclude>
-
 
                             </excludes>
                         </configuration>
