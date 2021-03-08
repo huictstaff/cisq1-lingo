@@ -8,15 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private Progress progress = null;
-    private List<Round> rounds = null;
-    private GameStatus gameStatus = null;
-
-    public Game() {
-        this.progress = new Progress();
-        this.rounds = new ArrayList<>();
-        this.gameStatus = GameStatus.WAITING;
-    }
+    private final Progress progress = new Progress();
+    private final List<Round> rounds = new ArrayList<>();
+    private GameStatus gameStatus = GameStatus.WAITING;
 
     public void startNewRound(String wordToGuess) {
         if (gameStatus.equals(GameStatus.PLAYING)) {
@@ -54,6 +48,8 @@ public class Game {
             this.gameStatus = GameStatus.WAITING;
         } else if(currentRound.getAttempts() == 5) {
             this.gameStatus = GameStatus.LOST;
+        } else {
+            this.gameStatus = GameStatus.PLAYING;
         }
     }
 
