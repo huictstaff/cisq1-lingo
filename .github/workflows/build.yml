@@ -28,7 +28,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify -Dspring.profiles.active=ci
       - name: Analyze with SonarCloud
         env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dspring.profiles.active=ci
 
