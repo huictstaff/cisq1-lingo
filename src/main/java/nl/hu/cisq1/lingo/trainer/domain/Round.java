@@ -1,6 +1,9 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import org.springframework.util.StringUtils;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Round {
@@ -12,23 +15,44 @@ public class Round {
         this.attempts = 0;
     }
 
-    public Feedback guessWord(String attempt) {
-        // Generate marks
+    public List<Mark> generateMarks(String attempt) {
         List<Mark> marks = new ArrayList<>();
-        for(int i = 0; i < attempt.length(); i++) {
-            if(attempt.length() != this.wordToGuess.length()) {
+        String filteredWordToGuess = "";
+        String filteredAttempt = "";
+
+        // Check if invalid
+        if (attempt.length() != this.wordToGuess.length()) {
+            for (int i = 0; i < attempt.length(); i++) {
                 marks.add(Mark.INVALID);
-            } else if(this.wordToGuess.charAt(i) == attempt.charAt(i)) {
+            }
+
+            return marks;
+        }
+
+        // Generate without PRESENT marks
+        for (int i = 0; i < attempt.length(); i++) {
+            if (this.wordToGuess.charAt(i) == attempt.charAt(i)) {
                 marks.add(Mark.CORRECT);
-            } else if(this.wordToGuess.substring(i).contains(String.valueOf(attempt.charAt(i)))) {
-                marks.add(Mark.PRESENT);
+                filteredWordToGuess += '.';
             } else {
                 marks.add(Mark.ABSENT);
+                filteredWordToGuess += this.wordToGuess.charAt(i);
             }
         }
 
+        // Generate PRESENT marks
+        for (int i = 0; i < marks.size(); i++) {
+            if (marks.get(i).equals(Mark.ABSENT) && filteredWordToGuess.contains(String.valueOf(attempt.charAt(i)))) {
+                marks.set(i, Mark.PRESENT);
+            }
+        }
+
+        return marks;
+    }
+
+    public Feedback guessWord(String attempt) {
         // Generate feedback
-        Feedback feedback = new Feedback(attempt, marks);
+        Feedback feedback = new Feedback(attempt, this.generateMarks(attempt));
         this.attempts++;
         return feedback;
     }

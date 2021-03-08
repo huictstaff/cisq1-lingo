@@ -18,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RoundTest {
     private static Stream<Arguments> provideFeedbackExamples() {
         return Stream.of(
-                Arguments.of("sheep", "ship",  List.of(INVALID, INVALID, INVALID, INVALID)),
-                Arguments.of("sheep", "ships", List.of(CORRECT, CORRECT, ABSENT, PRESENT, ABSENT)),
-                Arguments.of("sheep", "shear", List.of(CORRECT, CORRECT, CORRECT, ABSENT, ABSENT)),
-                Arguments.of("sheep", "sheet", List.of(CORRECT, CORRECT, CORRECT, CORRECT, ABSENT)),
-                Arguments.of("sheep", "sheep", List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT))
+                Arguments.of("baard", "bergen",  List.of(INVALID, INVALID, INVALID, INVALID, INVALID, INVALID)),
+                Arguments.of("baard", "bonje", List.of(CORRECT, ABSENT, ABSENT, ABSENT, ABSENT)),
+                Arguments.of("baard", "barst", List.of(CORRECT, CORRECT, PRESENT, ABSENT, ABSENT)),
+                Arguments.of("baard", "draad", List.of(ABSENT, PRESENT, CORRECT, PRESENT, CORRECT)),
+                Arguments.of("baard", "baard", List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT))
         );
     }
 

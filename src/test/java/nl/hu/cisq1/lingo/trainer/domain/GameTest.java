@@ -54,7 +54,20 @@ class GameTest {
         game.guessWord("wall");
         game.guessWord("weak");
         game.guessWord("warn");
+        assertEquals(5, game.getRounds().get(0).getAttempts());
         assertEquals(GameStatus.LOST, game.getGameStatus());
+    }
+
+    @Test
+    @DisplayName("status must not be LOST when the player guessed wrong 5 times")
+    void statusNotLost() {
+        Game game = new Game();
+        game.startNewRound("word");
+        game.guessWord("wolf");
+        game.guessWord("wars");
+        game.guessWord("wall");
+        game.guessWord("weak");
+        assertEquals(GameStatus.PLAYING, game.getGameStatus());
     }
 
     @Test
