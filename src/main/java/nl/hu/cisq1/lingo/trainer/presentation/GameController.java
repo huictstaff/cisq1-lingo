@@ -21,7 +21,7 @@ public class GameController {
 
     @PostMapping("startgame")
     public LingoDTO startGame() {
-        return new LingoDTO(this.lingoService.startOrContinueGame());
+        return new LingoDTO(this.lingoService.startGame());
     }
 
     @PostMapping("guess")

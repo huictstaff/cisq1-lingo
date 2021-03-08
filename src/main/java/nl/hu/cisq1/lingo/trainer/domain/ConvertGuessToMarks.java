@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertGuessToMarks {
+    private ConvertGuessToMarks() {
+        throw new IllegalStateException("Utility class,with only static methods, constructor should not be used");
+    }
     //ToDo:
     // Mark.PRESENT conditions should be more clear, in the current state it just checks if the character is in the word
     //  - if a character only appears once in a word but it appears more than once in the guess it should only be PRESENT on the first appearance in the word
     //  - if a character in the word is already CORRECT, the second appearance if this character can't be PRESENT
-    public static List<Mark> Converter(String wordToGuess, String guess) {
+    public static List<Mark> converter(String wordToGuess, String guess) {
         List<Mark> marks = new ArrayList<>();
         if(wordToGuess.length() != guess.length()) {
             throw new InvalidFeedbackException("Length is of the guess is not the same as the word to guess");

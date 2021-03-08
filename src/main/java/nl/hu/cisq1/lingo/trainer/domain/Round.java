@@ -4,6 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
+import nl.hu.cisq1.lingo.trainer.exception.InvalidWordException;
+import nl.hu.cisq1.lingo.trainer.exception.RoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,12 +33,13 @@ public class Round implements Serializable {
 
     public String makeGuessAndGiveHint(String guess, Boolean wordExists) {
         this.tries += 1;
+
         if (!wordExists) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
+            throw new InvalidWordException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
         }
         Feedback feedback = new Feedback(
                 guess,
-                ConvertGuessToMarks.Converter(
+                ConvertGuessToMarks.converter(
                         this.wordToGuess,
                         guess
                 ));
@@ -58,10 +61,10 @@ public class Round implements Serializable {
 
     public void checkIfRoundIsLostOrWon() {
         if (this.getRoundState().equals(RoundState.LOST)) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Round is already Lost ⏺ ⏺ ⏺ ⏺");
+            throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Lost ⏺ ⏺ ⏺ ⏺");
         }
         else if (this.getRoundState().equals(RoundState.WON)) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Round is already Won ⏺ ⏺ ⏺ ⏺");
+            throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Won ⏺ ⏺ ⏺ ⏺");
         }
     }
 

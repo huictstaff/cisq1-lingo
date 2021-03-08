@@ -19,13 +19,7 @@ public class LingoService {
     private final GameRepository gameRepository;
     private final SpringWordRepository springWordRepository;
 
-    //ToDo get "continuing a game" working
-    public LingoGame startOrContinueGame() {
-//        Optional<Game> lastLingoGame = this.gameRepository.findTopByGameDoneOrderByIdDesc(false);
-//        if (lastLingoGame.isPresent()) {
-//            return lastLingoGame.get().getLingoGame();
-//        }
-
+    public LingoGame startGame() {
         LingoGame lingoGame = new LingoGame();
         lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
 
@@ -34,7 +28,6 @@ public class LingoService {
         return (lingoGame);
     }
 
-    //ToDo check if word exists in database
     public LingoGame makeGuess(GuessDTO guess) {
         LingoGame lingoGame = this.retrieveLingoGame().getLingoGame();
         lingoGame.getLastRound().checkIfRoundIsLostOrWon();
@@ -49,10 +42,13 @@ public class LingoService {
             case WON -> {
                 lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
                 this.gameRepository.save(new Game(lingoGame, false));
+                return lingoGame;
+            }
+            default -> {
+                this.gameRepository.save(new Game(lingoGame, false));
+                return lingoGame;
             }
         }
-        this.gameRepository.save(new Game(lingoGame, false));
-        return lingoGame;
     }
 
     private Game retrieveLingoGame() {

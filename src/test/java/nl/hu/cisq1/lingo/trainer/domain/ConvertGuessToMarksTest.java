@@ -19,13 +19,13 @@ class ConvertGuessToMarksTest {
     @MethodSource("provideMarksExamples")
     @DisplayName("Convert guess to marks succesfully")
     void convertToMarksSuccesful(String wordToGuess, String guess, List<Mark> marks) {
-        assertEquals(marks, ConvertGuessToMarks.Converter(wordToGuess, guess));
+        assertEquals(marks, ConvertGuessToMarks.converter(wordToGuess, guess));
     }
 
     @Test
     @DisplayName("Throw InvalidFeedbackException when length of guess and wordToGuess is not the same")
     void convertToMarksException() {
-        assertThrows(InvalidFeedbackException.class, () -> ConvertGuessToMarks.Converter("banana", "book"));
+        assertThrows(InvalidFeedbackException.class, () -> ConvertGuessToMarks.converter("banana", "book"));
     }
 
     static Stream<Arguments> provideMarksExamples() {

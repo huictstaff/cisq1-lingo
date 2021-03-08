@@ -31,7 +31,8 @@ class FeedbackTest {
     @Test
     @DisplayName("InvalidFeedbackException is thrown when the length of the guess and amount of marks is not the same")
     void invalidFeedbackIsGiven() {
-        assertThrows(InvalidFeedbackException.class, () -> new Feedback("woord", List.of(Mark.ABSENT)));
+        var marks = List.of(Mark.ABSENT);
+        assertThrows(InvalidFeedbackException.class, () -> new Feedback("woord", marks));
     }
 
     @ParameterizedTest
