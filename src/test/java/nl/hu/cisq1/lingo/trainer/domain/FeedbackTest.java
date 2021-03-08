@@ -131,6 +131,22 @@ class FeedbackTest {
         );
     }
 
+    @ParameterizedTest
+    @DisplayName("the user guessed some letters of the word")
+    @MethodSource("firstLetter")
+    void firstLetter(String wordToGues, String attempt, String oldHint, String expected) {
+        Feedback feedback = new Feedback(wordToGues, attempt);
+        assertEquals(expected, feedback.getHint(oldHint));
+    }
+
+    private static Stream<Arguments> firstLetter() {
+        return Stream.of(
+                Arguments.of("baard", "brood", null, "b...d"),
+                Arguments.of("baard", "dlaar", "b...d", "b.a.d"),
+                Arguments.of("baard", "beren", "b.a.d", "b.a.d")
+        );
+    }
+
 
 //    @Test
 //    @DisplayName("word is guessed if all letters are correct")

@@ -11,7 +11,6 @@ import java.util.Objects;
 
 @ToString
 @Getter
-@Setter
 public class Feedback {
     private final List<Mark> marks;
     private String attempt;
@@ -21,10 +20,6 @@ public class Feedback {
         this.wordToGuess = wordToGuess;
         this.attempt = attempt;
         this.marks = makeGuess(attempt, wordToGuess);
-
-//        if (this.marks.contains(Mark.INVALID)) {
-//            throw new InvalidFeedbackException();
-//        }
     }
 
     private List<Mark> makeGuess(String attenpt, String wordToGuess) {
@@ -46,14 +41,8 @@ public class Feedback {
                 markList.add(Mark.ABSENT);
             }
         }
-
-
         return markList;
     }
-
-//    public Feedback(List<Mark> marks) {
-//        this.marks = marks;
-//    }
 
     public boolean isWordGuessed() {
         return this.marks.stream()
@@ -101,7 +90,6 @@ public class Feedback {
                 woord += oldHintLetters[i];
             }
         }
-
         return woord;
     }
 }
