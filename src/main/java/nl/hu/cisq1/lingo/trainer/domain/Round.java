@@ -34,7 +34,7 @@ public class Round implements Serializable {
     public String makeGuessAndGiveHint(String guess, Boolean wordExists) {
         this.tries += 1;
 
-        if (!wordExists) {
+        if (Boolean.FALSE.equals(wordExists)) {
             throw new InvalidWordException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
         }
         Feedback feedback = new Feedback(
@@ -45,11 +45,11 @@ public class Round implements Serializable {
                 ));
         this.allFeedback.add(feedback);
 
-        if(this.tries == 5 && !feedback.isWordGuessed()) {
+        if(this.tries == 5 && Boolean.FALSE.equals(feedback.isWordGuessed())) {
             this.wordIsNotGuessed();
         }
 
-        else if (feedback.isWordGuessed()) {
+        else if (Boolean.TRUE.equals(feedback.isWordGuessed())) {
             this.wordIsGuessed();
         }
         this.lastHint = feedback.giveHint(this.lastHint);

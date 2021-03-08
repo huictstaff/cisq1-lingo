@@ -35,20 +35,18 @@ public class LingoService {
         lingoGame.getLastRound().makeGuessAndGiveHint(guess.guess, this.springWordRepository.existsByValue(guess.guess));
 
         switch (lingoGame.getLastRound().getRoundState()) {
-            case LOST -> {
-                this.gameRepository.save(new Game(lingoGame, true));
-                return lingoGame;
-            }
-            case WON -> {
+            case LOST : return saveGame(lingoGame, true);
+            case WON : {
                 lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
-                this.gameRepository.save(new Game(lingoGame, false));
-                return lingoGame;
+                return saveGame(lingoGame, false);
             }
-            default -> {
-                this.gameRepository.save(new Game(lingoGame, false));
-                return lingoGame;
-            }
+            default : return saveGame(lingoGame, false);
         }
+    }
+
+    private LingoGame saveGame(LingoGame lingoGame, boolean gameDone) {
+        this.gameRepository.save(new Game(lingoGame, gameDone));
+        return lingoGame;
     }
 
     private Game retrieveLingoGame() {
