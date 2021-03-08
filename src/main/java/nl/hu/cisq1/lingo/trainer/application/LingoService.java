@@ -23,24 +23,21 @@ public class LingoService {
         LingoGame lingoGame = new LingoGame();
         lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
 
-        this.gameRepository.save(new Game(lingoGame, false));
-
-        return (lingoGame);
+        return this.saveGame(lingoGame, false);
     }
 
     public LingoGame makeGuess(GuessDTO guess) {
         LingoGame lingoGame = this.retrieveLingoGame().getLingoGame();
-        lingoGame.getLastRound().checkIfRoundIsLostOrWon();
 
         lingoGame.getLastRound().makeGuessAndGiveHint(guess.guess, this.springWordRepository.existsByValue(guess.guess));
 
         switch (lingoGame.getLastRound().getRoundState()) {
-            case LOST : return saveGame(lingoGame, true);
+            case LOST : return this.saveGame(lingoGame, true);
             case WON : {
                 lingoGame.newRound(wordService.provideRandomWord(lingoGame.generateType().number()));
-                return saveGame(lingoGame, false);
+                return this.saveGame(lingoGame, false);
             }
-            default : return saveGame(lingoGame, false);
+            default : return this.saveGame(lingoGame, false);
         }
     }
 

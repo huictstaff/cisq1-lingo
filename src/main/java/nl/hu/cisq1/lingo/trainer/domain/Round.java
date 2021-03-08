@@ -31,12 +31,14 @@ public class Round implements Serializable {
         this.lingoGame = lingoGame;
     }
 
-    public String makeGuessAndGiveHint(String guess, Boolean wordExists) {
+    public String makeGuessAndGiveHint(String guess, boolean wordExists) {
+        this.checkIfRoundIsLostOrWon();
         this.tries += 1;
 
         if (Boolean.FALSE.equals(wordExists)) {
             throw new InvalidWordException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
         }
+
         Feedback feedback = new Feedback(
                 guess,
                 ConvertGuessToMarks.converter(
@@ -45,21 +47,19 @@ public class Round implements Serializable {
                 ));
         this.allFeedback.add(feedback);
 
-        if(this.tries == 5 && Boolean.FALSE.equals(feedback.isWordGuessed())) {
-            this.wordIsNotGuessed();
+        if (feedback.isWordGuessed()) {
+            this.wordIsGuessed();
+        } else {
+            if (this.tries > 4) {
+                this.wordIsNotGuessed();
+            }
         }
 
-        else if (Boolean.TRUE.equals(feedback.isWordGuessed())) {
-            this.wordIsGuessed();
-        }
         this.lastHint = feedback.giveHint(this.lastHint);
         return feedback.giveHint(this.lastHint);
     }
-    public void wordIsNotGuessed() {
-        this.roundState = RoundState.LOST;
-    }
 
-    public void checkIfRoundIsLostOrWon() {
+    private void checkIfRoundIsLostOrWon() {
         if (this.getRoundState().equals(RoundState.LOST)) {
             throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Lost ⏺ ⏺ ⏺ ⏺");
         }
@@ -68,7 +68,11 @@ public class Round implements Serializable {
         }
     }
 
-    public void wordIsGuessed() {
+    private void wordIsNotGuessed() {
+        this.roundState = RoundState.LOST;
+    }
+
+    private void wordIsGuessed() {
         this.roundState = RoundState.WON;
         this.lingoGame.addScore(5 * (5 - tries) + 5);
     }

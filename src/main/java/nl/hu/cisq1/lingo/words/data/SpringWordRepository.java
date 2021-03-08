@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface SpringWordRepository extends JpaRepository<Word, String> {
     @Query(nativeQuery=true, value="SELECT * FROM words w WHERE w.length = ?1 ORDER BY random() LIMIT 1")
     Optional<Word> findRandomWordByLength(Integer length);
-    Boolean existsByValue(String word);
+    boolean existsByValue(String word);
 }
