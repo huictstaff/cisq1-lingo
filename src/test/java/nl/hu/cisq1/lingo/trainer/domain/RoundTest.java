@@ -1,19 +1,16 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
-import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
+import nl.hu.cisq1.lingo.trainer.exception.RoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
-    Round round;
-    LingoGame game;
+    private Round round;
+    private LingoGame game;
 
     @BeforeEach
     void setUp() {
@@ -36,6 +33,24 @@ class RoundTest {
     }
 
     @Test
+    @DisplayName("Throws an error when trying to guess when the round is already won")
+    void throwErrorOnGuessWhenRoundIsAlreadyWon() {
+        round.makeGuessAndGiveHint("banana", true);
+        assertThrows(RoundException.class, () -> round.makeGuessAndGiveHint("banana", true));
+    }
+
+    @Test
+    @DisplayName("Throws an error when trying to guess when the round is already lost")
+    void throwErrorOnGuessWhenRoundIsAlreadyLost() {
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        assertThrows(RoundException.class, () -> round.makeGuessAndGiveHint("banana", true));
+    }
+
+    @Test
     @DisplayName("tries gets upped by one when a guess is made")
     void makeGuessAndUpTries() {
         assertEquals(0, round.getTries());
@@ -51,58 +66,27 @@ class RoundTest {
     }
 
     @Test
-    @DisplayName("Check if roundstate changes to lost if round is lost")
-    void wordIsNotGuessed() {
-        round.wordIsNotGuessed();
+    @DisplayName("Word is not guessed withing 5 tries so roundState is now LOST")
+    void makeGuessAndWordIsNotGuessedWithinFiveTries() {
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
+        round.makeGuessAndGiveHint("citrus", true);
         assertEquals(RoundState.LOST, round.getRoundState());
     }
 
     @Test
-    @DisplayName("Check if roundstate changes to won if round is won")
-    void wordIsGuessed() {
-        round.wordIsGuessed();
-        assertEquals(RoundState.WON, round.getRoundState());
-    }
-
-    @Test
-    @DisplayName("Throws an error when trying to guess when the round is already won")
-    void throwErrorWhenRoundIsAlreadyWon() {
-        round.wordIsGuessed();
-        assertThrows(RuntimeException.class, () -> round.checkIfRoundIsLostOrWon());
-    }
-
-    @Test
-    @DisplayName("Throws an error when trying to guess when the round is already lost")
-    void throwErrorWhenRoundIsAlreadyLost() {
-        round.wordIsNotGuessed();
-        assertThrows(RuntimeException.class, () -> round.checkIfRoundIsLostOrWon());
-    }
-
-    @Test
-    void getTries() {
-    }
-
-    @Test
-    void getAllFeedback() {
-        round.makeGuessAndGiveHint("banana", true);
-        assertEquals(List.of(new Feedback("banana", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT))), round.getAllFeedback());
-    }
-
-    @Test
-    @DisplayName("Get roundState correctly")
-    void getRoundState() {
+    @DisplayName("When wrong guesses are under 5 tries the roundstate is ongoing")
+    void makeWrongGuessAndRoundStateShouldBeOngoing() {
+        round.makeGuessAndGiveHint("citrus", true);
         assertEquals(RoundState.ONGOING, round.getRoundState());
     }
 
     @Test
-    @DisplayName("Get roundType correctly")
-    void getType() {
-        assertEquals(RoundType.FIVELETTERS, round.getType());
-    }
-
-    @Test
-    @DisplayName("Get word to guess correctly")
-    void getWordToGuess() {
-        assertEquals("banana", round.getWordToGuess());
+    @DisplayName("Word is guessed and roundstate is now WON")
+    void makeGoodGuessAndRoundStateShouldBeWon() {
+        round.makeGuessAndGiveHint("banana", true);
+        assertEquals(RoundState.WON, round.getRoundState());
     }
 }

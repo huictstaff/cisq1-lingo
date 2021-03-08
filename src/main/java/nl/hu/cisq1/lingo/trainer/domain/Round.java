@@ -4,6 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
+import nl.hu.cisq1.lingo.trainer.exception.InvalidWordException;
+import nl.hu.cisq1.lingo.trainer.exception.RoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,43 +31,48 @@ public class Round implements Serializable {
         this.lingoGame = lingoGame;
     }
 
-    public String makeGuessAndGiveHint(String guess, Boolean wordExists) {
+    public String makeGuessAndGiveHint(String guess, boolean wordExists) {
+        this.checkIfRoundIsLostOrWon();
         this.tries += 1;
-        if (!wordExists) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
+
+        if (Boolean.FALSE.equals(wordExists)) {
+            throw new InvalidWordException("⏺ ⏺ ⏺ ⏺ Word does not exist! ⏺ ⏺ ⏺ ⏺");
         }
+
         Feedback feedback = new Feedback(
                 guess,
-                ConvertGuessToMarks.Converter(
+                ConvertGuessToMarks.converter(
                         this.wordToGuess,
                         guess
                 ));
         this.allFeedback.add(feedback);
 
-        if(this.tries == 5 && !feedback.isWordGuessed()) {
-            this.wordIsNotGuessed();
+        if (feedback.isWordGuessed()) {
+            this.wordIsGuessed();
+        } else {
+            if (this.tries > 4) {
+                this.wordIsNotGuessed();
+            }
         }
 
-        else if (feedback.isWordGuessed()) {
-            this.wordIsGuessed();
-        }
         this.lastHint = feedback.giveHint(this.lastHint);
         return feedback.giveHint(this.lastHint);
     }
-    public void wordIsNotGuessed() {
+
+    private void checkIfRoundIsLostOrWon() {
+        if (this.getRoundState().equals(RoundState.LOST)) {
+            throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Lost ⏺ ⏺ ⏺ ⏺");
+        }
+        else if (this.getRoundState().equals(RoundState.WON)) {
+            throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Won ⏺ ⏺ ⏺ ⏺");
+        }
+    }
+
+    private void wordIsNotGuessed() {
         this.roundState = RoundState.LOST;
     }
 
-    public void checkIfRoundIsLostOrWon() {
-        if (this.getRoundState().equals(RoundState.LOST)) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Round is already Lost ⏺ ⏺ ⏺ ⏺");
-        }
-        else if (this.getRoundState().equals(RoundState.WON)) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Round is already Won ⏺ ⏺ ⏺ ⏺");
-        }
-    }
-
-    public void wordIsGuessed() {
+    private void wordIsGuessed() {
         this.roundState = RoundState.WON;
         this.lingoGame.addScore(5 * (5 - tries) + 5);
     }

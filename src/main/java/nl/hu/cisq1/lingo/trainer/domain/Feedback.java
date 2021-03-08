@@ -27,7 +27,7 @@ public class Feedback implements Serializable {
     }
 
     //return true when all marks in markPerLetter are correct else false
-    public Boolean isWordGuessed() {
+    public boolean isWordGuessed() {
         return !this.markPerLetter.contains(Mark.PRESENT) && !this.markPerLetter.contains(Mark.ABSENT);
     }
 

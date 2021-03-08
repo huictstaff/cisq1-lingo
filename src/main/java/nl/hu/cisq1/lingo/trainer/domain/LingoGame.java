@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
+import nl.hu.cisq1.lingo.trainer.exception.RoundException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class LingoGame implements Serializable {
     @JsonIgnore
     public Round getLastRound() {
         if (this.allRounds.isEmpty()) {
-            throw new RuntimeException("⏺ ⏺ ⏺ ⏺ Zero rounds found! ⏺ ⏺ ⏺ ⏺");
+            throw new RoundException("⏺ ⏺ ⏺ ⏺ Zero rounds found! ⏺ ⏺ ⏺ ⏺");
         }
         return this.allRounds.get(this.allRounds.size() - 1);
     }
