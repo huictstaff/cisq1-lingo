@@ -115,7 +115,13 @@
                         </goals>
                         <configuration>
                             <excludes>
-                                <exclude>*/LingoApplication.</exclude>
+                                <exclude>**/LingoApplication.*</exclude>
+
+                                <!--Tijdelijk excluded omdat ik al verder ben met opdr5-->
+                                <exclude>**/application/**/*</exclude>
+                                <exclude>**/presentation/**/*</exclude>
+                                <exclude>**/data/**/*</exclude>
+
                             </excludes>
                         </configuration>
                     </execution>
