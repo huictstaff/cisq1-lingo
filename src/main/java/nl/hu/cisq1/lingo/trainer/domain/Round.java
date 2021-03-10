@@ -1,12 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import org.springframework.util.StringUtils;
-
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class Round {
+public class Round implements Serializable {
     private String wordToGuess = null;
     private int attempts = -1;
 

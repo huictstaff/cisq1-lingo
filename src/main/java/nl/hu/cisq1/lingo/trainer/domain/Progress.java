@@ -1,10 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Progress {
+public class Progress implements Serializable {
     private int score = -1;
     private int currentRound = -1;
     private List<Feedback> feedbacks = null;

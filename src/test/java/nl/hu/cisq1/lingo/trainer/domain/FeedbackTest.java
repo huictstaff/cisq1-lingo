@@ -62,15 +62,28 @@ class FeedbackTest {
 
     @Test
     @DisplayName("exception must be thrown if list of mark is not the same size of the attempt")
-    void invalidFeedbackExceptionWorks() {
+    void invalidFeedbackExceptionThrows() {
         assertThrows(InvalidFeedbackException.class, () -> new Feedback("word", List.of(Mark.CORRECT)));
     }
 
     @Test
+    @DisplayName("exception must not be thrown if list of mark is the same size of the attempt")
+    void invalidFeedbackExceptionDoesNotThrow() {
+        assertDoesNotThrow(() -> new Feedback("word", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)));
+    }
+
+    @Test
     @DisplayName("exception must be thrown if previousHint or wordToGuess is not of the same size of the feedback")
-    void invalidHintExceptionWorks() {
+    void invalidHintExceptionThrows() {
         Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
         assertThrows(InvalidHintException.class, () -> feedback.generateHint("wor", "wor"));
+    }
+
+    @Test
+    @DisplayName("exception must not be thrown if previousHint and wordToGuess is of the same size of the feedback")
+    void invalidHintExceptionDoesNotThrow() {
+        Feedback feedback = new Feedback("word", List.of(CORRECT, CORRECT, CORRECT, CORRECT));
+        assertDoesNotThrow(() -> feedback.generateHint("word", "word"));
     }
 
     @ParameterizedTest

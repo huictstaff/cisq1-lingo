@@ -3,10 +3,11 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidHintException;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class Feedback {
+public class Feedback implements Serializable {
     private String attempt = null;
     private String hint = null;
     private List<Mark> marks = null;
