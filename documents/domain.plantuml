@@ -1,0 +1,62 @@
+@startuml
+
+class Word {
+    value: String
+    length: Integer
+}
+
+class Progress {
+    score : Integer
+    roundNumber : Integer
+    currentFeedbackHistory : List<Feedback>
+    lastHint : String
+    progressRound() : void
+    saveNewProgress() : void
+    getLastFeedback : Feedback
+}
+
+class Game {
+    score : Integer
+    rounds : List<Round>
+    progress : Progress
+    gameStatus : GameStatus
+    startNewRound(String wordToGuess) : void
+    guess(String attempt) : void
+    showProgress() : Progress
+    isPlayerEliminated() : boolean
+    isPlaying() : boolean
+    provideNextWordLength() : Integer
+}
+
+class Round {
+    wordToGuess : Word
+    attempts : Integer
+    feedbackHistory : List<Feedback>
+    guess(String attempt) : void
+    giveHint() : String
+    getFeedbackHistory() : List<Feedback>
+    getAttempts() : Integer
+    getCurrentWordLength() : Integer
+}
+
+class Feedback {
+    marks : List<Mark>
+    attempt : String
+    giveHint(String previousHint) : String
+}
+
+enum Mark {
+    CORRECT
+    ABSENT
+    PRESENT
+    INVALID
+}
+
+
+Game -- Progress
+Game -- Round
+Round -- Word
+Round -- Feedback
+Feedback -- Mark
+
+@enduml
