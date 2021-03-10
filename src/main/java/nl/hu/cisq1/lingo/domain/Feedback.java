@@ -1,11 +1,14 @@
-package nl.hu.cisq1.lingo.words.domain;
+package nl.hu.cisq1.lingo.domain;
 
-import nl.hu.cisq1.lingo.words.domain.exception.InvalidFeedbackException;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Data
 public class Feedback {
     private String attempt;
     private List<Rating> ratings;
@@ -48,12 +51,8 @@ public class Feedback {
     }
 
     public boolean isWordGuessed() {
-        for (Rating rating : this.ratings) {
-            if (rating == Rating.ABSENT || rating == Rating.PRESENT) {
-                return false;
-            }
-        }
-        return true;
+        return this.ratings.stream()
+                .allMatch(Rating.CORRECT::equals);//TODO leren wat dit stukje code doet!
     }
 
     public boolean isWordInvalid() {
@@ -79,16 +78,14 @@ public class Feedback {
         return newHint;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(attempt, feedback.attempt) && Objects.equals(ratings, feedback.ratings);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(attempt, ratings);
+    public List<Character> giveHint(String wordToGuess) {
+        char[] guessWordList = wordToGuess.toCharArray();
+        List<Character> newHint = new ArrayList<>();
+        for (int iterator = 0; iterator < wordToGuess.length(); iterator++) {
+            if (ratings.get(iterator) == Rating.CORRECT) {
+                newHint.add(guessWordList[iterator]);
+            } else newHint.add('.');
+        }
+        return newHint;
     }
 }

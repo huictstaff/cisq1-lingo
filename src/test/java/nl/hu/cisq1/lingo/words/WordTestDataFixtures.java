@@ -1,7 +1,7 @@
 package nl.hu.cisq1.lingo.words;
 
-import nl.hu.cisq1.lingo.words.data.SpringWordRepository;
-import nl.hu.cisq1.lingo.words.domain.Word;
+import nl.hu.cisq1.lingo.data.SpringWordRepository;
+import nl.hu.cisq1.lingo.domain.Word;
 import org.springframework.boot.CommandLineRunner;
 
 public class WordTestDataFixtures implements CommandLineRunner {

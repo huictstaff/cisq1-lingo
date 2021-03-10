@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.words.domain.exception;
+package nl.hu.cisq1.lingo.domain.exception;
 
 public class InvalidFeedbackException extends RuntimeException {
     public InvalidFeedbackException(Integer feedbackLength, Integer attemptLength) {
