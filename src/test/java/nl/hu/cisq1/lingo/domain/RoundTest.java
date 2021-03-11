@@ -76,6 +76,4 @@ class RoundTest {
         round.doGuess("broodje");
         assertEquals(RoundStatus.WordIsGuessed, round.getRoundOver());
     }
-
-
 }

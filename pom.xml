@@ -17,6 +17,10 @@
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>Dlankheet_cisq1-lingo</sonar.projectKey>
+        <sonar.organization>dlankheet</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
     </properties>
 
     <dependencies>
