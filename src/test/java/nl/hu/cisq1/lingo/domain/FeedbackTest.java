@@ -44,8 +44,9 @@ class FeedbackTest {
     @Test
     @DisplayName("Feedback throws exception if Rating hasn't same length")
     void feedbackIsNotValid() {
+        List<Rating> ratingList = List.of(Rating.CORRECT);
         assertThrows(InvalidFeedbackException.class,
-                () -> new Feedback("woord", List.of(Rating.CORRECT))
+                () -> new Feedback("woord", ratingList)
         );
     }
 
