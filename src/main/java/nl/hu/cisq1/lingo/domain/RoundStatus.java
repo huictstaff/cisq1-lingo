@@ -1,7 +1,7 @@
 package nl.hu.cisq1.lingo.domain;
 
 public enum RoundStatus {
-    WordIsGuessed,
-    RoundIsFailed,
-    RoundIsRunning
+    WORD_IS_GUESSED,
+    ROUND_IS_FAILED,
+    ROUND_IS_RUNNING
 }

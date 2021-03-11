@@ -1,12 +1,9 @@
 package nl.hu.cisq1.lingo.domain;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 @Data
 public class Feedback {
@@ -51,8 +48,8 @@ public class Feedback {
     }
 
     public boolean isWordGuessed() {
-        return this.ratings.stream()
-                .allMatch(Rating.CORRECT::equals);//TODO leren wat dit stukje code doet!
+        return this.ratings.stream() //Stukje nu overgenomen van docenten, snap wat het doet.
+                .allMatch(Rating.CORRECT::equals);
     }
 
     public boolean isWordInvalid() {
@@ -69,7 +66,7 @@ public class Feedback {
         char[] guessWordList = wordToGuess.toCharArray();
         List<Character> newHint = new ArrayList<>();
         for (int iterator = 0; iterator < previousHint.size(); iterator++) {
-            if (!(previousHint.get(iterator) == '.')) {
+            if ((previousHint.get(iterator) != '.')) {
                 newHint.add(previousHint.get(iterator));
             } else if (ratings.get(iterator) == Rating.CORRECT) {
                 newHint.add(guessWordList[iterator]);

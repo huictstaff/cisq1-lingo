@@ -51,7 +51,7 @@ class RoundTest {
         round.doGuess("bievaks");
         round.doGuess("bievaks");
         round.doGuess("bievaks");
-        assertThrows(forbiddenGuessException.class,
+        assertThrows(ForbiddenGuessException.class,
                 () -> round.doGuess("broeder"));
     }
 
@@ -61,7 +61,7 @@ class RoundTest {
         Round round = new Round("broodje");
         round.doGuess("broedje");
         round.doGuess("broodje");
-        assertThrows(forbiddenGuessException.class,
+        assertThrows(ForbiddenGuessException.class,
                 () -> round.doGuess("broeder"));
     }
 
@@ -74,6 +74,6 @@ class RoundTest {
         round.doGuess("bievaks");
         round.doGuess("bievaks");
         round.doGuess("broodje");
-        assertEquals(RoundStatus.WordIsGuessed, round.getRoundOver());
+        assertEquals(RoundStatus.WORD_IS_GUESSED, round.getRoundOver());
     }
 }
