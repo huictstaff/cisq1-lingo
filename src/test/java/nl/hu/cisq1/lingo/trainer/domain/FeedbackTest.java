@@ -48,7 +48,7 @@ class FeedbackTest {
     @DisplayName("guess should be valid in order to get hint")
     void validGuessForHint() {
         Feedback feedback = new Feedback("word", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        assertNull(feedback.giveHint());
+        assertEquals(feedback.giveHint().size(), 0);
     }
 
     static Stream<Arguments> validWordInputs() {
