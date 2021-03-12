@@ -31,10 +31,14 @@ public class Feedback {
             for (int i = 0; i < marks.size(); i++) {
                 char letter = guess.charAt(i);
                 Mark mark = marks.get(i);
-                char hintLetter = mark == Mark.CORRECT ? letter : mark == Mark.PRESENT ? '*' : '.';
+                char hintLetter;
+                if (mark == Mark.CORRECT) hintLetter = letter;
+                else if (mark == Mark.PRESENT) {
+                    hintLetter = '*';
+                } else hintLetter = '.';
                 hint.add(hintLetter);
             }
-        } else return null;
+        }
         return hint;
     }
 }
