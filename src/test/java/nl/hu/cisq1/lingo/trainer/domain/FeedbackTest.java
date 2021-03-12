@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,15 +10,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FeedbackTest {
-    Feedback feedback;
-
-    @BeforeEach
-    void setUp() {
-        this.feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-    }
-
     @ParameterizedTest
     @MethodSource(value = "validWordInputs")
     @DisplayName("word is guessed if all letters are correct")
@@ -29,19 +22,33 @@ class FeedbackTest {
     }
 
     @ParameterizedTest
-    @MethodSource(value = "isValidGuessTestInputs")
+    @MethodSource(value = "invalidWordInputs")
+    @DisplayName("word should be valid to be guessed")
+    void wordIsValidInGuess(String guess, List<Mark> marks, boolean expectedValid) {
+        Feedback feedback = new Feedback(guess, marks);
+        assertEquals(feedback.wordIsGuessed(), expectedValid);
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "invalidWordInputs")
     @DisplayName("guess is valid if the number of letters is the same")
     void guessIsValid(String guess, List<Mark> marks, boolean expectedValid) {
         Feedback feedback = new Feedback(guess, marks);
         assertEquals(feedback.guessIsValid(), expectedValid);
     }
 
-    @ParameterizedTest
-    @MethodSource(value = "validWordInputs")
-    @DisplayName("hint has same length as guess")
-    void hintLengthIsCorrect(String guess, List<Mark> marks, boolean guessed) {
-        Feedback feedback = new Feedback(guess, marks);
-        assertEquals(feedback.giveHint().size(), guess.length());
+    @Test
+    @DisplayName("correct letters should be visible, present letters should be *'s and absent letters should be .'s in hints")
+    void hintLetters() {
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT));
+        assertEquals(feedback.giveHint(), List.of('w', '*', '.', 'r', '*'));
+    }
+
+    @Test
+    @DisplayName("guess should be valid in order to get hint")
+    void validGuessForHint() {
+        Feedback feedback = new Feedback("word", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertNull(feedback.giveHint());
     }
 
     static Stream<Arguments> validWordInputs() {
@@ -49,27 +56,9 @@ class FeedbackTest {
                 Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), true));
     }
 
-    static Stream<Arguments> isValidGuessTestInputs() {
+    static Stream<Arguments> invalidWordInputs() {
         return Stream.of(Arguments.of("kort", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false),
-                Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), true));
-    }
-
-    @Test
-    void testToString() {
-        assertEquals(this.feedback.toString(), "Feedback(guess=woord, marks=[CORRECT, CORRECT, CORRECT, CORRECT, CORRECT])");
-    }
-
-    @Test
-    void testEquals() {
-        assertEquals(this.feedback, this.feedback);
-    }
-
-    @Test
-    void canEqual() {
-        assertEquals(this.feedback, new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT)));
-    }
-
-    @Test
-    void testHashCode() {
+                Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), true),
+                Arguments.of("wooooord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false));
     }
 }

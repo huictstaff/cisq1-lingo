@@ -1,14 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import lombok.*;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@EqualsAndHashCode
-@ToString
 public class Feedback {
     private final String guess;
     private final List<Mark> marks;
@@ -37,7 +34,7 @@ public class Feedback {
                 char hintLetter = mark == Mark.CORRECT ? letter : mark == Mark.PRESENT ? '*' : '.';
                 hint.add(hintLetter);
             }
-        }
+        } else return null;
         return hint;
     }
 }
