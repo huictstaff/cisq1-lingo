@@ -13,7 +13,7 @@ class RoundTest {
     @DisplayName("Round is created right and gives first hint.")
     void roundIsCreated() {
         Round round = new Round("broodje");
-        Feedback feedback = round.getFeedbacks().get(0);
+        Feedback feedback = round.getRoundFeedback().get(0);
         List<Character> hint = List.of('b', '.', '.', '.', '.', '.', '.');
         assertEquals(hint, feedback.giveHint("broodje"));
     }
@@ -39,13 +39,16 @@ class RoundTest {
         Round round = new Round("broodje");
         round.doGuess("broeder");
         round.doGuess("bievaks");
-        assertEquals(3, round.getFeedbacks().size()); //3 because first hint, is also a feedback object.
+        assertEquals(3, round.getRoundFeedback().size()); //3 because first hint, is also a feedback object.
     }
 
     @Test
     @DisplayName("Test if trying an 6th guess is being blocked.")
     void exceedMaximumGuesses() {
+        Game game = new Game("testGame");
+        game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
         Round round = new Round("broodje");
+        round.setGame(game);
         round.doGuess("broeder");
         round.doGuess("bievaks");
         round.doGuess("bievaks");

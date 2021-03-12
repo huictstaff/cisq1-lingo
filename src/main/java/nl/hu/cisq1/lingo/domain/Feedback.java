@@ -1,13 +1,22 @@
 package nl.hu.cisq1.lingo.domain;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
+@Entity
+@NoArgsConstructor
 public class Feedback {
+    @Id
+    private long id;
     private String attempt;
+    @ElementCollection(targetClass = Rating.class)
+    @Enumerated(EnumType.ORDINAL)
     private List<Rating> ratings;
 
     public Feedback(String attempt, List<Rating> rating) {
