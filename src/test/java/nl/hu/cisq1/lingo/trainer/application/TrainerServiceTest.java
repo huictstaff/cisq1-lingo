@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class TrainerServiceTest {
+class TrainerServiceTest {
     private WordService wordService;
     private SpringGameRepository repository;
     private TrainerService trainerService;
 
     @BeforeEach
-    public void before() {
+    void before() {
         // Test game
         Game game = new Game();
         Optional<GameEntity> gameEntityOptional = Optional.of(new GameEntity(game));
@@ -46,7 +46,7 @@ public class TrainerServiceTest {
 
     @Test
     @DisplayName("throws exception if game is not found")
-    public void gameNotFoundException() {
+    void gameNotFoundException() {
         assertThrows(GameNotFoundException.class, () -> trainerService.startNewRound(1L));
         assertThrows(GameNotFoundException.class, () -> trainerService.guessWord(1L, ""));
         assertThrows(GameNotFoundException.class, () -> trainerService.getProgress(1L));
@@ -54,20 +54,20 @@ public class TrainerServiceTest {
 
     @Test
     @DisplayName("throws exception if trying to guess while round is not started yet")
-    public void roundNotStartedException() {
+    void roundNotStartedException() {
         assertThrows(RoundNotStartedException.class, () -> trainerService.guessWord(0L, ""));
     }
 
     @Test
     @DisplayName("throws exception if trying to start new round while round is already started")
-    public void roundAlreadyStartedException() {
+    void roundAlreadyStartedException() {
         trainerService.startNewRound(0L);
         assertThrows(RoundAlreadyStartedException.class, () -> trainerService.startNewRound(0L));
     }
 
     @Test
     @DisplayName("throws exception if trying to guess while game is lost")
-    public void lostGameException() {
+    void lostGameException() {
         // Lose on purpose
         trainerService.startNewRound(0L);
         trainerService.guessWord(0L, "pizza");
@@ -82,7 +82,7 @@ public class TrainerServiceTest {
 
     @Test
     @DisplayName("initial progress must be correct")
-    public void initialProgressCorrect() {
+    void initialProgressCorrect() {
         // Retrieve progress
         ProgressDTO progressDTO = trainerService.getProgress(0L);
 
@@ -95,7 +95,7 @@ public class TrainerServiceTest {
 
     @Test
     @DisplayName("new round progress must be correct")
-    public void roundProgressCorrect() {
+    void roundProgressCorrect() {
         // Retrieve progress
         trainerService.startNewRound(0L);
         ProgressDTO progressDTO = trainerService.getProgress(0L);
@@ -109,7 +109,7 @@ public class TrainerServiceTest {
 
     @Test
     @DisplayName("progress after guess must be correct")
-    public void guessProgressCorrect() {
+    void guessProgressCorrect() {
         // Guess the word
         trainerService.startNewRound(0L);
         ProgressDTO progressDTO = trainerService.guessWord(0L, "apple");
