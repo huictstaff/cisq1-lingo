@@ -1,8 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.AlreadyPlayingGameException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundAlreadyStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.LostGameException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.NotPlayingGameException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundNotStartedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -75,14 +75,14 @@ class GameTest {
     void alreadyPlayingGameExceptionWorks() {
         Game game = new Game();
         game.startNewRound("word");
-        assertThrows(AlreadyPlayingGameException.class, () -> game.startNewRound("word"));
+        assertThrows(RoundAlreadyStartedException.class, () -> game.startNewRound("word"));
     }
 
     @Test
     @DisplayName("cannot guess the word if game not started yet")
     void notPlayingGameExceptionWorks() {
         Game game = new Game();
-        assertThrows(NotPlayingGameException.class, () -> game.guessWord("word"));
+        assertThrows(RoundNotStartedException.class, () -> game.guessWord("word"));
     }
 
     @Test

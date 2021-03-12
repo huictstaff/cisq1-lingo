@@ -1,8 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.AlreadyPlayingGameException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundAlreadyStartedException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.LostGameException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.NotPlayingGameException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundNotStartedException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,20 +15,20 @@ public class Game implements Serializable {
 
     public void startNewRound(String wordToGuess) {
         if (gameStatus.equals(GameStatus.PLAYING)) {
-            throw new AlreadyPlayingGameException();
+            throw new RoundAlreadyStartedException();
         } else if (gameStatus.equals(GameStatus.LOST)) {
             throw new LostGameException();
-        } else {
-            rounds.add(new Round(wordToGuess));
-            gameStatus = GameStatus.PLAYING;
-            progress.nextRound(wordToGuess);
         }
+
+        rounds.add(new Round(wordToGuess));
+        gameStatus = GameStatus.PLAYING;
+        progress.nextRound(wordToGuess);
     }
 
     public void guessWord(String attempt) {
         // Exceptions
         if (gameStatus.equals(GameStatus.WAITING)) {
-            throw new NotPlayingGameException();
+            throw new RoundNotStartedException();
         } else if (gameStatus.equals(GameStatus.LOST)) {
             throw new LostGameException();
         }

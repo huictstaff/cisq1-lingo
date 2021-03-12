@@ -6,15 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Progress implements Serializable {
-    private int score = -1;
-    private int currentRound = -1;
-    private List<Feedback> feedbacks = null;
-
-    public Progress() {
-        score = 0;
-        currentRound = 0;
-        feedbacks = new ArrayList<>(5);
-    }
+    private int score = 0;
+    private int currentRound = 0;
+    private List<Feedback> feedbacks = new ArrayList<>(5);
 
     public void increaseScore(int value) {
         score += value;
