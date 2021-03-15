@@ -93,3 +93,4 @@ class LingoServiceTest {
         assertDoesNotThrow(() -> lingoService.makeGuess("petje"));
     }
 }
+

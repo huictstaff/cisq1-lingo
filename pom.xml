@@ -153,7 +153,7 @@
                                             <counter>CLASS</counter>
                                             <value>MISSEDCOUNT</value>
 <!--                                            should be 0-->
-                                            <maximum>2</maximum>
+                                            <maximum>3</maximum>
                                         </limit>
                                     </limits>
                                 </rule>
