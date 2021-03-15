@@ -7,6 +7,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class HintDTO {
+    public int score;
     public int tries;
     public List<Feedback> allFeedback;
     public String hint;

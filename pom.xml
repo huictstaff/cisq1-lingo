@@ -21,7 +21,7 @@
         <sonar.projectKey>Rubenvdbrink_cisq1-lingo</sonar.projectKey>
         <sonar.organization>rubenvdbrink</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.exclusions>**/LingoApplication.*, **/trainer/application/**/*, **/trainer/presentation/**/*, **/trainer/data/**/*</sonar.exclusions>
+        <sonar.exclusions>**/LingoApplication.*, **/trainer/presentation/**/*, **/trainer/data/**/*</sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -120,9 +120,9 @@
                                 <exclude>**/trainer/domain/enums/**/*</exclude>
                                 <exclude>**/exception/**/*</exclude>
 
-                                <!--Tijdelijk excluded omdat ik al verder ben met opdr5-->
-                                <exclude>**/trainer/application/**/*</exclude>
+                                <!--Excluded because controller testing was optional in assignment 5-->
                                 <exclude>**/trainer/presentation/**/*</exclude>
+                                <!--Excluded because dto's don't have any real functionality-->
                                 <exclude>**/trainer/data/**/*</exclude>
 
                             </excludes>
@@ -142,20 +142,18 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-<!--                                            should be 0.90-->
-                                            <minimum>0.5</minimum>
+                                            <minimum>0.9</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-<!--                                            should be 0.90-->
-                                            <minimum>0.5</minimum>
+                                            <minimum>0.9</minimum>
                                         </limit>
                                         <limit>
                                             <counter>CLASS</counter>
                                             <value>MISSEDCOUNT</value>
 <!--                                            should be 0-->
-                                            <maximum>10</maximum>
+                                            <maximum>2</maximum>
                                         </limit>
                                     </limits>
                                 </rule>

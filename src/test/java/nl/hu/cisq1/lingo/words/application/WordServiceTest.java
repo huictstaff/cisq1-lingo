@@ -12,8 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -61,5 +60,27 @@ class WordServiceTest {
                 Arguments.of(6, "castle"),
                 Arguments.of(7, "knights")
         );
+    }
+
+    @Test
+    @DisplayName("word exists returns true")
+    void checkIfWordExists() {
+        SpringWordRepository mockRepository = mock(SpringWordRepository.class);
+        WordService service = new WordService(mockRepository);
+        when(mockRepository.findRandomWordByLength(anyInt())).thenReturn(Optional.of(new Word("tower")));
+        when(service.wordExistsByValue(anyString())).thenReturn(true);
+
+        assertTrue(service.wordExistsByValue(mockRepository.findRandomWordByLength(anyInt()).get().getValue()));
+    }
+
+    @Test
+    @DisplayName("word does not exist returns false")
+    void checkIfWordNotExists() {
+        SpringWordRepository mockRepository = mock(SpringWordRepository.class);
+        WordService service = new WordService(mockRepository);
+        when(mockRepository.findRandomWordByLength(anyInt())).thenReturn(Optional.of(new Word("blabla")));
+        when(service.wordExistsByValue(anyString())).thenReturn(false);
+
+        assertFalse(service.wordExistsByValue(mockRepository.findRandomWordByLength(anyInt()).get().getValue()));
     }
 }

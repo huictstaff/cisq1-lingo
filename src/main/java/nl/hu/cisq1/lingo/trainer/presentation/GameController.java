@@ -26,12 +26,13 @@ public class GameController {
 
     @PostMapping("guess")
     public HintDTO makeGuess(@RequestBody GuessDTO guess) {
-        LingoGame game = this.lingoService.makeGuess(guess);
+        LingoGame game = this.lingoService.makeGuess(guess.guess);
         return createHintDTO(game);
     }
 
     private HintDTO createHintDTO(LingoGame game) {
         return new HintDTO(
+                game.getScore(),
                 game.getLastRound().getTries(),
                 game.getLastRound().getAllFeedback(),
                 getHint(game.getLastRound())

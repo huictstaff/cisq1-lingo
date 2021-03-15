@@ -21,4 +21,8 @@ public class WordService {
                 .orElseThrow(() -> new WordLengthNotSupportedException(length))
                 .getValue();
     }
+
+    public boolean wordExistsByValue(String word) {
+        return this.wordRepository.existsByValue(word);
+    }
 }
