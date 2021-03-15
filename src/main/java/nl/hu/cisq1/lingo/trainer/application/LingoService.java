@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.data.Game;
 import nl.hu.cisq1.lingo.trainer.data.GameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.LingoGame;
+import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
-import nl.hu.cisq1.lingo.words.data.SpringWordRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,7 +17,6 @@ import javax.transaction.Transactional;
 public class LingoService {
     private final WordService wordService;
     private final GameRepository gameRepository;
-    private final SpringWordRepository springWordRepository;
 
     public LingoGame startGame() {
         LingoGame lingoGame = new LingoGame();
@@ -26,10 +25,10 @@ public class LingoService {
         return this.saveGame(lingoGame, false);
     }
 
-    public LingoGame makeGuess(GuessDTO guess) {
+    public LingoGame makeGuess(String guess) {
         LingoGame lingoGame = this.retrieveLingoGame().getLingoGame();
 
-        lingoGame.getLastRound().makeGuessAndGiveHint(guess.guess, this.springWordRepository.existsByValue(guess.guess));
+        lingoGame.getLastRound().makeGuessAndGiveHint(guess, this.wordService.wordExistsByValue(guess));
 
         switch (lingoGame.getLastRound().getRoundState()) {
             case LOST : return this.saveGame(lingoGame, true);
@@ -48,6 +47,6 @@ public class LingoService {
 
     private Game retrieveLingoGame() {
         return this.gameRepository.findTopByGameDoneOrderByIdDesc(false)
-                .orElseThrow(() -> new RuntimeException("⏺ ⏺ ⏺ ⏺ Game has not started yet! ⏺ ⏺ ⏺ ⏺"));
+                .orElseThrow(() -> new GameNotFoundException("⏺ ⏺ ⏺ ⏺ Game has not started yet! ⏺ ⏺ ⏺ ⏺"));
     }
 }
