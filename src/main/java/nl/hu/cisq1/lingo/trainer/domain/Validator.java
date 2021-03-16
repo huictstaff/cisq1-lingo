@@ -26,8 +26,6 @@ public class Validator {
             char actualLetter = word.charAt(i);
             if (letter == actualLetter) {
                 marks.add(Mark.CORRECT);
-            } else if (this.word.indexOf(letter) < 0) {
-                marks.add(Mark.ABSENT);
             } else {
                 int count = availableChars.getOrDefault(letter, 0);
                 if (count > 0) {
