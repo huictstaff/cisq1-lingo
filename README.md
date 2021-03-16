@@ -3,3 +3,4 @@
 
 
 [![Java CI](https://github.com/Rubenvdbrink/cisq1-lingo/actions/workflows/build.yml/badge.svg)](https://github.com/Rubenvdbrink/cisq1-lingo/actions/workflows/build.yml)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Rubenvdbrink_cisq1-lingo)](https://sonarcloud.io/dashboard?id=Rubenvdbrink_cisq1-lingo)
