@@ -39,4 +39,18 @@ class ValidatorTest {
         Validator validator = new Validator("wrood", "worrd");
         assertEquals(validator.validate(), List.of(Mark.CORRECT, Mark.PRESENT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT));
     }
+
+    @Test
+    @DisplayName("marks list should be filled with invalid if it is not the same length as the actual word")
+    void validateValidGuesses() {
+        Validator validator = new Validator("wooord", "woord");
+        assertTrue(validator.validate().stream().allMatch(mark -> mark.equals(Mark.INVALID)));
+    }
+
+    @Test
+    @DisplayName("invalid marks list should have same size as guess")
+    void validateMarksListSize() {
+        Validator validator = new Validator("wooord", "woord");
+        assertEquals(validator.validate().size(), 6);
+    }
 }

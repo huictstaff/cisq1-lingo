@@ -5,7 +5,6 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Feedback {
     private final String guess;
     private final List<Mark> marks;
