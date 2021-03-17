@@ -14,15 +14,15 @@ public class Validator {
     public List<Mark> validate() {
         List<Mark> marks = new ArrayList<>();
         HashMap<Character, Integer> availableChars = new HashMap<>();
-        for (int i = 0; i < word.length(); i++) {
-            char letter = word.charAt(i);
-            if (letter != guess.charAt(i)) {
-                int count = availableChars.getOrDefault(letter, 0);
-                availableChars.put(letter, count + 1);
+        if (isValid()) {
+            for (int i = 0; i < word.length(); i++) {
+                char letter = word.charAt(i);
+                if (letter != guess.charAt(i)) {
+                    int count = availableChars.getOrDefault(letter, 0);
+                    availableChars.put(letter, count + 1);
+                }
             }
-        }
-        for (int i = 0; i < guess.length(); i++) {
-            if (isValid()) {
+            for (int i = 0; i < guess.length(); i++) {
                 char letter = guess.charAt(i);
                 char actualLetter = word.charAt(i);
                 if (letter == actualLetter) {
@@ -34,7 +34,11 @@ public class Validator {
                         availableChars.put(letter, count - 1);
                     } else marks.add(Mark.ABSENT);
                 }
-            } else marks.add(Mark.INVALID);
+            }
+        } else {
+            for (int i = 0; i < guess.length(); i++) {
+                marks.add(Mark.INVALID);
+            }
         }
         return marks;
     }

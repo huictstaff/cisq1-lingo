@@ -14,7 +14,7 @@ public class Round {
     private String wordToGuess;
     private State state = State.IN_PROGRESS;
     private int attempts;
-    private List<Feedback> feedback = new ArrayList<>();
+    private List<Feedback> allFeedback = new ArrayList<>();
 
     public Round(String wordToGuess) {
         this.wordToGuess = wordToGuess;
@@ -26,7 +26,7 @@ public class Round {
             Feedback feedback = new Feedback(guess, validator.validate());
             this.state = feedback.wordIsGuessed() ? State.GUESSED : State.IN_PROGRESS;
             this.attempts += 1;
-            this.feedback.add(feedback);
+            this.allFeedback.add(feedback);
             return feedback.giveHint();
         } else {
             throw new MaximumAttemptsReachedException();
