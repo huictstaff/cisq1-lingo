@@ -18,7 +18,7 @@ class RoundTest {
     @Test
     @DisplayName("guessing should return a list of characters with hints")
     void guess() {
-        assertEquals(round.guess("woord").size(), 5);
+        assertEquals(5, round.guess("woord").size());
     }
 
     @ParameterizedTest
@@ -32,14 +32,14 @@ class RoundTest {
 
     @Test
     void getWordToGuess() {
-        assertEquals(this.round.getWordToGuess(), "woord");
+        assertEquals("woord", this.round.getWordToGuess());
     }
 
     @Test
     @DisplayName("state should be in progress when creating a new round")
     void getState() {
         Round round = new Round();
-        assertEquals(round.getState(), State.IN_PROGRESS);
+        assertEquals(State.IN_PROGRESS, round.getState());
     }
 
     @Test
@@ -54,7 +54,7 @@ class RoundTest {
     @DisplayName("feedback should give a list of feedback items on guesses")
     void getFeedback() {
         this.round.guess("worod");
-        assertTrue(this.round.getFeedback().size() >= 1);
+        assertTrue(this.round.getAllFeedback().size() >= 1);
     }
 
     @Test
@@ -87,8 +87,8 @@ class RoundTest {
         List<Feedback> feedback = new ArrayList<>();
         Validator validator = new Validator("worod", round.getWordToGuess());
         feedback.add(new Feedback("worod", validator.validate()));
-        round.setFeedback(feedback);
-        assertEquals(round.getFeedback(), feedback);
+        round.setAllFeedback(feedback);
+        assertEquals(round.getAllFeedback(), feedback);
     }
 
     static Stream<Arguments> correctIncorrectGuessInput() {

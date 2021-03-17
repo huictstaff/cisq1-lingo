@@ -51,6 +51,6 @@ class ValidatorTest {
     @DisplayName("invalid marks list should have same size as guess")
     void validateMarksListSize() {
         Validator validator = new Validator("wooord", "woord");
-        assertEquals(validator.validate().size(), 6);
+        assertEquals(6, validator.validate().size());
     }
 }
