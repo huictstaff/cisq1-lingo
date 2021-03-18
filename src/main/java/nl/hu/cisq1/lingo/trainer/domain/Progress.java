@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Progress implements Serializable {
 
-    private int score;
+    private Integer score;
     private int roundNumber;
     private List<Feedback> currentFeedbackHistory;
     private String lastHint;
@@ -15,7 +15,7 @@ public class Progress implements Serializable {
     public Progress() {
         this.score = 0;
         this.roundNumber = 0;
-        this.currentFeedbackHistory = new ArrayList<Feedback>();
+        this.currentFeedbackHistory = new ArrayList<>();
         this.lastHint = "";
     }
 
@@ -26,7 +26,7 @@ public class Progress implements Serializable {
             this.score += (5 * (5-currentFeedbackHistory.size())) + 5;
         }
         this.roundNumber++;
-        this.currentFeedbackHistory = new ArrayList<Feedback>();
+        this.currentFeedbackHistory = new ArrayList<>();
         this.lastHint = "";
     }
 
@@ -36,13 +36,17 @@ public class Progress implements Serializable {
     }
 
     public Feedback getLastFeedback() {
-        if(currentFeedbackHistory.size() == 0) {
+        if(currentFeedbackHistory.isEmpty()) {
             return null;
         }
         return currentFeedbackHistory.get(currentFeedbackHistory.size()-1);
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
     }
 }

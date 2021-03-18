@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.words.domain.Word;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 // het starten van een nieuwe ronde en het raden van woorden binnen een ronde.
 @Entity
@@ -30,7 +31,7 @@ public class Game implements Serializable {
         this.score = 0;
         this.gameStatus = GameStatus.WAITING_FOR_ROUND;
         this.progress = new Progress();
-        this.rounds = new ArrayList<Round>();
+        this.rounds = new ArrayList<>();
     }
 
     public void startNewRound(Word wordToGuess) {
@@ -77,10 +78,6 @@ public class Game implements Serializable {
         }
     }
 
-    public Progress getProgress() {
-        return progress;
-    }
-
     public boolean isPlayerEliminated() {
         return gameStatus == GameStatus.ELIMINATED;
     }
@@ -89,12 +86,23 @@ public class Game implements Serializable {
         return gameStatus == GameStatus.PLAYING;
     }
 
+    public Round getCurrentRound() {
+        return rounds.get(progress.getRoundNumber()-1);
+    }
 
+    public Progress getProgress() {
+        return progress;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
 
-
-    public ArrayList<Round> getRounds() {
+    public List<Round> getRounds() {
         return rounds;
     }
 }
