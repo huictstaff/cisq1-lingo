@@ -82,4 +82,19 @@ class FeedbackTest {
         assertThrows(    InvalidAttemptException.class,
                 feedback::gaveHint);
     }
+    @ParameterizedTest(name = "Test #{index} | {0} | {1} | {2}| {3}| {4}")
+    @MethodSource("listMarksTesten")
+    @DisplayName("When attempt and word to guess have a same length make for every letter feedback(correct, absent or present) else invalid ")
+    void feedbackGeneratorTest(String attempt , String wordToGuess, List<Mark> marks){
+        assertEquals(marks, Feedback.feedbackGenerator(attempt, wordToGuess));}
+        static Stream<Arguments> listMarksTesten() {
+            return Stream.of(
+                    Arguments.of("word", "woord" ,List.of(Mark.INVALID,Mark.INVALID,Mark.INVALID,Mark.INVALID)),
+                    Arguments.of("wonen","woord", List.of(Mark.CORRECT,Mark.CORRECT,Mark.ABSENT,Mark.ABSENT,Mark.ABSENT)),
+                    Arguments.of("woord","woord", List.of(Mark.CORRECT,Mark.CORRECT,Mark.CORRECT,Mark.CORRECT,Mark.CORRECT)),
+                    Arguments.of("worde","woord", List.of(Mark.CORRECT,Mark.CORRECT,Mark.PRESENT,Mark.PRESENT,Mark.ABSENT)),
+                    Arguments.of("duren","woord", List.of(Mark.PRESENT,Mark.ABSENT,Mark.PRESENT,Mark.ABSENT,Mark.ABSENT))
+            );
+
+    }
 }

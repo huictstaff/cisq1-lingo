@@ -11,12 +11,14 @@ import java.util.Objects;
 public class Feedback implements Serializable {
     private String attempt;
     private List<Mark> marks;
+    private String hint;
 
     public Feedback( String attempt, List<Mark> marks){
         this.attempt = attempt;
         if (marks.size()!= attempt.length())
             throw new InvalidFeedbackException("ongeldig feedback");
         this.marks = marks;
+
     }
     public boolean isWordGuessed(){
        return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
@@ -36,17 +38,35 @@ public class Feedback implements Serializable {
         return hit;
     }
 
-    @Override
-    public boolean equals (Object o) {
-        if (this == o) return true;
-        if (!( o instanceof Feedback )) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(attempt, feedback.attempt) &&
-                Objects.equals(marks, feedback.marks);
+    public static List<Mark> feedbackGenerator(String attempt, String wordToGuess){
+        List<Mark> marks = new ArrayList<>();
+        if ( attempt.length() != wordToGuess.length()){
+            for (int i = 0; i < attempt.length(); i++){
+                marks.add(Mark.INVALID);
+            }
+        }else {
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                if (attempt.charAt(i) == wordToGuess.charAt(i))
+                    marks.add(Mark.CORRECT);
+                else if (wordToGuess.contains(String.valueOf(attempt.charAt(i)))) {
+                    marks.add(Mark.PRESENT);
+                } else marks.add(Mark.ABSENT);
+            }
+        }
+        return marks;
     }
 
-    @Override
-    public int hashCode ( ) {
-        return Objects.hash(attempt, marks);
-    }
+//    @Override
+//    public boolean equals (Object o) {
+//        if (this == o) return true;
+//        if (!( o instanceof Feedback )) return false;
+//        Feedback feedback = (Feedback) o;
+//        return Objects.equals(attempt, feedback.attempt) &&
+//                Objects.equals(marks, feedback.marks);
+//    }
+//
+//    @Override
+//    public int hashCode ( ) {
+//        return Objects.hash(attempt, marks);
+//    }
 }
