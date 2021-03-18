@@ -1,15 +1,12 @@
 package nl.hu.cisq1.lingo.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.domain.exception.InvalidGuessLengthException;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenGuessException;
-import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Round {
     @Id
+    @GeneratedValue
     private long id;
     private String wordToGuess;
-    @OneToMany(mappedBy="feedback")
+    @OneToMany(mappedBy="round", cascade= CascadeType.ALL)
     private List<Feedback> roundFeedback = new ArrayList<>();
     private RoundStatus roundOver;
     @ManyToOne
+    @JsonIgnore
     private Game game;
 
     public Round(String wordToGuess) {
@@ -31,10 +30,12 @@ public class Round {
         this.roundOver = RoundStatus.ROUND_IS_RUNNING;
         List<Rating> ratings = new ArrayList<>();
         ratings.add(Rating.CORRECT);
-        for(int i = 1; i <= wordToGuess.length(); i++){ //Nakijken voor pittest
+        for(int i = 1; i <= wordToGuess.length(); i++){
             ratings.add(Rating.ABSENT);
         }
-        roundFeedback.add(new Feedback(ratings));
+        Feedback feedback = new Feedback(ratings);
+        feedback.setRound(this);
+        roundFeedback.add(feedback);
     }
 
     public void roundIsFailed(){

@@ -1,4 +1,5 @@
 package nl.hu.cisq1.lingo.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
@@ -13,11 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 public class Feedback {
     @Id
+    @GeneratedValue
     private long id;
     private String attempt;
     @ElementCollection(targetClass = Rating.class)
     @Enumerated(EnumType.ORDINAL)
     private List<Rating> ratings;
+    @ManyToOne
+    @JsonIgnore
+    private Round round;
 
     public Feedback(String attempt, List<Rating> rating) {
         if (attempt.length() == rating.size()) {

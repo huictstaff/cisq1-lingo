@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +13,18 @@ import java.util.List;
 @NoArgsConstructor
 public class Game {
     @Id
+    @GeneratedValue
     private long id;
-    @OneToMany(mappedBy="round")
+    @OneToMany(mappedBy="game",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
     private List<Round> rounds = new ArrayList<>();
     private GameState gameState;
     private int score;
 
     public Game(String firstWord) {
-        rounds.add(new Round(firstWord));
+        Round ronde = new Round(firstWord);
+        ronde.setGame(this);
+        rounds.add(ronde);
+
         this.gameState = GameState.PLAYING;
     }
 
@@ -37,6 +39,7 @@ public class Game {
     }
 
     public int calculateWordLength(){
+        //per ronde loopt het op van 5 > 7
         return 4 + ((rounds.size()-1)%3+1);
     }
 

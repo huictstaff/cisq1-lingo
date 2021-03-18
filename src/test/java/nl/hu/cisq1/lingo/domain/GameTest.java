@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GameTest {
     static Stream<Arguments> provideCaclulateExamples() {
         return Stream.of(
+                Arguments.of(1,5),
                 Arguments.of(17,6),
                 Arguments.of(10,5),
                 Arguments.of(6,7)
@@ -31,6 +32,7 @@ public class GameTest {
             game.startNewRound("testonetwo");
             game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
         }
+        System.out.println("The size of rounds = " + game.getRounds().size() + "Expected: " + roundsToCreate);
         assertEquals(answer, game.calculateWordLength());
     }
 
