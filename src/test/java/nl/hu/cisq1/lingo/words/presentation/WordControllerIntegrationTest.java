@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -35,6 +37,7 @@ class WordControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
+    @Profile("CI")
     @DisplayName("only supports 5, 6 and 7 letter words")
     void notSupportedWordLength() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
@@ -46,6 +49,7 @@ class WordControllerIntegrationTest {
     }
 
     @Test
+    @Profile("CI")
     @DisplayName("provides random 5, 6, and 7 letter words")
     void provideWords() throws Exception {
         for (int length = 5; length <= 7; length++) {
