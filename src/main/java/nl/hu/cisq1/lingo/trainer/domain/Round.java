@@ -65,4 +65,12 @@ public class Round implements Serializable {
     public RoundStatus getRoundStatus ( ) {
         return roundStatus;
     }
+
+    public List<Feedback> getFeedbackList ( ) {
+        return feedbackList;
+    }
+
+    public String getWordToGuess ( ) {
+        return wordToGuess;
+    }
 }
