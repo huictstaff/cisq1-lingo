@@ -49,7 +49,7 @@ public class Round implements Serializable {
         List<Mark> marks = new ArrayList<>();
         for (int i =0 ; i < this.wordToGuess.length(); i++) {
             if (i == 0) marks.add(Mark.CORRECT);
-            marks.add(Mark.ABSENT);
+            else marks.add(Mark.ABSENT);
         }
 
         String attempt =  wordToGuess.charAt(0) + ".".repeat(wordToGuess.length() - 1);

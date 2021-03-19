@@ -76,5 +76,13 @@ class RoundTest {
         }
         assertEquals(RoundStatus.Lose, round.getRoundStatus());
     }
+    @Test
+    @DisplayName("Test the first hint when the round begon")
+    void firstHintTest(){
+        Round round = new Round("word");
+        Feedback feedback = new Feedback("w...",List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+        Feedback feedback1 = round.firstHint();
+        assertEquals(feedback1,feedback);
+    }
 
 }
