@@ -16,11 +16,11 @@ public class Feedback {
 
     // is the list is empty 'stream' will be true.
     public boolean isWordGuessed() {
-        return !marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
+        return ! marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
     public boolean isGuessValid() {
-        return !marks.isEmpty() && !marks.contains(Mark.INVALID);
+        return ! marks.isEmpty() && ! marks.contains(Mark.INVALID);
     }
 
     // compares the chars of the char arrays from both parameters and puts the index as key
