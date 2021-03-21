@@ -1,5 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessLengthException;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +10,20 @@ import java.util.TreeMap;
 
 public class Feedback {
     private String attempt;
-    private final List<Mark> marks;
+    private List<Mark> marks;
 
     public Feedback(List<Mark> marks, String attempt) {
-        this.attempt = attempt;
-        this.marks = marks;
+        if (isGuessValid(marks)) {
+            this.marks = marks;
+        } else {
+            throw new InvalidCharacterException();
+        }
+
+        if (attempt.length() == marks.size()) {
+            this.attempt = attempt;
+        } else {
+            throw new InvalidGuessLengthException();
+        }
     }
 
     // is the list is empty 'stream' will be true.
@@ -19,7 +31,7 @@ public class Feedback {
         return ! marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
-    public boolean isGuessValid() {
+    public boolean isGuessValid(List<Mark> marks) {
         return ! marks.isEmpty() && ! marks.contains(Mark.INVALID);
     }
 
@@ -33,7 +45,6 @@ public class Feedback {
             TreeMap<Character, Mark> treeMap = new TreeMap<>();
             if (cWord[i] == cGuess[i]) {
                 treeMap.put(cGuess[i], Mark.CORRECT);
-                feedback.put(i, treeMap);
             } else {
                 for (char c : cWord) {
                     if (c == cGuess[i]) {
@@ -43,8 +54,8 @@ public class Feedback {
                     }
                 }
                 treeMap.put(cGuess[i], Mark.ABSENT);
-                feedback.put(i, treeMap);
             }
+            feedback.put(i, treeMap);
         }
         return feedback;
     }
@@ -61,24 +72,6 @@ public class Feedback {
         feedback.values().forEach(i -> chars.addAll(i.keySet()));
         return chars;
     }
-
-//    public Hint giveHint(Hint previousHint, String word) {
-//        char[] cWord = word.toCharArray();
-//        ArrayList<Character> hint = new ArrayList<>();
-//        for (int i = 0; i < this.marks.size(); i++) {
-//            switch (this.marks.get(i)) {
-//                case CORRECT:
-//                    hint.add(cWord[i]);
-//                case PRESENT:
-//                    hint.add('+');
-//                default:
-//                    hint.add('-');
-//                    break;
-//            }
-//            previousHint.setHint(hint);
-//        }
-//        return previousHint;
-//    }
 
     public List<Character> giveHint(Hint previousHint, String word) {
         ArrayList<Character> hint = new ArrayList<>();
@@ -97,5 +90,9 @@ public class Feedback {
         }
         previousHint.setHint(hint);
         return previousHint.getHint();
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
     }
 }
