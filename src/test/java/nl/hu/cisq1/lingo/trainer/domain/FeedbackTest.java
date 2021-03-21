@@ -113,9 +113,15 @@ class FeedbackTest {
 
                     Arguments.of(
                             "droplul",
-                            List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT),
+                            List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT),
                             new Hint(List.of('.', 'e', '.', '.', '.', '.', '.')),
-                            new Hint(List.of('d', 'r', '.', '.', '.', '.', '.')))
+                            new Hint(List.of('d', '-', '-', '-', '-', '-', '-'))),
+
+                    Arguments.of(
+                            "droplul",
+                            List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT),
+                            new Hint(List.of('.', 'o', '.', '.', '.', '.', '.')),
+                            new Hint(List.of('d', '+', '-', '-', '-', '-', '-')))
             );
         }
     }
