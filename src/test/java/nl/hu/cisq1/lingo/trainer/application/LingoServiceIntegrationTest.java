@@ -32,7 +32,6 @@ class LingoServiceIntegrationTest {
         this.game = new LingoGame();
         this.game.newRound("appel");
         this.repository.save(game);
-        System.out.println(game.getId());
     }
 
     @Test
