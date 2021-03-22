@@ -7,14 +7,24 @@ import lombok.NoArgsConstructor;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.exception.InvalidFeedbackException;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Entity
+@Table(name = "Feedback")
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Feedback implements Serializable {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     @Getter
     private String guess;
+
+    @ElementCollection
     @Getter
     private List<Mark> markPerLetter;
 

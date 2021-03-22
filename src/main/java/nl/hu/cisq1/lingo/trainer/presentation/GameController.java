@@ -8,10 +8,7 @@ import nl.hu.cisq1.lingo.trainer.domain.enums.RoundState;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.HintDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.LingoDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("lingo")
@@ -25,9 +22,8 @@ public class GameController {
     }
 
     @PostMapping("guess")
-    public HintDTO makeGuess(@RequestBody GuessDTO guess) {
-        LingoGame game = this.lingoService.makeGuess(guess.guess);
-        return createHintDTO(game);
+    public HintDTO makeGuess(@RequestBody GuessDTO guess, @RequestParam Long gameId) {
+        return createHintDTO(this.lingoService.makeGuess(guess.guess, gameId));
     }
 
     private HintDTO createHintDTO(LingoGame game) {

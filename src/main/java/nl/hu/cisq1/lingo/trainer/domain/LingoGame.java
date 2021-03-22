@@ -5,13 +5,23 @@ import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.enums.RoundType;
 import nl.hu.cisq1.lingo.trainer.exception.RoundException;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "LingoGame")
 public class LingoGame implements Serializable {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     @Getter
     private int score;
+
+    @OneToMany(cascade = CascadeType.ALL)
     @Getter
     private List<Round> allRounds;
 
@@ -21,7 +31,7 @@ public class LingoGame implements Serializable {
     }
 
     public void newRound(String wordToGuess) {
-        Round round = new Round(this.generateType(), wordToGuess, this);
+        Round round = new Round(this.generateType(), wordToGuess);
         this.allRounds.add(round);
     }
 
@@ -50,7 +60,7 @@ public class LingoGame implements Serializable {
         return this.allRounds.get(this.allRounds.size() - 1);
     }
 
-    public void addScore(int score) {
-        this.score += score;
+    public void addScore(int tries) {
+            this.score += (5 * (5 - tries) + 5);
     }
 }
