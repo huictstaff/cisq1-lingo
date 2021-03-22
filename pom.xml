@@ -92,7 +92,7 @@
                 <configuration>
                     <!--minimum coverage pitest-->
                     <!--should be 90-->
-                    <mutationThreshold>50</mutationThreshold>
+                    <mutationThreshold>0</mutationThreshold>
                     <timestampedReports>false</timestampedReports>
                 </configuration>
             </plugin>
