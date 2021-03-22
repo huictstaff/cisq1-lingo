@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.application;
 
-import nl.hu.cisq1.lingo.trainer.data.Game;
 import nl.hu.cisq1.lingo.trainer.data.GameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.LingoGame;
 import nl.hu.cisq1.lingo.trainer.exception.GameNotFoundException;
@@ -17,7 +16,7 @@ class LingoServiceTest {
 
     @Test
     @DisplayName("Succesfully creating a game")
-    void startOrContinueGame() {
+    void startGame() {
         WordService wordService = mock(WordService.class);
         when(wordService.provideRandomWord(anyInt())).thenReturn("appel");
 
@@ -36,7 +35,7 @@ class LingoServiceTest {
         GameRepository gameRepository = mock(GameRepository.class);
         LingoService lingoService = new LingoService(wordService, gameRepository);
 
-        assertThrows(GameNotFoundException.class, () -> lingoService.makeGuess(anyString()));
+        assertThrows(GameNotFoundException.class, () -> lingoService.makeGuess("apple", anyLong()));
     }
 
     @Test
@@ -49,13 +48,14 @@ class LingoServiceTest {
         when(wordService.wordExistsByValue(anyString())).thenReturn(true);
 
         GameRepository gameRepository = mock(GameRepository.class);
-        when(gameRepository.findTopByGameDoneOrderByIdDesc(anyBoolean())).thenReturn(Optional.of(new Game(game, false)));
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
+
         LingoService lingoService = new LingoService(wordService, gameRepository);
 
-        assertDoesNotThrow(() -> lingoService.makeGuess("petje"));
-        assertNotNull(lingoService.makeGuess("petje"));
+        assertDoesNotThrow(() -> lingoService.makeGuess("petje", anyLong()));
+        assertNotNull(lingoService.makeGuess("petje", anyLong()));
     }
-
+//
     @Test
     @DisplayName("Succesfully making a good guess")
     void makeGoodGuess() {
@@ -67,10 +67,10 @@ class LingoServiceTest {
         when(wordService.provideRandomWord(anyInt())).thenReturn("banaan");
 
         GameRepository gameRepository = mock(GameRepository.class);
-        when(gameRepository.findTopByGameDoneOrderByIdDesc(anyBoolean())).thenReturn(Optional.of(new Game(game, false)));
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
         LingoService lingoService = new LingoService(wordService, gameRepository);
 
-        assertDoesNotThrow(() -> lingoService.makeGuess("appel"));
+        assertDoesNotThrow(() -> lingoService.makeGuess("appel", anyLong()));
     }
 
     @Test
@@ -83,14 +83,14 @@ class LingoServiceTest {
         when(wordService.wordExistsByValue(anyString())).thenReturn(true);
 
         GameRepository gameRepository = mock(GameRepository.class);
-        when(gameRepository.findTopByGameDoneOrderByIdDesc(anyBoolean())).thenReturn(Optional.of(new Game(game, false)));
+        when(gameRepository.findById(anyLong())).thenReturn(Optional.of(game));
         LingoService lingoService = new LingoService(wordService, gameRepository);
 
-        lingoService.makeGuess("petje");
-        lingoService.makeGuess("petje");
-        lingoService.makeGuess("petje");
-        lingoService.makeGuess("petje");
-        assertDoesNotThrow(() -> lingoService.makeGuess("petje"));
+        lingoService.makeGuess("petje", anyLong());
+        lingoService.makeGuess("petje", anyLong());
+        lingoService.makeGuess("petje", anyLong());
+        lingoService.makeGuess("petje", anyLong());
+        assertDoesNotThrow(() -> lingoService.makeGuess("petje", anyLong()));
     }
 }
 

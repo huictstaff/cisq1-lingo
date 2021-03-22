@@ -22,7 +22,7 @@ class LingoGameTest {
     @DisplayName("Check if round gets added to allrounds")
     void newRound() {
         this.game.newRound("apple");
-        assertEquals(List.of(new Round(RoundType.FIVELETTERS, "apple", this.game)), this.game.getAllRounds());
+        assertEquals(List.of(new Round(RoundType.FIVELETTERS, "apple")), this.game.getAllRounds());
     }
 
     @Test
@@ -51,7 +51,7 @@ class LingoGameTest {
     @DisplayName("Get last round correctly")
     void getLastRound() {
         this.game.newRound("apple");
-        assertEquals(new Round(RoundType.FIVELETTERS, "apple", this.game), this.game.getLastRound());
+        assertEquals(new Round(RoundType.FIVELETTERS, "apple"), this.game.getLastRound());
     }
 
     @Test
@@ -63,7 +63,7 @@ class LingoGameTest {
     @Test
     @DisplayName("Add score works correctly")
     void addScore() {
-        this.game.addScore(500);
-        assertEquals(500, this.game.getScore());
+        this.game.addScore(3);
+        assertEquals(15, this.game.getScore());
     }
 }

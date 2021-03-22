@@ -10,12 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
     private Round round;
-    private LingoGame game;
+
 
     @BeforeEach
     void setUp() {
         LingoGame game = new LingoGame();
-        this.game = game;
         game.newRound("banana");
         this.round = game.getLastRound();
     }

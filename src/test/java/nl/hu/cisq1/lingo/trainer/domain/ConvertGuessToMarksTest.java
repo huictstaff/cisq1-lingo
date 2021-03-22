@@ -19,7 +19,7 @@ class ConvertGuessToMarksTest {
     @MethodSource("provideMarksExamples")
     @DisplayName("Convert guess to marks succesfully")
     void convertToMarksSuccesful(String wordToGuess, String guess, List<Mark> marks) {
-        assertEquals(marks, ConvertGuessToMarks.converter(wordToGuess, guess));
+        assertEquals(marks, new ConvertGuessToMarks().converter(wordToGuess, guess));
     }
 
     @Test
