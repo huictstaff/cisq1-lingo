@@ -12,14 +12,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build and test
-        run: mvn -B verify -"Dspring.profiles.active=ci"
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+      - name: Build with Maven
+        run: mvn -B verify "-Dspring.profiles.active=ci"
       - name: Cache Maven packages
         uses: actions/cache@v1
         with:
