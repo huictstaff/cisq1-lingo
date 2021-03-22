@@ -15,6 +15,7 @@ import java.util.List;
 public class LingoGame implements Serializable {
     @Id
     @GeneratedValue
+    @Getter
     private Long id;
 
     @Column

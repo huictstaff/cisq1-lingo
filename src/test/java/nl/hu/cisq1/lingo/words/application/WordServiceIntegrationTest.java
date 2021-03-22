@@ -1,13 +1,14 @@
 package nl.hu.cisq1.lingo.words.application;
 
 import nl.hu.cisq1.lingo.CiTestConfiguration;
+import nl.hu.cisq1.lingo.words.domain.exception.WordLengthNotSupportedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This integration test integrates between the service layer,
@@ -39,5 +40,23 @@ class WordServiceIntegrationTest {
             // (done here for verification of student configuration)
             System.out.println("Random word: " + randomWord);
         }
+    }
+
+    @Test
+    @DisplayName("Throws error when unsupported word length is given")
+    void provideTooLongWordThrows() {
+        assertThrows(WordLengthNotSupportedException.class, () -> service.provideRandomWord(10));
+    }
+
+    @Test
+    @DisplayName("check if word exist true")
+    void checkWordExistsTrue() {
+        assertTrue(this.service.wordExistsByValue("oranje"));
+    }
+
+    @Test
+    @DisplayName("check if word exist false")
+    void checkWordExistFalse() {
+        assertFalse(this.service.wordExistsByValue("awoidjaawwa"));
     }
 }

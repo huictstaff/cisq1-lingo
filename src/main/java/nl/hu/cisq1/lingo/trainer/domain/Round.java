@@ -72,8 +72,10 @@ public class Round implements Serializable {
 
         if (feedback.isWordGuessed()) {
             this.roundState = RoundState.WON;
-        } else if (this.tries > 4 && !feedback.isWordGuessed()) {
-            this.roundState = RoundState.LOST;
+        } else {
+            if (this.tries > 4) {
+                this.roundState = RoundState.LOST;
+            }
         }
 
         this.lastHint = feedback.giveHint(this.lastHint);
@@ -87,15 +89,4 @@ public class Round implements Serializable {
             throw new RoundException("⏺ ⏺ ⏺ ⏺ Round is already Won ⏺ ⏺ ⏺ ⏺");
         }
     }
-
-//    private void wordIsNotGuessed() {
-//        this.roundState = RoundState.LOST;
-//    }
-
-
-//    //ToDo move to LingoGame
-//    private void wordIsGuessed() {
-//        this.roundState = RoundState.WON;
-//        this.lingoGame.addScore(5 * (5 - tries) + 5);
-//    }
 }
