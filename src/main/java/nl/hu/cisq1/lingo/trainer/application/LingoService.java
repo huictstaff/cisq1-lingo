@@ -39,11 +39,7 @@ public class LingoService {
     }
 
     private LingoGame getGameById(Long id) {
-        if(this.gameRepository.findById(id).isPresent()) {
-            return this.gameRepository.findById(id).get();
-        }
-        else {
-            throw new GameNotFoundException("⏺ ⏺ ⏺ ⏺ Game has not started yet! ⏺ ⏺ ⏺ ⏺");
-        }
+        return this.gameRepository.findById(id)
+                .orElseThrow(() -> new GameNotFoundException("⏺ ⏺ ⏺ ⏺ Game has not started yet! ⏺ ⏺ ⏺ ⏺"));
     }
 }
