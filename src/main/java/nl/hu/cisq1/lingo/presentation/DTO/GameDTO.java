@@ -10,14 +10,14 @@ import java.util.List;
 @Data
 public class GameDTO {
     private long GameId;
-    private List<Round> rounds;
     private int score;
     private GameState gameState;
 
+
     public GameDTO(Game game) {
         GameId = game.getId();
-        this.rounds = game.getRounds();
         this.score = game.getScore();
         this.gameState = game.getGameState();
+
     }
 }

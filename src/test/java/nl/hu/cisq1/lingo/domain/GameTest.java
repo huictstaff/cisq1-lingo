@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.domain;
 
-import nl.hu.cisq1.lingo.domain.Enums.RoundStatus;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameTest {
     static Stream<Arguments> provideCaclulateExamples() {
+        //Alles moet 1je lager zijn
         return Stream.of(
-                Arguments.of(1,5),
+                Arguments.of(1,5), //1 is er al dus eigenlijk is het 2.
                 Arguments.of(17,6),
                 Arguments.of(10,5),
                 Arguments.of(6,7)
@@ -28,10 +28,10 @@ public class GameTest {
     @DisplayName("Test if calculate function works.")
     void calculateWordLengthTest(int roundsToCreate, int answer){
         Game game = new Game("Testing");
-        game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
+        game.getLastRound().doGuess("Testing");
         for(int i = 1; i < roundsToCreate; i++){
             game.startNewRound("testonetwo");
-            game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
+            game.getLastRound().doGuess("testonetwo");
         }
         System.out.println("The size of rounds = " + game.getRounds().size() + "Expected: " + roundsToCreate);
         assertEquals(answer, game.calculateWordLength());
@@ -41,7 +41,7 @@ public class GameTest {
     @DisplayName("Test creating new round fails if State of one of the rounds isn't WORD_IS_GUESSED")
     void failToCreateNewRound(){
         Game game = new Game("TestOneTwo");
-        game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
+        game.getLastRound().doGuess("TestOneTwo");
         game.startNewRound("testOneTwo");
         assertThrows(ForbiddenRoundException.class,
                 () -> game.startNewRound("testOneTwo"));

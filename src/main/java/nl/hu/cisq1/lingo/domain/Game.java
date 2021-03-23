@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.domain;
 
 import lombok.Data;
 import nl.hu.cisq1.lingo.domain.Enums.GameState;
-import nl.hu.cisq1.lingo.domain.Enums.RoundStatus;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 
 import javax.persistence.*;
@@ -31,9 +30,11 @@ public class Game {
 
 
     public Round startNewRound(String word){
-        if(checkGamestate() == GameState.ELIMINATED)throw new ForbiddenRoundException();
-        for(Round round : rounds){
-            if (round.getRoundOver() != RoundStatus.WORD_IS_GUESSED) throw new ForbiddenRoundException();
+        if(gameState == GameState.ELIMINATED) throw new ForbiddenRoundException("The game already has been lost.");
+        Round lastround = rounds.get(rounds.size() - 1);
+        if(!lastround.getFeedback().isWordGuessed() || lastround.getRoundFeedback().size() == 5){
+            this.gameState = GameState.ELIMINATED;
+            throw new ForbiddenRoundException("The game already has been lost.");
         }
         Round newRound = new Round(word);
         rounds.add(newRound);
@@ -49,10 +50,4 @@ public class Game {
         return rounds.get(rounds.size()-1);
     }
 
-    public GameState checkGamestate() {
-        if(getLastRound().getRoundOver().equals(RoundStatus.ROUND_IS_RUNNING)) this.gameState = GameState.PLAYING;
-        if(getLastRound().getRoundOver().equals(RoundStatus.ROUND_IS_FAILED)) this.gameState = GameState.ELIMINATED;
-        if(getLastRound().getRoundOver().equals(RoundStatus.ROUND_IS_RUNNING)) this.gameState = GameState.PLAYING;
-        return gameState;
-    }
 }

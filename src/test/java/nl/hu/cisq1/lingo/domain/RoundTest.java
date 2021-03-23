@@ -1,7 +1,6 @@
 package nl.hu.cisq1.lingo.domain;
 
 import nl.hu.cisq1.lingo.domain.Enums.Rating;
-import nl.hu.cisq1.lingo.domain.Enums.RoundStatus;
 import nl.hu.cisq1.lingo.domain.exception.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,7 @@ class RoundTest {
     void doGuessGivesNewFeedback() {
         Round round = new Round("broodje");
         Feedback feedback = new Feedback("broeder", List.of(Rating.CORRECT, Rating.CORRECT, Rating.CORRECT, Rating.PRESENT, Rating.CORRECT, Rating.PRESENT, Rating.PRESENT));
+        feedback.setHint(round.getFeedback().getHint(), "broodje");
         assertEquals(feedback, round.doGuess("broeder"));
     }
 
@@ -48,7 +48,7 @@ class RoundTest {
     @DisplayName("Test if trying an 6th guess is being blocked.")
     void exceedMaximumGuesses() {
         Game game = new Game("testGame");
-        game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
+        game.getLastRound().doGuess("testGame");
         Round round = new Round("broodje");
         round.doGuess("broeder");
         round.doGuess("bievaks");
@@ -78,6 +78,6 @@ class RoundTest {
         round.doGuess("bievaks");
         round.doGuess("bievaks");
         round.doGuess("broodje");
-        assertEquals(RoundStatus.WORD_IS_GUESSED, round.getRoundOver());
+        assertThrows(ForbiddenGuessException.class, () -> round.doGuess("broodje"));
     }
 }

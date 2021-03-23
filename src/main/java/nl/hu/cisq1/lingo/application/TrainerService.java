@@ -27,7 +27,7 @@ public class TrainerService {
 
     public Game doGuess(long id, String guess){
         Game game = gameRepository.findById(id)
-                .orElseThrow(ForbiddenGuessException::new);
+                .orElseThrow(() -> new ForbiddenGuessException("Game not found"));
         Round lastround = game.getLastRound();
         lastround.doGuess(guess);
         return gameRepository.save(game);
@@ -35,8 +35,10 @@ public class TrainerService {
 
     public Game startNewRound(long id){
         Game game = gameRepository.findById(id)
-                .orElseThrow(ForbiddenRoundException::new);//Aanpassen naar eigen Exception #notfound
+                .orElseThrow(() -> new ForbiddenRoundException("Game not found."));
         int wordLength = game.calculateWordLength();
+        System.out.println(game);
+        System.out.println("The wordlength has to be: " + wordLength);
         game.startNewRound(wordService.provideRandomWord(wordLength));
         return gameRepository.save(game);
     }
