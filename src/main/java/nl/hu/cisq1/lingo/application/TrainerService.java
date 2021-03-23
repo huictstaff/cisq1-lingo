@@ -2,6 +2,8 @@ package nl.hu.cisq1.lingo.application;
 
 import nl.hu.cisq1.lingo.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.domain.Game;
+import nl.hu.cisq1.lingo.domain.Round;
+import nl.hu.cisq1.lingo.domain.exception.ForbiddenGuessException;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,12 @@ public class TrainerService {
         return gameRepository.save(new Game(wordService.provideRandomWord(5)));
     }
 
-    public Game doGuess(){
-        return new Game();
+    public Game doGuess(long id, String guess){
+        Game game = gameRepository.findById(id)
+                .orElseThrow(ForbiddenGuessException::new);
+        Round lastround = game.getLastRound();
+        lastround.doGuess(guess);
+        return gameRepository.save(game);
     }
 
     public Game startNewRound(long id){

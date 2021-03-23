@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.domain;
 
+import nl.hu.cisq1.lingo.domain.Enums.RoundStatus;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package nl.hu.cisq1.lingo.presentation.DTO;
 
 import lombok.Data;
 import nl.hu.cisq1.lingo.domain.Game;
-import nl.hu.cisq1.lingo.domain.GameState;
+import nl.hu.cisq1.lingo.domain.Enums.GameState;
 import nl.hu.cisq1.lingo.domain.Round;
 
 import java.util.List;
@@ -15,7 +15,6 @@ public class GameDTO {
     private GameState gameState;
 
     public GameDTO(Game game) {
-        System.out.println("Creating Game");
         GameId = game.getId();
         this.rounds = game.getRounds();
         this.score = game.getScore();

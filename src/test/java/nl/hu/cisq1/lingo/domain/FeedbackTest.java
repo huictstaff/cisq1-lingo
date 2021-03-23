@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.domain;
 
+import nl.hu.cisq1.lingo.domain.Enums.Rating;
 import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,7 +74,7 @@ class FeedbackTest {
     @DisplayName("Test if giveHint returns right hint.")
     void giveHintTest(List<Character> prevHint, String wordToGuess, List<Character> newHint, List<Rating> marks) {
         Feedback feedback = new Feedback(marks);
-        assertEquals(newHint, feedback.giveHint(prevHint, wordToGuess));
+        assertEquals(newHint, feedback.setHint(prevHint, wordToGuess));
     }
 
     static Stream<Arguments> provideRatingExamples() {

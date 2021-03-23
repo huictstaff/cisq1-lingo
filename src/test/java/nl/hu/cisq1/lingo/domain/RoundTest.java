@@ -1,5 +1,7 @@
 package nl.hu.cisq1.lingo.domain;
 
+import nl.hu.cisq1.lingo.domain.Enums.Rating;
+import nl.hu.cisq1.lingo.domain.Enums.RoundStatus;
 import nl.hu.cisq1.lingo.domain.exception.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ class RoundTest {
         Round round = new Round("broodje");
         Feedback feedback = round.getRoundFeedback().get(0);
         List<Character> hint = List.of('b', '.', '.', '.', '.', '.', '.');
-        assertEquals(hint, feedback.giveHint("broodje"));
+        assertEquals(hint, feedback.getHint());
     }
     @Test
     @DisplayName("Do guess gives right feedback")
@@ -48,7 +50,6 @@ class RoundTest {
         Game game = new Game("testGame");
         game.getLastRound().setRoundOver(RoundStatus.WORD_IS_GUESSED);
         Round round = new Round("broodje");
-        round.setGame(game);
         round.doGuess("broeder");
         round.doGuess("bievaks");
         round.doGuess("bievaks");

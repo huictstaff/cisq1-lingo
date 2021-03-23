@@ -1,7 +1,11 @@
 package nl.hu.cisq1.lingo.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.hu.cisq1.lingo.data.HintConverter;
+import nl.hu.cisq1.lingo.data.RatingsConverter;
+import nl.hu.cisq1.lingo.domain.Enums.Rating;
 import nl.hu.cisq1.lingo.domain.exception.InvalidFeedbackException;
 
 import javax.persistence.*;
@@ -16,13 +20,11 @@ public class Feedback {
     @Id
     @GeneratedValue
     private long id;
+    @Convert(converter = HintConverter.class)
+    private List<Character> hint;
     private String attempt;
-    @ElementCollection(targetClass = Rating.class)
-    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = RatingsConverter.class)
     private List<Rating> ratings;
-    @ManyToOne
-    @JsonIgnore
-    private Round round;
 
     public Feedback(String attempt, List<Rating> rating) {
         if (attempt.length() == rating.size()) {
@@ -31,29 +33,28 @@ public class Feedback {
         } else {
             throw new InvalidFeedbackException(rating.size(), attempt.length());
         }
-
     }
 
-    public Feedback(List<Rating> rating){
+    public Feedback(List<Rating> rating) {
         this.ratings = rating;
     }
 
-    public static List<Rating> generateRatings(String attempt, String wordToGuess){
+    public static List<Rating> generateRatings(String attempt, String wordToGuess) {
         List<Rating> ratings = new ArrayList<>();
 
-        if(attempt.length() != wordToGuess.length()){
-            for(int i = 0; attempt.length() > i; i++){
+        if (attempt.length() != wordToGuess.length()) {
+            for (int i = 0; attempt.length() > i; i++) {
                 ratings.add(Rating.INVALID);
             }
             return ratings;
         }
-        for(int i = 0; i < attempt.length(); i++){
-            if(attempt.charAt(i) == wordToGuess.charAt(i)){
+        for (int i = 0; i < attempt.length(); i++) {
+            if (attempt.charAt(i) == wordToGuess.charAt(i)) {
                 ratings.add(Rating.CORRECT);
-            }else{
-                if(wordToGuess.contains(String.valueOf(attempt.charAt(i)))){
+            } else {
+                if (wordToGuess.contains(String.valueOf(attempt.charAt(i)))) {
                     ratings.add(Rating.PRESENT);
-                }else{
+                } else {
                     ratings.add(Rating.ABSENT);
                 }
             }
@@ -76,7 +77,7 @@ public class Feedback {
     }
 
     //Oude hint + this.marks + te raden woord = new hint
-    public List<Character> giveHint(List<Character> previousHint, String wordToGuess) {
+    public List<Character> setHint(List<Character> previousHint, String wordToGuess) {
         char[] guessWordList = wordToGuess.toCharArray();
         List<Character> newHint = new ArrayList<>();
         for (int iterator = 0; iterator < previousHint.size(); iterator++) {
@@ -86,10 +87,11 @@ public class Feedback {
                 newHint.add(guessWordList[iterator]);
             } else newHint.add('.');
         }
+        this.hint = newHint;
         return newHint;
     }
 
-    public List<Character> giveHint(String wordToGuess) {
+    public void setInitialHint(String wordToGuess) {
         char[] guessWordList = wordToGuess.toCharArray();
         List<Character> newHint = new ArrayList<>();
         for (int iterator = 0; iterator < wordToGuess.length(); iterator++) {
@@ -97,6 +99,6 @@ public class Feedback {
                 newHint.add(guessWordList[iterator]);
             } else newHint.add('.');
         }
-        return newHint;
+        this.hint = newHint;
     }
 }
