@@ -12,6 +12,11 @@ public class Feedback {
     private String attempt;
     private List<Mark> marks;
 
+    public Feedback(String attempt) {
+        this.attempt = attempt;
+        this.marks = new ArrayList<>();
+    }
+
     public Feedback(List<Mark> marks, String attempt) {
         if (isGuessValid(marks)) {
             this.marks = marks;
@@ -73,7 +78,7 @@ public class Feedback {
         return chars;
     }
 
-    public List<Character> giveHint(Hint previousHint, String word) {
+    public Hint giveHint(Hint previousHint, String word) {
         ArrayList<Character> hint = new ArrayList<>();
         char[] cWord = word.toCharArray();
         for (int i = 0; i < cWord.length; i++) {
@@ -89,10 +94,14 @@ public class Feedback {
             }
         }
         previousHint.setHint(hint);
-        return previousHint.getHint();
+        return previousHint;
     }
 
     public List<Mark> getMarks() {
         return marks;
+    }
+
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
     }
 }
