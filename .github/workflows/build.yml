@@ -12,7 +12,7 @@ jobs:
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 15
       #          This will save the contents of this local Maven repository, located in the .m2 directory of the runner's home directory.
       #          The cache key will be the hashed contents of pom.xml, so changes to pom.xml will invalidate the cache.
       - name: Cache Maven packages
