@@ -101,7 +101,7 @@ class FeedbackTest {
         @DisplayName("Show the right chars when giving a hint")
         void giveHint(String word, List<Mark> marks, Hint previousHint, Hint newHint) {
             Feedback feedback = new Feedback(marks, "Droplul");
-            assertEquals(newHint.getHint(), feedback.giveHint(previousHint, word));
+            assertEquals(newHint.getHint(), feedback.giveHint(previousHint, word).getHint());
         }
 
         private Stream<Arguments> hintExamples() {
