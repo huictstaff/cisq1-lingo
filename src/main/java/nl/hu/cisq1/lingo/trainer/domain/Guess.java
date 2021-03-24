@@ -1,7 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessLengthException;
 
 public class Guess {
     private String guess;
@@ -34,7 +33,7 @@ public class Guess {
         return guess.length() == word.length();
     }
 
-    private boolean validateGuess(String guess, String word) {
+    public boolean validateGuess(String guess, String word) {
         return composedOfLetters(guess) && validateLength(guess, word);
     }
 }
