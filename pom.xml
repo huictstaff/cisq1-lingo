@@ -21,7 +21,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.projectKey>TygoSteenbergen_cisq1-lingo</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
     </properties>
 
