@@ -40,11 +40,11 @@ public class Round {
 
     public void determineState(Feedback feedback) {
         if (feedback.isWordGuessed()) {
-            this.gameState = GameState.WON;
-        } else if (guesses.size() > 4 && this.gameState != GameState.WON) {
-            this.gameState = GameState.LOST;
+            gameState = GameState.WON;
+        } else if (guesses.size() > 4 && gameState != GameState.WON) {
+            gameState = GameState.LOST;
         } else {
-            this.gameState = GameState.CONTINUE;
+            gameState = GameState.CONTINUE;
         }
     }
 
