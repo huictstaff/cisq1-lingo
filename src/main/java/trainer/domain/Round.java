@@ -14,7 +14,6 @@ public class Round {
 
     public List<String> guessWord (String guess){
         if(guesses <= 0 || isWon){
-            System.err.println("This round is over.");
             return null;
         }else{
             List<Mark> marks = Feedback.markAttempt(guess, word);
