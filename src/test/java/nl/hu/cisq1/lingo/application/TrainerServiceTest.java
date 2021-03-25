@@ -1,16 +1,18 @@
 package nl.hu.cisq1.lingo.application;
 import nl.hu.cisq1.lingo.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.domain.Game;
+import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class TrainerServiceTest {
     @Test
-    @DisplayName("Game is made and state is PLAYING")
+    @DisplayName("Game is made")
     void startsNewGame(){ //todo College 6 terug kijken
         SpringGameRepository gameRepository = mock(SpringGameRepository.class);
         Game game = mock(Game.class);
@@ -22,36 +24,46 @@ public class TrainerServiceTest {
 
         assertEquals(trainerservice.startNewGame(), game);
     }
-//
-//    @Test
-//    @DisplayName("New round is created")
-//    void startNewRound(){
-//        SpringGameRepository mockedGameRepository = mock(SpringGameRepository.class);
-//        WordService wordService = mock(WordService.class);
-//
-//        Game game = new Game("appel");
-//        game.getLastRound().doGuess("appel");
-//
-//        when(mockedGameRepository.findById(1L))
-//                .thenReturn(java.util.Optional.of(game));
-//
-//        when(wordService.provideRandomWord(5))
-//                .thenReturn("brood");
-//
-//        TrainerService trainerservice = new TrainerService(wordService, mockedGameRepository);
-//        System.out.println(trainerservice.startNewRound(1L).getLastRound() + "tjaalalala");
-//          assertEquals("brood", trainerservice.startNewRound(1).getLastRound().getWordToGuess());
-//
-//    }
-//
-//    @Test
-//    @DisplayName("New round throws error if previous is running or failed")
-//    void startNewRoundNotAccepted(){
-//        //todo enige test hier is kijken of ie wordt doorgegeven
-//        SpringGameRepository gameRepository = mock(SpringGameRepository.class);
-//        WordService wordService = mock(WordService.class);
-//        TrainerService trainerservice = new TrainerService(wordService, gameRepository);
-//
-//        assertEquals("appels", "appels");
-//    }
+
+    @Test
+    @DisplayName("New round is created")
+    void startNewRound(){
+        SpringGameRepository mockedGameRepository = mock(SpringGameRepository.class);
+        WordService wordService = mock(WordService.class);
+
+        Game game = new Game("appel");
+        game.getLastRound().doGuess("appel");
+
+        when(mockedGameRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(game));
+
+        when(wordService.provideRandomWord(5))
+                .thenReturn("brood");
+
+        when(mockedGameRepository.save(Mockito.any(Game.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        TrainerService trainerservice = new TrainerService(wordService, mockedGameRepository);
+        assertEquals(2, trainerservice.startNewRound(1L).getRounds().size());
+
+    }
+
+    @Test
+    @DisplayName("New round throws error if previous is running or failed")
+    void startNewRoundNotAccepted(){
+        //todo enige test hier is kijken of ie wordt doorgegeven
+        SpringGameRepository mockedGameRepository = mock(SpringGameRepository.class);
+        WordService wordService = mock(WordService.class);
+        Game game = new Game("appel");
+        when(mockedGameRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(game));
+
+        when(wordService.provideRandomWord(5))
+                .thenReturn("brood");
+
+        when(mockedGameRepository.save(Mockito.any(Game.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        TrainerService trainerservice = new TrainerService(wordService, mockedGameRepository);
+
+        assertThrows(ForbiddenRoundException.class, () -> trainerservice.startNewRound(1L));
+    }
 }

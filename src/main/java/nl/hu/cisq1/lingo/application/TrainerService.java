@@ -37,9 +37,8 @@ public class TrainerService {
         Game game = gameRepository.findById(id)
                 .orElseThrow(() -> new ForbiddenRoundException("Game not found."));
         int wordLength = game.calculateWordLength();
-        System.out.println(game);
-        System.out.println("The wordlength has to be: " + wordLength);
         game.startNewRound(wordService.provideRandomWord(wordLength));
+        System.out.println(game);
         return gameRepository.save(game);
     }
 }
