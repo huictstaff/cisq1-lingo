@@ -44,14 +44,11 @@ public class Hint {
     }
 
     public static Hint firstHintof(Word word) {
-        char[] wordCharsArray = word.getValue().toUpperCase().toCharArray();
-        List<Character> hintList = new ArrayList<>();
-
+        List<Character> dummyHintChars = new ArrayList<>();
         for (int i=0; i<word.getLength(); i++) {
-            if (i==0) hintList.add(wordCharsArray[i]);
-            else hintList.add('.');
+            dummyHintChars.add('.');
         }
-
-        return new Hint(hintList);
+        Hint dummyHint = new Hint(dummyHintChars);
+        return Hint.of(dummyHint, word);
     }
 }
