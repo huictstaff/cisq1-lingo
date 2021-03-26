@@ -5,16 +5,28 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.GameRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
 import nl.hu.cisq1.lingo.trainer.domain.utils.Utils;
 import nl.hu.cisq1.lingo.words.domain.Word;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
 public class Round {
     private final Word wordToGuess;
     private final List<Feedback> attempts;
+    boolean terminated;
+
+    public static Round withAttempts(Word wordToGuess, int numOfTries) {
+        Round round = new Round(wordToGuess);
+
+        if (numOfTries > 1) {
+            for (int i = 0; i < (numOfTries - 1); i++) {
+                round.addFeedback(Feedback.forInvalid(wordToGuess.getValue()));
+            }
+        }
+        round.addFeedback(Feedback.forCorrect(wordToGuess.getValue()));
+        return round;
+    }
+
 
     public Round(Word wordToGuess) {
         this.wordToGuess =  wordToGuess;
@@ -130,9 +142,16 @@ public class Round {
 
 
     public boolean roundIsRunning() {
-        return (numOfAttemptsLeft() == 0 || isGuessed()) ? false : true;
+        return (numOfAttemptsLeft() == 0 || isGuessed() || isTerminated()) ? false : true;
     }
 
+    void terminate() {
+        this.terminated = true;
+    }
+
+     boolean isTerminated() {
+        return this.terminated;
+    }
 
 
     public int numOfTriedAttempts() {
