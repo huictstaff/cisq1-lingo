@@ -2,136 +2,145 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Data;
 import nl.hu.cisq1.lingo.trainer.domain.exception.GameRoundException;
+import nl.hu.cisq1.lingo.trainer.domain.enums.Mark;
+import nl.hu.cisq1.lingo.trainer.domain.utils.Utils;
+import nl.hu.cisq1.lingo.words.domain.Word;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
 public class Round {
-    private final String WORD_TO_GUESS;
+    private final Word wordToGuess;
     private final List<Feedback> attempts;
-    private int hints_left = 3;
 
-    public Round(String wordToGuess) {
-        this.WORD_TO_GUESS = Objects.requireNonNull(wordToGuess, "wordToGuess must not be null");
-        attempts = new ArrayList<>();
+    public Round(Word wordToGuess) {
+        this.wordToGuess =  wordToGuess;
+        this.attempts = new ArrayList<>();
     }
 
     private void addFeedback(Feedback feedback) {
-        if (this.attempts.size() == this.WORD_TO_GUESS.length())
-            throw  GameRoundException.guessAttemptsSurpassWordLength(WORD_TO_GUESS.length());
+        if (this.attempts.size() == this.wordToGuess.getLength())
+            throw  GameRoundException.guessAttemptsSurpassWordLength(wordToGuess.getLength());
         this.attempts.add(feedback);
     }
 
 
-    public void tryAGuess(String guess) {
-        if (numOfAttemptsLeft() > 0) {
+    public void tryAGuess(Word guess) {
+        if (numOfAttemptsLeft() > 0 && guess != null) {
             Feedback feedback;
-            guess = Objects.requireNonNull(guess.toLowerCase(), "guess must not be null");
 
-            List<Character> WTGLetterList = WORD_TO_GUESS
+
+            List<Character> guessLetters = guess
+                    .getValue()
+                    .toUpperCase()
                     .chars()
                     .mapToObj(e -> (char)e)
                     .collect(Collectors.toList());
 
-            List<Character> guessLetterList = guess
-                    .chars()
-                    .mapToObj(e -> (char)e)
-                    .collect(Collectors.toList());
 
-            List<Mark> marksList = new ArrayList<>();
-
-
-            if (WORD_TO_GUESS.equals(guess)) {
-                feedback = Feedback.forCorrect(guess);
+            if (wordToGuess.equals(guess)) {
+                feedback = Feedback.forCorrect(guess.getValue());
                 addFeedback(feedback);
             }
 
-            if (guess.length() != WORD_TO_GUESS.length()
-                    || guessLetterList.get(0) != WTGLetterList.get(0)) {
-                feedback = Feedback.forInvalid(guess);
+            else if (guess.getLength() != wordToGuess.getLength()
+                    || wordToGuess.getValue().toUpperCase().toCharArray()[0] != guessLetters.get(0)) {
+                feedback = Feedback.forInvalid(guess.getValue());
                 addFeedback(feedback);
             }
 
-            for (int i = 0; i < guess.length(); i++) {
-                if (guessLetterList.get(i).equals(WTGLetterList.get(i))) {
+            else {
+                feedback = genFeedback(guessLetters);
+                addFeedback(feedback);
+            }
+
+        } else throw GameRoundException.guessAttemptsSurpassWordLength(wordToGuess.getLength());
+    }
+
+
+
+    Feedback genFeedback(List<Character> wordLetters) {
+        Feedback feedback;
+
+        List<Character> WTGLetterList = wordToGuess
+                .getValue()
+                .toUpperCase()
+                .chars()
+                .mapToObj(e -> (char)e)
+                .collect(Collectors.toList());
+
+
+        List<Mark> marksList = new ArrayList<>();
+
+        if (wordLetters.size() != WTGLetterList.size()
+                || WTGLetterList.get(0) != wordLetters.get(0)) {
+            feedback = Feedback.forInvalid(Utils.charsToString(wordLetters));
+        } else {
+            for (int i = 0; i < wordLetters.size(); i++) {
+                if (wordLetters.get(i) == (WTGLetterList.get(i))) {
                     marksList.add(Mark.CORRECT);
-                }
-                if (!guessLetterList.get(i).equals(WTGLetterList.get(i))
-                 && WTGLetterList.contains(guessLetterList.get(i))) {
+                } else if (wordLetters.get(i) != WTGLetterList.get(i)
+                        && WTGLetterList.contains(wordLetters.get(i))) {
                     marksList.add(Mark.PRESENT);
-                }
-
-                if (!WTGLetterList.contains(guessLetterList.get(i))) {
+                } else if (!WTGLetterList.contains(wordLetters.get(i))) {
                     marksList.add(Mark.ABSENT);
-                }
-
-                if (!Character.isLetter(guessLetterList.get(i))) {
+                } else if (!Character.isLetter(wordLetters.get(i))) {
                     marksList.add(Mark.INVALID);
                 }
-
             }
-
-            feedback = new Feedback(WORD_TO_GUESS, marksList);
-            addFeedback(feedback);
-        } else throw GameRoundException.guessAttemptsSurpassWordLength(WORD_TO_GUESS.length());
+            feedback = new Feedback(Utils.charsToString(wordLetters), marksList);
+        }
+        return feedback;
     }
 
-    public Hint getHint() {
-        if (hints_left > 0) {
-
-            if (numOfAttemptsLeft() > 0) {
-
-                List<Mark> marksList = getLatestFeedback().getMarks();
-                List<Integer> shownLettersIndexes = new ArrayList<>();
-                List<Character> lettersList = new ArrayList<>();
 
 
-                for (int i = 0; i < marksList.size(); i++) {
-                    if (marksList.get(i) != Mark.CORRECT) {
-                        shownLettersIndexes.add(i);
-                        break;
-                    }
-                }
-
-
-                for (int i = 0; i < marksList.size(); i++) {
-                    if (marksList.get(i) == Mark.CORRECT) {
-                        shownLettersIndexes.add(i);
-                    }
-                }
-
-                List<Character> WTGLetterList = WORD_TO_GUESS
-                        .chars()
-                        .mapToObj(e -> (char) e)
-                        .collect(Collectors.toList());
-
-
-                for (int i = 0; i < WTGLetterList.size(); i++) {
-                    if (shownLettersIndexes.contains(i)) {
-                        lettersList.add(WTGLetterList.get(i));
-                    } else {
-                        lettersList.add('-');
-                    }
-                }
-
-                return new Hint(lettersList);
-
-            } else throw GameRoundException.cantGetHintsForAnEndedRound();
-        } else throw GameRoundException.noMoreHintsLeft();
+    public Hint getAHint() {
+        if (!roundIsRunning()) throw GameRoundException.cantGetHintsForAnEndedRound();
+        Hint hint =  Hint.of(getHintedLetters(), this.wordToGuess);
+        Feedback feedback = genFeedback(hint.getHintedLetters());
+        addFeedback(feedback);
+        return hint;
     }
+
+    public Hint getHintedLetters() {
+        if (attempts.isEmpty()) {
+            return Hint.firstHintof(wordToGuess);
+        }
+
+        List<Mark> marks = getLatestFeedback().getMarks();
+        List<Character> hintedLettersList = new ArrayList<>();
+
+        for (int i=0; i<marks.size(); i++) {
+            if (marks.get(i)==Mark.CORRECT)
+                hintedLettersList.add(wordToGuess.getValue().toUpperCase().toCharArray()[i]);
+            else hintedLettersList.add('.');
+        }
+
+        return new Hint(hintedLettersList);
+    }
+
+    public boolean isGuessed() {
+        if (attempts.isEmpty()) return false;
+        return (getLatestFeedback().isWordGuessed()) ? true : false;
+    }
+
+
+    public boolean roundIsRunning() {
+        return (numOfAttemptsLeft() == 0 || isGuessed()) ? false : true;
+    }
+
 
 
     public int numOfTriedAttempts() {
         return this.attempts.size();
-
     }
 
     public int numOfAttemptsLeft() {
-        return this.WORD_TO_GUESS.length() - 1 - numOfTriedAttempts();
+        return this.wordToGuess.getLength() - 1 - numOfTriedAttempts();
     }
 
     public Feedback getLatestFeedback() {
