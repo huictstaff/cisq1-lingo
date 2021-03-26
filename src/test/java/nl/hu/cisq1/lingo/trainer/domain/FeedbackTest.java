@@ -74,12 +74,11 @@ class FeedbackTest {
             assertEquals("{0={k=CORRECT}, 1={e=CORRECT}, 2={n=ABSENT}, 3={e=CORRECT}, 4={l=CORRECT}}", feedback.prepareFeedback("kerel", "kenel").toString());
         }
 
-        @Test
+        @ParameterizedTest
+        @MethodSource("giveFeedbackExamples")
         @DisplayName("Feedback is correct with multiple present characters")
-        void feedbackMultipleChars() {
-            Feedback feedback = new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt");
-            assertEquals("{0={t=CORRECT}, 1={i=CORRECT}, 2={v=CORRECT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={o=ABSENT}}", feedback.prepareFeedback("tivoli", "tivolo").toString());
-            assertEquals("{0={t=CORRECT}, 1={o=ABSENT}, 2={v=CORRECT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={o=ABSENT}}", feedback.prepareFeedback("tivoli", "tovolo").toString());
+        void feedbackMultipleChars(String expected, String actual) {
+            assertEquals(expected, actual);
         }
 
         @Test
@@ -128,7 +127,33 @@ class FeedbackTest {
                             "droplul",
                             List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT),
                             new Hint(List.of('.', 'o', '.', '.', '.', '.', '.')),
-                            new Hint(List.of('d', '+', '-', '-', '-', '-', '-')))
+                            new Hint(List.of('d', '+', '-', '-', '-', '-', '-'))),
+
+                    Arguments.of(
+                            "droplul",
+                            List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.PRESENT),
+                            new Hint(List.of('.', 'o', '.', '.', '.', '.', '.')),
+                            new Hint(List.of('d', '+', '-', '-', '-', '-', '+')))
+            );
+        }
+
+        private Stream<Arguments> giveFeedbackExamples() {
+            return Stream.of(
+                    Arguments.of(
+                            "{0={t=CORRECT}, 1={i=CORRECT}, 2={v=CORRECT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={o=ABSENT}}",
+                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "tivolo").toString()),
+
+                    Arguments.of(
+                            "{0={t=CORRECT}, 1={o=ABSENT}, 2={v=CORRECT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={o=ABSENT}}",
+                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "tivolo").toString()),
+
+                    Arguments.of(
+                            "{0={t=CORRECT}, 1={o=ABSENT}, 2={r=ABSENT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={v=PRESENT}}",
+                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "torolv").toString()),
+
+                    Arguments.of(
+                            "{0={t=CORRECT}, 1={o=PRESENT}, 2={v=CORRECT}, 3={i=PRESENT}, 4={l=CORRECT}, 5={o=ABSENT}}",
+                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "tovilo").toString())
             );
         }
     }

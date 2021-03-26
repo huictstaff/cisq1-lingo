@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidListSizeException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Hint {
@@ -21,31 +22,37 @@ public class Hint {
     }
 
     public List<Character> giveHint(List<Guess> guesses, List<Feedback> feedbackList, String word) {
-        ArrayList<Character> charList = new ArrayList<>();
+        System.out.println("\n\n----- hint -----");
+        System.out.println(feedbackList.get(0).getMarks());
+        ArrayList<Character> charList = new ArrayList<>(Collections.nCopies(word.length(), null));
         if (feedbackList.size() != guesses.size()) {
             throw new InvalidListSizeException();
         }
 
-        for (Guess guess : guesses) {
-            for (int i = 0; i <= guess.getGuess().length(); i++) {
-                List<Mark> marksList = feedbackList.get(i).getMarks();
-                for (Mark mark : marksList) {
-                    switch (mark) {
-                        case CORRECT:
-                            charList.set(i, word.charAt(i));
-                        case PRESENT:
-                            if (charList.get(i) != word.charAt(i)) {
-                                charList.set(i, '+');
-                            }
-                        case ABSENT:
-                            if (charList.get(i) != word.charAt(i)) {
-                                charList.set(i, '-');
-                            }
-                    }
+        for (int i = 0; i < guesses.size(); i++) {
+            List<Mark> marksList = feedbackList.get(i).getMarks();
+            for (int j = 0; j < guesses.get(i).getGuess().length(); j++) {
+                if (marksList.get(j).equals(Mark.CORRECT)) {
+                    charList.set(j, word.charAt(j));
                 }
             }
         }
+
+        for (int i = 0; i < guesses.get(guesses.size() - 1).getGuess().length(); i++) {
+            if (charList.get(i) == null) {
+                for (int j=0; j < feedbackList.get(feedbackList.size() - 1).getMarks().size(); j++) {
+                    if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.PRESENT) {
+                        charList.set(j, '+');
+                    } else if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.ABSENT){
+                        charList.set(j, '-');
+                    }
+                }
+
+            }
+        }
+
         this.hint = charList;
+        System.out.println(charList);
         return charList;
     }
 }
