@@ -2,12 +2,19 @@ package trainer.domain;
 
 import trainer.domain.exception.InvalidFeedbackException;
 
+import javax.lang.model.element.Name;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.lang.invoke.SwitchPoint;
 import java.util.*;
 
+@Entity(name = "feedback")
 public class Feedback {
+    @OneToMany(mappedBy = "marks")
     private List<Mark> marks;
     private String attempt;
+    private String id;
 
     public Feedback(String attempt, List<Mark> marks) {
         this.marks = marks;
@@ -17,12 +24,8 @@ public class Feedback {
         }
     }
 
-    public boolean isWordGuessed() {
-        return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
-    }
+    public Feedback() {
 
-    public boolean isGuessInvalid() {
-        return marks.stream().anyMatch(mark -> mark == Mark.INVALID);
     }
 
     public static List<Mark> markAttempt(String attempt, String wordToGuess) {
@@ -35,37 +38,38 @@ public class Feedback {
             } else if (!Character.isLetter(attempt.charAt(i))) {
                 marks.add(Mark.INVALID);
             } else {
-                marks.add(Mark.INVALID);
+                marks.add(Mark.ABSENT);
             }
         }
         return marks;
     }
 
-    public List<String> giveHint(String wordToGuess, List<Mark> marks) {
-        List<String> hint = new ArrayList<>();
-        for (int i = 0; i < wordToGuess.length(); i++) {
-            switch (marks.get(i)) {
-                case PRESENT:
-                    hint.add("*");
-                    break;
-
-                case ABSENT:
-                    hint.add("_");
-                    break;
-
-                case CORRECT:
-                    hint.add("" + wordToGuess.charAt(i));
-                    break;
-                case INVALID:
-                    hint.add("#");
-                    break;
-
-                default:
-                    System.err.println("Error Invalid mark.");
-                    break;
+    public List<Mark> addMarks(List<Mark> oldMarks, List<Mark> currentMarks){
+        List<Mark> newMarks = new ArrayList<>();
+        for(int i = 0; i < oldMarks.size(); i++){
+            if (oldMarks.get(i) == Mark.CORRECT){
+                newMarks.add(Mark.CORRECT);
+            }else{
+                newMarks.add(currentMarks.get(i));
             }
         }
-        return hint;
+        return newMarks;
+    }
+
+    public Hint giveHint(String wordToGuess, List<Mark> hintMarks) {
+        List<String> hintString = new ArrayList<>();
+        List<Mark> newMarks = addMarks(marks, hintMarks);
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            switch (newMarks.get(i)) {
+                case PRESENT -> hintString.add("*");
+                case ABSENT -> hintString.add("_");
+                case CORRECT -> hintString.add("" + wordToGuess.charAt(i));
+                case INVALID -> hintString.add("#");
+                default -> System.err.println("Error Invalid mark.");
+            }
+        }
+        this.marks = newMarks;
+        return new Hint(hintString, newMarks);
     }
 
     @Override
@@ -87,5 +91,26 @@ public class Feedback {
     @Override
     public int hashCode() {
         return Objects.hash(marks, attempt);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
+    }
+
+    public String getAttempt() {
+        return attempt;
+    }
+
+    @Id
+    public String getId() {
+        return id;
     }
 }
