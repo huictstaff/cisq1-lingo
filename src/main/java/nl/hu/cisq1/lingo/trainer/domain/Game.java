@@ -12,7 +12,6 @@ import java.util.List;
 public class Game {
     private GameStatus gameStatus;
     private List<Round> rounds;
-    private WordService wordService;
     private double score;
 
     public Game() {
@@ -59,9 +58,10 @@ public class Game {
         return (rounds.isEmpty()) ? false : getLastRound().roundIsRunning();
     }
 
-    @SneakyThrows
     private Round getLastRound() throws GameException {
-        if (rounds.isEmpty()) throw GameException.gameHasNoRoundsYet();
+        if (rounds.isEmpty()) {
+            throw new GameException("sdf");
+        }
         return rounds.get(rounds.size() - 1);
     }
 
@@ -72,8 +72,6 @@ public class Game {
     public GameStatus getGameStatus() {
         if (this.gameStatus == GameStatus.ELIMINATED) return this.gameStatus;
         if (!isGameStarted()) return GameStatus.WAITING_FOR_ROUND;
-//        if (!rounds.isEmpty() && !getLastRound().roundIsRunning()) return GameStatus.WAITING_FOR_ROUND;
-//        if (!rounds.isEmpty() && getLastRound().roundIsRunning()) return GameStatus.PLAYING;
         if (!isLastRoundStillPlaying()) return GameStatus.WAITING_FOR_ROUND;
         if (isLastRoundStillPlaying()) return GameStatus.PLAYING;
 
