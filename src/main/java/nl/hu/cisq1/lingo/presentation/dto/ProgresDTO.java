@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.presentation.DTO;
+package nl.hu.cisq1.lingo.presentation.dto;
 
 import nl.hu.cisq1.lingo.domain.Enums.Rating;
 import nl.hu.cisq1.lingo.domain.Game;
@@ -6,7 +6,6 @@ import nl.hu.cisq1.lingo.domain.Game;
 import java.util.List;
 
 public class ProgresDTO {
-    //todo Ratings, Hint, Raadpoging, Round_id,
     public long gameId;
     public long roundId;
     public String guess;

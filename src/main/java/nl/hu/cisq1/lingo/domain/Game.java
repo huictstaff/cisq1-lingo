@@ -28,17 +28,15 @@ public class Game {
         this.gameState = GameState.PLAYING;
     }
 
-
-    public Round startNewRound(String word){
+    public void startNewRound(String word){
         if(gameState == GameState.ELIMINATED) throw new ForbiddenRoundException("The game already has been lost.");
         Round lastround = rounds.get(rounds.size() - 1);
-        if(!lastround.getFeedback().isWordGuessed() || lastround.getRoundFeedback().size() == 5){
+        if(!lastround.getFeedback().isWordGuessed()){
             this.gameState = GameState.ELIMINATED;
             throw new ForbiddenRoundException("The game already has been lost.");
         }
         Round newRound = new Round(word);
         rounds.add(newRound);
-        return newRound;
     }
 
     public int calculateWordLength(){

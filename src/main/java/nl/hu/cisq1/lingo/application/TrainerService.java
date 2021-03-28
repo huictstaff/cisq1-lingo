@@ -21,21 +21,25 @@ public class TrainerService {
         this.gameRepository = gameRepository;
     }
 
+    public Game getGame(long id){
+        return gameRepository.findById(id)
+                .orElseThrow(() -> new ForbiddenGuessException("Game not found")); //todo Make own exception
+    }
+
     public Game startNewGame(){
         return gameRepository.save(new Game(wordService.provideRandomWord(5)));
     }
 
     public Game doGuess(long id, String guess){
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new ForbiddenGuessException("Game not found"));
+        Game game = getGame(id);
         Round lastround = game.getLastRound();
         lastround.doGuess(guess);
+
         return gameRepository.save(game);
     }
 
     public Game startNewRound(long id){
-        Game game = gameRepository.findById(id)
-                .orElseThrow(() -> new ForbiddenRoundException("Game not found."));
+        Game game = getGame(id);
         int wordLength = game.calculateWordLength();
         game.startNewRound(wordService.provideRandomWord(wordLength));
         System.out.println(game);

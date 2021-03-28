@@ -1,7 +1,5 @@
-package nl.hu.cisq1.lingo.presentation.DTO;
+package nl.hu.cisq1.lingo.presentation.dto;
 
-
-import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.validation.constraints.NotNull;
 

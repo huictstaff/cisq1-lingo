@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.presentation.DTO;
+package nl.hu.cisq1.lingo.presentation.dto;
 
 import lombok.Data;
 

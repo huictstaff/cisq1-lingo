@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.domain;
 
+import nl.hu.cisq1.lingo.domain.Enums.GameState;
 import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("Test creating new round fails if State of one of the rounds isn't WORD_IS_GUESSED")
+    @DisplayName("Test creating new round fails if the word of the last round isn't guessed")
     void failToCreateNewRound(){
         Game game = new Game("TestOneTwo");
         game.getLastRound().doGuess("TestOneTwo");
@@ -46,4 +47,15 @@ public class GameTest {
         assertThrows(ForbiddenRoundException.class,
                 () -> game.startNewRound("testOneTwo"));
     }
+
+    @Test
+    @DisplayName("Test creating new round fails if State of game is GAME.ELIMINATED")
+    void failToCreateNewRoundifStateisEliminated(){
+        Game game = new Game("TestOneTwo");
+        game.setGameState(GameState.ELIMINATED);
+        assertThrows(ForbiddenRoundException.class,
+                () -> game.startNewRound("testOneTwo"));
+        assertEquals(1, game.getRounds().size());
+    }
+
 }

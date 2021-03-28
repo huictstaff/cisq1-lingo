@@ -1,12 +1,10 @@
 package nl.hu.cisq1.lingo.presentation;
 
 import nl.hu.cisq1.lingo.application.TrainerService;
-import nl.hu.cisq1.lingo.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.domain.Game;
-import nl.hu.cisq1.lingo.domain.exception.ForbiddenRoundException;
-import nl.hu.cisq1.lingo.presentation.DTO.GameDTO;
-import nl.hu.cisq1.lingo.presentation.DTO.GuessDTO;
-import nl.hu.cisq1.lingo.presentation.DTO.ProgresDTO;
+import nl.hu.cisq1.lingo.presentation.dto.GameDTO;
+import nl.hu.cisq1.lingo.presentation.dto.GuessDTO;
+import nl.hu.cisq1.lingo.presentation.dto.ProgresDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +22,13 @@ public class TrainerController {
         return new GameDTO(game);
     }
 
-    //todo Mooiste zou zijn exceptionhandler, maar trycatch is prima hier.
+    @GetMapping("/game/{id}")
+        public GameDTO getGame(@PathVariable long id){
+        Game game = trainerService.getGame(id);
+        return new GameDTO(game);
+    }
+
+    //Mooiste zou zijn exceptionhandler, maar trycatch is prima hier. #Hugo
     @PostMapping("/game/{id}/startRound")
     public GameDTO startRound(@PathVariable long id){
             Game game = trainerService.startNewRound(id);
