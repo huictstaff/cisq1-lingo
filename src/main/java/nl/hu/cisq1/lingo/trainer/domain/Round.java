@@ -36,6 +36,7 @@ public class Round {
             this.allHints.add(hint);
             return hint.getHint();
         } else {
+            this.state = State.LOST;
             throw new MaximumAttemptsReachedException();
         }
     }
@@ -47,7 +48,6 @@ public class Round {
 
     private State getState(boolean isGuessed) {
         if (isGuessed) return State.GUESSED;
-        if (this.attempts == 5) return State.LOST;
         return State.IN_PROGRESS;
     }
 

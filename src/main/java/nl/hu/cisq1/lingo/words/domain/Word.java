@@ -25,12 +25,4 @@ public class Word {
     public Integer getLength() {
         return length;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Word)) return false;
-        Word word = (Word) o;
-        return Objects.equals(getValue(), word.getValue()) && Objects.equals(getLength(), word.getLength());
-    }
 }

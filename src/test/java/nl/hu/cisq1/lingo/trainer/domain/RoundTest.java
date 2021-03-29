@@ -33,7 +33,7 @@ class RoundTest {
 
     @Test
     void getWordToGuess() {
-        assertEquals(new Word("woord"), this.round.getWordToGuess());
+        assertEquals("woord", this.round.getWordToGuess().getValue());
     }
 
     @Test
