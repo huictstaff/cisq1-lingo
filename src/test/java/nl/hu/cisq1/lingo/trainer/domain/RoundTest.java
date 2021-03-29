@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
     private final Round round = new Round(new Word("woord"));
@@ -59,6 +58,11 @@ class RoundTest {
     }
 
     @Test
+    void getAllHints() {
+        assertFalse(this.round.getAllHints().isEmpty());
+    }
+
+    @Test
     @DisplayName("word to guess should be updated when function is called")
     void setWordToGuess() {
         Word newWord = new Word("worod");
@@ -90,6 +94,13 @@ class RoundTest {
         feedback.add(new Feedback("worod", validator.validate()));
         round.setAllFeedback(feedback);
         assertEquals(round.getAllFeedback(), feedback);
+    }
+
+    @Test
+    void setAllHints() {
+        List<Hint> hints = new ArrayList<>();
+        this.round.setAllHints(hints);
+        assertEquals(hints, this.round.getAllHints());
     }
 
     static Stream<Arguments> correctIncorrectGuessInput() {

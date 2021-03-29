@@ -26,31 +26,15 @@ class FeedbackTest {
     @DisplayName("word should be valid to be guessed")
     void wordIsValidInGuess(String guess, List<Mark> marks, boolean expectedValid) {
         Feedback feedback = new Feedback(guess, marks);
-        assertEquals(feedback.wordIsGuessed(), expectedValid);
-    }
-
-    @ParameterizedTest
-    @MethodSource(value = "invalidWordInputs")
-    @DisplayName("guess is valid if the number of letters is the same")
-    void guessIsValid(String guess, List<Mark> marks, boolean expectedValid) {
-        Feedback feedback = new Feedback(guess, marks);
         assertEquals(feedback.guessIsValid(), expectedValid);
     }
 
     @Test
-    @DisplayName("correct letters should be visible, present letters should be *'s and absent letters should be .'s in hints")
+    @DisplayName("correct letters should be visible and absent letters should be .'s in hints")
     void hintLetters() {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT));
         Hint previousHint = Hint.initialHint(Feedback.initialFeedback("woord").getMarks(), 'w', 5);
         assertEquals(feedback.giveHint(previousHint).getHint(), List.of('w', '.', '.', 'r', '.'));
-    }
-
-    @Test
-    @DisplayName("guess should be valid in order to get hint")
-    void validGuessForHint() {
-        Feedback feedback = new Feedback("word", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        Hint previousHint = Hint.initialHint(Feedback.initialFeedback("word").getMarks(), 'w', 4);
-        assertEquals(0, feedback.giveHint(previousHint).getHint().size());
     }
 
     static Stream<Arguments> validWordInputs() {
@@ -61,6 +45,9 @@ class FeedbackTest {
     static Stream<Arguments> invalidWordInputs() {
         return Stream.of(Arguments.of("kort", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false),
                 Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), true),
-                Arguments.of("wooooord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false));
+                Arguments.of("wooooord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false),
+                Arguments.of(null, List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false),
+                Arguments.of("woord", null, false),
+                Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false));
     }
 }

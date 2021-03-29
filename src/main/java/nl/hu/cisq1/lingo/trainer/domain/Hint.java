@@ -38,11 +38,12 @@ public class Hint {
         return hint;
     }
 
-    private boolean isInvalid() {
-        return currentMarks == null || previousHint == null || this.guess.length() < 5 || guess.length() > 7;
+    public boolean isInvalid() {
+        return currentMarks == null || previousHint == null || guess == null || guess.length() < 5 || guess.length() > 7
+                || guess.length() != currentMarks.size() || guess.length() != previousHint.size();
     }
 
-    static Hint initialHint(List<Mark> currentMarks, char firstCharacter, int length) {
+    public static Hint initialHint(List<Mark> currentMarks, char firstCharacter, int length) {
         List<Character> previousHint = new ArrayList<>();
         previousHint.add(firstCharacter);
         StringBuilder woord = new StringBuilder();
@@ -55,6 +56,6 @@ public class Hint {
     }
 
     private boolean isNotHintCharacter(char character) {
-        return character != '.' && character != '*';
+        return character != '.';
     }
 }

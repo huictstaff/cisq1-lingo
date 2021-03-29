@@ -14,7 +14,6 @@ public class Feedback {
     private final List<Mark> marks;
 
     public Feedback(String guess, List<Mark> marks) {
-        if (marks.size() != guess.length()) throw new InvalidFeedbackException();
         this.guess = guess;
         this.marks = marks;
     }
@@ -29,18 +28,18 @@ public class Feedback {
     }
 
     public boolean wordIsGuessed() {
-        if (!guessIsValid()) return false;
+        if (!guessIsValid()) throw new InvalidFeedbackException();
         return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
     
     public boolean guessIsValid() {
-        return guess != null && marks != null && guess.length() >= 5 && guess.length() <= 7;
+        return guess != null && marks != null && guess.length() >= 5 && guess.length() <= 7 && marks.size() == guess.length();
     }
 
     public Hint giveHint(Hint previousHint) {
         if (guessIsValid()) {
             return new Hint(previousHint, this);
-        } else return previousHint;
+        } else throw new InvalidFeedbackException();
     }
 }
