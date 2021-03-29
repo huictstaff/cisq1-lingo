@@ -36,13 +36,13 @@ class HintTest {
                         List.of(new Guess("deorlui")),
                         List.of(new Feedback(marks, "deorlui")),
                         "droplul",
-                        List.of('d', '-', 'o', '+', 'l', 'u', '-'))
+                        List.of('d', '-', 'o', '+', 'l', 'u', '-')),
 
-//                Arguments.of(
-//                        List.of(new Guess("deorlui"), new Guess("dropliu")),
-//                        List.of(new Feedback("deorlui"), new Feedback("dropliu")),
-//                        "droplul",
-//                        List.of('d', 'r', 'o', 'p', 'l', 'u', '-'))
+                Arguments.of(
+                        List.of(new Guess("deorlui"), new Guess("dropliu")),
+                        List.of(new Feedback("deorlui"), new Feedback("dropliu")),
+                        "droplul",
+                        List.of('d', 'r', 'o', 'p', 'l', 'u', '-'))
 
         );
     }

@@ -145,7 +145,7 @@ class FeedbackTest {
 
                     Arguments.of(
                             "{0={t=CORRECT}, 1={o=ABSENT}, 2={v=CORRECT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={o=ABSENT}}",
-                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "tivolo").toString()),
+                            new Feedback(List.of(Mark.PRESENT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), "atmpt").prepareFeedback("tivoli", "tovolo").toString()),
 
                     Arguments.of(
                             "{0={t=CORRECT}, 1={o=ABSENT}, 2={r=ABSENT}, 3={o=CORRECT}, 4={l=CORRECT}, 5={v=PRESENT}}",

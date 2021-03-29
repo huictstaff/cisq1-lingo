@@ -1,14 +1,14 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import com.sun.source.tree.Tree;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessLengthException;
 import org.springframework.util.StringUtils;
 
-import javax.validation.constraints.Null;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Feedback {
     private String attempt;
@@ -35,11 +35,35 @@ public class Feedback {
 
     // is the list is empty 'stream' will be true.
     public boolean isWordGuessed() {
-        return !marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
+        return ! marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
     public boolean isGuessValid(List<Mark> marks) {
-        return !marks.isEmpty() && !marks.contains(Mark.INVALID);
+        return ! marks.isEmpty() && ! marks.contains(Mark.INVALID);
+    }
+
+    private int charOccuences(char c, String word) {
+        int counter = 0;
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == c) {
+                counter += 1;
+            }
+        }
+        return counter;
+    }
+
+    // Returns true if word has more times the given char than there is already in the feedback treemap
+    private boolean OccurenceReached(TreeMap<Integer, TreeMap<Character, Mark>> feedback, String word, char c) {
+        TreeMap<Character, Mark> treemap = (TreeMap<Character, Mark>) feedback.values();
+        int charCounter = 0;
+        int treemapCounter = 0;
+        for (int i = 0; i < word.length(); i++) {
+            if (c == word.indexOf(i) && word.indexOf(i) >= 0) {
+                charCounter++;
+            }
+        }
+        treemapCounter += treemap.keySet().stream().filter(i -> c == i).count();
+    return charCounter > treemapCounter;
     }
 
     // compares the chars of the char arrays from both parameters and puts the index as key
@@ -48,31 +72,41 @@ public class Feedback {
         char[] cWord = word.toCharArray();
         char[] cGuess = guess.toCharArray();
         TreeMap<Integer, TreeMap<Character, Mark>> feedback = new TreeMap<>();
+
         for (int i = 0; i < cWord.length; i++) {
             TreeMap<Character, Mark> treeMap = new TreeMap<>();
             if (cWord[i] == cGuess[i]) {
                 treeMap.put(cGuess[i], Mark.CORRECT);
-            } else {
-                for (char c : cGuess) {
-                    StringUtils.countOccurrencesOf();
-                    System.out.println(word.indexOf(c));
-                    System.out.println("\n\n");
-                    if (c == cWord[i]) {
-//                        if (feedback.get(i).)
-                        treeMap.put(c, Mark.PRESENT);
-                        feedback.put(i, treeMap);
-//                        break;
-                    } else if (word.indexOf(c) == -1) {
-                        treeMap.put(c, Mark.ABSENT);
-                        feedback.put(i, treeMap);
-                        break;
+                feedback.put(i, treeMap);
+            }
+        }
+
+        for (int i = 0; i < cWord.length; i++) {
+            TreeMap<Character, Mark> treeMap = new TreeMap<>();
+            if (feedback.get(i) == null || ! (feedback.get(i).containsValue(Mark.CORRECT))) {
+                if (word.indexOf(cGuess[i]) == - 1) {
+                    treeMap.put(cGuess[i], Mark.ABSENT);
+                    feedback.put(i, treeMap);
+                } else {
+                    for (char c : cGuess) {
+                        int charOccurence = charOccuences(c, word);
+//                        int charOccurenceInWord = StringUtils.countOccurrencesOf(word, String.valueOf(c));
+                        boolean charOccurenceInFeedback = OccurenceReached(feedback, word, c);
+                        if (charOccurence == 0 || !charOccurenceInFeedback) {
+                            treeMap.put(cGuess[i], Mark.ABSENT);
+                            feedback.put(i, treeMap);
+                            continue;
+                        }
+
+                        if (c == cWord[i]) {
+                            treeMap.put(cGuess[i], Mark.PRESENT);
+                            feedback.put(i, treeMap);
+                            continue;
+                        }
                     }
                 }
             }
-            feedback.put(i, treeMap);
         }
-
-
 //        char[] cWord = word.toCharArray();
 //        char[] cGuess = guess.toCharArray();
 //        TreeMap<Integer, TreeMap<Character, Mark>> feedback = new TreeMap<>();
@@ -91,6 +125,8 @@ public class Feedback {
 //            }
 //            feedback.put(i, treeMap);
 //        }
+
+
         return feedback;
     }
 
