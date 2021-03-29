@@ -1,10 +1,14 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
+import lombok.ToString;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
+@Getter
 public class Feedback {
     private final String guess;
     private final List<Mark> marks;
@@ -15,29 +19,28 @@ public class Feedback {
         this.marks = marks;
     }
 
+    public static Feedback initialFeedback(String guess) {
+        List<Mark> marks = new ArrayList<>();
+        marks.add(Mark.CORRECT);
+        for (int i = 1; i < guess.length(); i++) {
+            marks.add(Mark.ABSENT);
+        }
+        return new Feedback(guess, marks);
+    }
+
     public boolean wordIsGuessed() {
         if (!guessIsValid()) return false;
         return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
+    
     public boolean guessIsValid() {
-        return guess.length() >= 5 && guess.length() <= 7;
+        return guess != null && marks != null && guess.length() >= 5 && guess.length() <= 7;
     }
 
-    public List<Character> giveHint() {
-        List<Character> hint = new ArrayList<>();
+    public Hint giveHint(Hint previousHint) {
         if (guessIsValid()) {
-            for (int i = 0; i < marks.size(); i++) {
-                char letter = guess.charAt(i);
-                Mark mark = marks.get(i);
-                char hintLetter;
-                if (mark == Mark.CORRECT) hintLetter = letter;
-                else if (mark == Mark.PRESENT) {
-                    hintLetter = '*';
-                } else hintLetter = '.';
-                hint.add(hintLetter);
-            }
-        }
-        return hint;
+            return new Hint(previousHint, this);
+        } else return previousHint;
     }
 }

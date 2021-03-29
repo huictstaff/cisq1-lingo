@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoundTest {
-    private final Round round = new Round("woord");
+    private final Round round = new Round(new Word("woord"));
 
     @Test
     @DisplayName("guessing should return a list of characters with hints")
@@ -24,15 +25,15 @@ class RoundTest {
     @ParameterizedTest
     @MethodSource(value = "correctIncorrectGuessInput")
     @DisplayName("round should be finished if the guess is correct")
-    void isFinished(String guess, String word) {
+    void isFinished(String guess, Word word) {
         Round round = new Round(word);
         round.guess(guess);
-        assertEquals(round.isFinished(), guess.equals(word));
+        assertEquals(round.isFinished(), guess.equals(word.getValue()));
     }
 
     @Test
     void getWordToGuess() {
-        assertEquals("woord", this.round.getWordToGuess());
+        assertEquals(new Word("woord"), this.round.getWordToGuess());
     }
 
     @Test
@@ -60,7 +61,7 @@ class RoundTest {
     @Test
     @DisplayName("word to guess should be updated when function is called")
     void setWordToGuess() {
-        String newWord = "worod";
+        Word newWord = new Word("worod");
         this.round.setWordToGuess(newWord);
         assertEquals(this.round.getWordToGuess(), newWord);
     }
@@ -85,7 +86,7 @@ class RoundTest {
     @DisplayName("setting feedback should update feedback list")
     void setFeedback() {
         List<Feedback> feedback = new ArrayList<>();
-        Validator validator = new Validator("worod", round.getWordToGuess());
+        Validator validator = new Validator("worod", round.getWordToGuess().getValue());
         feedback.add(new Feedback("worod", validator.validate()));
         round.setAllFeedback(feedback);
         assertEquals(round.getAllFeedback(), feedback);

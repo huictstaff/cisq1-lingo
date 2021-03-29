@@ -41,14 +41,16 @@ class FeedbackTest {
     @DisplayName("correct letters should be visible, present letters should be *'s and absent letters should be .'s in hints")
     void hintLetters() {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT));
-        assertEquals(feedback.giveHint(), List.of('w', '*', '.', 'r', '*'));
+        Hint previousHint = Hint.initialHint(Feedback.initialFeedback("woord").getMarks(), 'w', 5);
+        assertEquals(feedback.giveHint(previousHint).getHint(), List.of('w', '.', '.', 'r', '.'));
     }
 
     @Test
     @DisplayName("guess should be valid in order to get hint")
     void validGuessForHint() {
         Feedback feedback = new Feedback("word", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        assertEquals(0, feedback.giveHint().size());
+        Hint previousHint = Hint.initialHint(Feedback.initialFeedback("word").getMarks(), 'w', 4);
+        assertEquals(0, feedback.giveHint(previousHint).getHint().size());
     }
 
     static Stream<Arguments> validWordInputs() {
