@@ -31,7 +31,7 @@ public class Game {
 
     public List<Character> guess(String guess) {
         if (this.getActiveRound().isFinished()) {
-            return null;
+            return new ArrayList<>();
         } else {
             return this.getActiveRound().guess(guess);
         }

@@ -47,7 +47,7 @@ class GameTest {
     void guessingWithoutActiveRound() {
         this.game.getActiveRound().setState(State.LOST);
         List<Character> hint = this.game.guess("woord");
-        assertNull(hint);
+        assertTrue(hint.isEmpty());
     }
 
     @Test
@@ -56,7 +56,6 @@ class GameTest {
         String guess = "porot";
         this.game.guess("porod");
         List<Character> hints = this.game.guess(guess);
-        System.out.println(game.getActiveRound().getAllHints());
         assertEquals(hints.size(), guess.length());
     }
 

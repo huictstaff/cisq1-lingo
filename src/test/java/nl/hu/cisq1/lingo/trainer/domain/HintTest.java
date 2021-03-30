@@ -64,6 +64,13 @@ class HintTest {
         assertEquals(isInvalid, result);
     }
 
+    @ParameterizedTest
+    @MethodSource("hintLetterInputs")
+    @DisplayName("should check if character is a hint character or letter")
+    void isHintCharacter(char character, boolean isNotHintChar) {
+        assertEquals(isNotHintChar, Hint.isNotHintCharacter(character));
+    }
+
     static Stream<Arguments> invalidInputs() {
         return Stream.of(
                 Arguments.of(null, List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT),
@@ -89,6 +96,13 @@ class HintTest {
 
                 Arguments.of("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT),
                         List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT), false)
+        );
+    }
+
+    static Stream<Arguments> hintLetterInputs() {
+        return Stream.of(
+                Arguments.of('.', false),
+                Arguments.of('a', true)
         );
     }
 }

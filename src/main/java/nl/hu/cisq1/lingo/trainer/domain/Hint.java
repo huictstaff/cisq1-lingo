@@ -55,7 +55,7 @@ public class Hint {
         return new Hint(woord.toString(), currentMarks, previousHint);
     }
 
-    private boolean isNotHintCharacter(char character) {
+    public static boolean isNotHintCharacter(char character) {
         return character != '.';
     }
 }
