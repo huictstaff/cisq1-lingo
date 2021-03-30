@@ -13,14 +13,7 @@ public class Validator {
 
     public List<Mark> validate() {
         List<Mark> marks = new ArrayList<>();
-        HashMap<Character, Integer> availableChars = new HashMap<>();
-        for (int i = 0; i < word.length(); i++) {
-            char letter = word.charAt(i);
-            if (letter != guess.charAt(i)) {
-                int count = availableChars.getOrDefault(letter, 0);
-                availableChars.put(letter, count + 1);
-            }
-        }
+        HashMap<Character, Integer> availableChars = characterAmountHashmap();
         for (int i = 0; i < guess.length(); i++) {
             if (!isValid()) {
                 marks.add(Mark.INVALID);
@@ -39,6 +32,18 @@ public class Validator {
             }
         }
         return marks;
+    }
+
+    private HashMap<Character, Integer> characterAmountHashmap() {
+        HashMap<Character, Integer> availableChars = new HashMap<>();
+        for (int i = 0; i < word.length(); i++) {
+            char letter = word.charAt(i);
+            if (letter != guess.charAt(i)) {
+                int count = availableChars.getOrDefault(letter, 0);
+                availableChars.put(letter, count + 1);
+            }
+        }
+        return availableChars;
     }
 
     private boolean isValid() {

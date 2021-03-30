@@ -1,13 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
-import lombok.ToString;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 @Getter
 public class Feedback {
     private final String guess;

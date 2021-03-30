@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Round {
     private Word wordToGuess;
     private State state = State.IN_PROGRESS;
