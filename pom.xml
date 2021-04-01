@@ -139,6 +139,13 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>**/LingoApplication.*</exclude>
+                                <exclude>nl/hu/cisq1/lingo/trainer/**/dto/*.*</exclude>
+                                <exclude>**/trainer/presentation/*.*</exclude>
+                                <exclude>**/trainer/data/*.*</exclude>
+                                <exclude>**/trainer/application/*.*</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
