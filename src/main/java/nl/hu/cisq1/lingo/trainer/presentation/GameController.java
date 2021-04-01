@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.presentation;
 
 import nl.hu.cisq1.lingo.trainer.application.GameService;
+import nl.hu.cisq1.lingo.trainer.application.dto.GameDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GuessDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,17 @@ public class GameController {
     }
 
     @PostMapping("/game")
-    public ResponseEntity<?> createGame() {
+    public ResponseEntity<GameDTO> createGame() {
         return new ResponseEntity<>(this.service.createGame(), HttpStatus.OK);
     }
 
     @GetMapping("/games/{id}")
-    public ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<GameDTO> getById(@PathVariable int id) {
         return new ResponseEntity<>(this.service.getGame((long) id), HttpStatus.OK);
     }
 
     @PostMapping("/games/{id}")
-    public ResponseEntity<?> guess(@PathVariable int id, @RequestBody GuessDTO guess) {
+    public ResponseEntity<GameDTO> guess(@PathVariable int id, @RequestBody GuessDTO guess) {
         return new ResponseEntity<>(this.service.guess((long) id, guess.getGuess()), HttpStatus.OK);
     }
 }

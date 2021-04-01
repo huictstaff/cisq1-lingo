@@ -21,6 +21,7 @@
         <sonar.organization>itsgers8</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
+        <sonar.exclusions>**/*DTO.java</sonar.exclusions>
     </properties>
 
     <dependencies>
