@@ -19,10 +19,9 @@ class GameTest {
     private final Game emptyGame = new Game();
 
     @Test
-    @DisplayName("calling the constructor with just an id and initial word should create round with that word")
+    @DisplayName("calling the constructor with just an initial word should create round with that word")
     void newGameObjectWithId() {
-        Game game = new Game(this.id + 1, this.woord);
-        System.out.println(game.getActiveRound());
+        Game game = new Game(this.woord);
         assertEquals(this.woord, game.getActiveRound().getWordToGuess());
     }
 

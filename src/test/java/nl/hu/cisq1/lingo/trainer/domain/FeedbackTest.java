@@ -6,13 +6,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
+        private final Feedback emptyFeedback = new Feedback();
+
     @ParameterizedTest
     @MethodSource(value = "validWordInputs")
     @DisplayName("word is guessed if all letters are correct")
@@ -35,6 +37,34 @@ class FeedbackTest {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.PRESENT, Mark.ABSENT, Mark.CORRECT, Mark.PRESENT));
         Hint previousHint = Hint.initialHint(Feedback.initialFeedback("woord").getMarks(), 'w', 5);
         assertEquals(feedback.giveHint(previousHint).getHint(), List.of('w', '.', '.', 'r', '.'));
+    }
+
+    @Test
+    void setId() {
+        long id = 2L;
+        emptyFeedback.setId(id);
+        assertEquals(id, emptyFeedback.getId());
+    }
+
+    @Test
+    void setGuess() {
+        String guess = "worod";
+        emptyFeedback.setGuess(guess);
+        assertEquals(guess, emptyFeedback.getGuess());
+    }
+
+    @Test
+    void setMarks() {
+        List<Mark> marks = new ArrayList<>();
+        emptyFeedback.setMarks(marks);
+        assertEquals(marks, emptyFeedback.getMarks());
+    }
+
+    @Test
+    void setRound() {
+        Round round = new Round();
+        emptyFeedback.setRound(round);
+        assertEquals(round, emptyFeedback.getRound());
     }
 
     static Stream<Arguments> validWordInputs() {

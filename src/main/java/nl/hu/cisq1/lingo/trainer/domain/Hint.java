@@ -1,17 +1,37 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Getter
+@Setter
 public class Hint {
+    @Id
+    @GeneratedValue
+    private long id;
     private String guess;
+    @ElementCollection
     private List<Mark> currentMarks;
+    @ElementCollection
     private List<Character> previousHint;
+    @ManyToOne
+    @JoinColumn(name = "round_id")
+    private Round round;
+
+    public Hint(String guess, List<Mark> currentMarks, List<Character> previousHint) {
+        this.guess = guess;
+        this.currentMarks = currentMarks;
+        this.previousHint = previousHint;
+    }
 
     public Hint(Hint previousHint, Feedback currentFeedback) {
         this.currentMarks = currentFeedback.getMarks();

@@ -1,17 +1,21 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HintTest {
+    private final Hint hint = new Hint(1L, "woord", new ArrayList<>(), new ArrayList<>(), new Round());
+
     @Test
     @DisplayName("Empty or invalid hints should not generate")
     void emptyHint() {
@@ -68,7 +72,51 @@ class HintTest {
     @MethodSource("hintLetterInputs")
     @DisplayName("should check if character is a hint character or letter")
     void isHintCharacter(char character, boolean isNotHintChar) {
-        assertEquals(isNotHintChar, Hint.isNotHintCharacter(character));
+        boolean result = Hint.isNotHintCharacter(character);
+        assertEquals(isNotHintChar, result);
+    }
+
+    @Test
+    @DisplayName("setting the id should update it")
+    void setId() {
+        Long id = 5L;
+        this.hint.setId(id);
+        assertEquals(id, this.hint.getId());
+    }
+
+    @Test
+    @DisplayName("setting the guess should update it")
+    void setGuess() {
+        String guess = "worod";
+        this.hint.setGuess(guess);
+        assertEquals(guess, this.hint.getGuess());
+    }
+
+    @Test
+    @DisplayName("setting the current marks should update them")
+    void setCurrentMarks() {
+        Validator validator = new Validator("worod", "woord");
+        List<Mark> marks = validator.validate();
+        this.hint.setCurrentMarks(marks);
+        assertEquals(marks, this.hint.getCurrentMarks());
+    }
+
+    @Test
+    @DisplayName("setting the previous hint should update it")
+    void setPreviousHint() {
+        Validator validator = new Validator("worod", "woord");
+        Hint hint = Hint.initialHint(validator.validate(), 'w', 5);
+        List<Character> previousHint = hint.getHint();
+        this.hint.setPreviousHint(previousHint);
+        assertEquals(previousHint, this.hint.getPreviousHint());
+    }
+
+    @Test
+    @DisplayName("setting the round should update it")
+    void setRound() {
+        Round round = new Round(new Word("worod"));
+        this.hint.setRound(round);
+        assertEquals(round, this.hint.getRound());
     }
 
     static Stream<Arguments> invalidInputs() {

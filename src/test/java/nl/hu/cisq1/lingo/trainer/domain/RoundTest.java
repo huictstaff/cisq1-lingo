@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
     private final Round round = new Round(new Word("woord"));
+    private final Round fullRound = new Round(1L, new Word("woord"), State.IN_PROGRESS, 0, new ArrayList<>(), new ArrayList<>(), new Game());
 
     @Test
     @DisplayName("guessing should return a list of characters with hints")
@@ -63,27 +64,37 @@ class RoundTest {
     }
 
     @Test
+    @DisplayName("setting an id should update the id")
+    void setId() {
+        Long id = 5L;
+
+        this.fullRound.setId(id);
+
+        assertEquals(id, this.fullRound.getId());
+    }
+
+    @Test
     @DisplayName("word to guess should be updated when function is called")
     void setWordToGuess() {
         Word newWord = new Word("worod");
-        this.round.setWordToGuess(newWord);
-        assertEquals(this.round.getWordToGuess(), newWord);
+        this.fullRound.setWordToGuess(newWord);
+        assertEquals(this.fullRound.getWordToGuess(), newWord);
     }
 
     @Test
     @DisplayName("setting the state should update the state")
     void setState() {
         State newState = State.GUESSED;
-        this.round.setState(newState);
-        assertEquals(this.round.getState(), newState);
+        this.fullRound.setState(newState);
+        assertEquals(this.fullRound.getState(), newState);
     }
 
     @Test
     @DisplayName("setting attempts should update attempts")
     void setAttempts() {
         int amountOfAttempts = 5;
-        this.round.setAttempts(amountOfAttempts);
-        assertEquals(this.round.getAttempts(), amountOfAttempts);
+        this.fullRound.setAttempts(amountOfAttempts);
+        assertEquals(this.fullRound.getAttempts(), amountOfAttempts);
     }
 
     @Test
@@ -92,15 +103,26 @@ class RoundTest {
         List<Feedback> feedback = new ArrayList<>();
         Validator validator = new Validator("worod", round.getWordToGuess().getValue());
         feedback.add(new Feedback("worod", validator.validate()));
-        round.setAllFeedback(feedback);
-        assertEquals(round.getAllFeedback(), feedback);
+        this.fullRound.setAllFeedback(feedback);
+        assertEquals(this.fullRound.getAllFeedback(), feedback);
     }
 
     @Test
     void setAllHints() {
         List<Hint> hints = new ArrayList<>();
-        this.round.setAllHints(hints);
-        assertEquals(hints, this.round.getAllHints());
+        this.fullRound.setAllHints(hints);
+        assertEquals(hints, this.fullRound.getAllHints());
+    }
+
+    @Test
+    void setGame() {
+        Game game = new Game();
+        List<Round> rounds = List.of(this.fullRound);
+        game.setRounds(rounds);
+
+        this.fullRound.setGame(game);
+
+        assertEquals(game, this.fullRound.getGame());
     }
 
     static Stream<Arguments> correctIncorrectGuessInput() {
