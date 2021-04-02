@@ -22,11 +22,22 @@ public class Hint {
     }
 
     public List<Character> giveHint(List<Guess> guesses, List<Feedback> feedbackList, String word) {
-        System.out.println("\n\n----- hint -----");
-        System.out.println(feedbackList.get(0).getMarks());
         ArrayList<Character> charList = new ArrayList<>(Collections.nCopies(word.length(), null));
         if (feedbackList.size() != guesses.size()) {
             throw new InvalidListSizeException();
+        }
+
+        for (int i = 0; i < guesses.get(guesses.size() - 1).getGuess().length(); i++) {
+            if (charList.get(i) == null) {
+                for (int j = 0; j < feedbackList.get(feedbackList.size() - 1).getMarks().size(); j++) {
+                    if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.PRESENT) {
+                        charList.set(j, '+');
+                    } else if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.ABSENT) {
+                        charList.set(j, '-');
+                    }
+                }
+
+            }
         }
 
         for (int i = 0; i < guesses.size(); i++) {
@@ -38,21 +49,9 @@ public class Hint {
             }
         }
 
-        for (int i = 0; i < guesses.get(guesses.size() - 1).getGuess().length(); i++) {
-            if (charList.get(i) == null) {
-                for (int j=0; j < feedbackList.get(feedbackList.size() - 1).getMarks().size(); j++) {
-                    if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.PRESENT) {
-                        charList.set(j, '+');
-                    } else if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.ABSENT){
-                        charList.set(j, '-');
-                    }
-                }
 
-            }
-        }
 
         this.hint = charList;
-        System.out.println(charList);
         return charList;
     }
 }

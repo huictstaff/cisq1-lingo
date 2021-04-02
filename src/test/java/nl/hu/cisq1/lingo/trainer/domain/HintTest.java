@@ -30,7 +30,6 @@ class HintTest {
     static Stream<Arguments> hintTestCases() {
         Feedback feedback = new Feedback("deorlui");
         List<Mark> marks = feedback.toMarkArray(feedback.prepareFeedback("droplul", "deorlui"));
-        System.out.println("hinttestcase " + feedback.prepareFeedback("droplul", "deorlui"));
         return Stream.of(
                 Arguments.of(
                         List.of(new Guess("deorlui")),
@@ -40,10 +39,26 @@ class HintTest {
 
                 Arguments.of(
                         List.of(new Guess("deorlui"), new Guess("dropliu")),
-                        List.of(new Feedback("deorlui"), new Feedback("dropliu")),
+                        List.of(new Feedback(new Feedback("droplul, deorlui").toMarkArray(feedback.prepareFeedback("droplul", "deorlui")), "deorlui"),
+                                new Feedback(new Feedback("droplul, dropliu").toMarkArray(feedback.prepareFeedback("droplul", "dropliu")), "dropliu")),
                         "droplul",
-                        List.of('d', 'r', 'o', 'p', 'l', 'u', '-'))
+                        List.of('d', 'r', 'o', 'p', 'l', 'u', '+')),
 
+                Arguments.of(
+                        List.of(new Guess("deorlui"), new Guess("dropliu"), new Guess("dropilu")),
+                        List.of(new Feedback(new Feedback("droplul, deorlui").toMarkArray(feedback.prepareFeedback("droplul", "deorlui")), "deorlui"),
+                                new Feedback(new Feedback("droplul, dropliu").toMarkArray(feedback.prepareFeedback("droplul", "dropliu")), "dropliu"),
+                                new Feedback(new Feedback("droplul, dropilr").toMarkArray(feedback.prepareFeedback("droplul", "dropilr")), "dropilr")),
+                        "droplul",
+                        List.of('d', 'r', 'o', 'p', 'l', 'u', '-')),
+
+                Arguments.of(
+                        List.of(new Guess("deorlui"), new Guess("dropliu"), new Guess("dropilu")),
+                        List.of(new Feedback(new Feedback("droplul, deorlui").toMarkArray(feedback.prepareFeedback("droplul", "deorlui")), "deorlui"),
+                                new Feedback(new Feedback("droplul, dropliu").toMarkArray(feedback.prepareFeedback("droplul", "dropliu")), "dropliu"),
+                                new Feedback(new Feedback("droplul, dropirl").toMarkArray(feedback.prepareFeedback("droplul", "dropirl")), "dropirl")),
+                        "droplul",
+                        List.of('d', 'r', 'o', 'p', 'l', 'u', 'l'))
         );
     }
 }
