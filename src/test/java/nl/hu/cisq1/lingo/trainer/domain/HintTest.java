@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidListSizeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +18,13 @@ class HintTest {
     @DisplayName("constuctor test")
     void constructorTest() {
         assertDoesNotThrow(() -> new Hint(List.of('c', '-', '+', '-', '+', 'i')));
+    }
+
+    @Test
+    @DisplayName("Different guess and feedback size")
+    void differentGuessAndFeedbackSize() {
+        Hint hint = new Hint(List.of('h', 'i', 'n', 't'));
+        assertThrows(InvalidListSizeException.class, () -> hint.giveHint(List.of(new Guess("guess"), new Guess("guess")), List.of(new Feedback("guess1")), "guess"));
     }
 
     @ParameterizedTest
