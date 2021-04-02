@@ -8,14 +8,16 @@ import java.util.List;
 @Getter
 public class Round {
     private String wordToGuess;
-    private int round;
+    private int tried;
 
     public Round(String word) {
         this.wordToGuess = word;
-        this.round = 0;
+        this.tried = 0;
     }
 
     public Feedback guess(String guess) {
+        this.tried++;
+
         List<Mark> marks = new ArrayList<>();
         String presentLetters = wordToGuess;
         String lowerCaseGuess = guess == null ? "" : guess.toLowerCase();

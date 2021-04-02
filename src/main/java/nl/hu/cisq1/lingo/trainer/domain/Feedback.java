@@ -25,6 +25,14 @@ public class Feedback {
     }
 
     @Override
+    public String toString() {
+        return "Feedback{" +
+                "attempt='" + attempt + '\'' +
+                ", marks=" + marks +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -9,6 +9,14 @@ import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 
 class FeedbackTest {
 
+    //TODO: Make parameterised test.
+    @Test
+    @DisplayName("feedback create")
+    void feedbackCreate() {
+        Feedback feedback = new Feedback("hi", List.of(CORRECT, CORRECT));
+        assertEquals("hi", feedback.getAttempt());
+    }
+
     @Test
     @DisplayName("word is guessed if all letters are correct")
     void wordIsGuessed() {
@@ -45,5 +53,12 @@ class FeedbackTest {
 
         assertTrue(f1.equals(f2));
         assertFalse(f1.equals(f3));
+    }
+
+    @Test
+    @DisplayName("toString test")
+    void toStringCheck() {
+        Feedback feedback = new Feedback("arm", List.of(WRONG, WRONG, WRONG));
+        assertEquals("Feedback{attempt='arm', marks=[WRONG, WRONG, WRONG]}", feedback.toString());
     }
 }
