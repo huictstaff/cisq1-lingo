@@ -42,7 +42,7 @@ class FeedbackTest {
         @Test
         @DisplayName("Guess is invalid when one or more characters are invalid")
         void guessIsInvalid() {
-            assertThrows(InvalidCharacterException.class, () -> new Feedback(List.of(Mark.INVALID, CORRECT, CORRECT, CORRECT, CORRECT), "atmpt"));
+            assertThrows(InvalidCharacterException.class, () -> new Feedback(List.of(INVALID, CORRECT, CORRECT, CORRECT, CORRECT), "atmpt"));
         }
 
         @Test
@@ -65,11 +65,12 @@ class FeedbackTest {
     @DisplayName("FeedbackRepresentation")
     class FeedbackRepresentation {
 
-        @ParameterizedTest
-        @MethodSource("giveFeedbackExamples")
-        @DisplayName("Feedback is correct with multiple present characters")
-        void feedbackMultipleChars(List<Mark> expected, List<Mark> actual) {
-            assertEquals(expected, actual);
+        @Test
+        @DisplayName("Set marks")
+        void setMarks() {
+            Feedback feedback = new Feedback(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), "attempp");
+            feedback.setMarks(List.of(ABSENT, ABSENT, ABSENT, ABSENT, ABSENT, ABSENT, CORRECT));
+            assertEquals(List.of(ABSENT, ABSENT, ABSENT, ABSENT, ABSENT, ABSENT, CORRECT), feedback.getMarks());
         }
 
         @Test
@@ -92,6 +93,13 @@ class FeedbackTest {
         void giveHint(String word, List<Mark> marks, Hint previousHint, Hint newHint) {
             Feedback feedback = new Feedback(marks, "Droplul");
             assertEquals(newHint.getHint(), feedback.giveHint(previousHint, word).getHint());
+        }
+
+        @ParameterizedTest
+        @MethodSource("giveFeedbackExamples")
+        @DisplayName("Feedback is correct with multiple present characters")
+        void feedbackMultipleChars(List<Mark> expected, List<Mark> actual) {
+            assertEquals(expected, actual);
         }
 
         private Stream<Arguments> hintExamples() {
