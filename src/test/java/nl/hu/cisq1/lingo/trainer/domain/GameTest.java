@@ -30,7 +30,8 @@ class GameTest {
     void guessWord() {
         for (int i = 0; i < 5; i++) {
             assertTrue(game.isGoing());
-            game.guess("appje");
+            Feedback f = game.guess("appje");
+            assertNotNull(f);
         }
         assertEquals(5, game.getCurrentRound().getTried());
         assertFalse(game.isGoing());

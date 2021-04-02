@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Generated;
 import lombok.Getter;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class Feedback {
                 '}';
     }
 
+    @Generated
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
