@@ -21,7 +21,7 @@ public class Round {
     public Hint giveFirstHint() {
         ArrayList<Character> chars = new ArrayList<>();
         chars.add(this.word.charAt(0));
-        for (int i = 0; i < word.length(); i++) {
+        for (int i = 0; i < word.length() - 1; i++) {
             chars.add('-');
         }
         return new Hint(chars);
@@ -48,19 +48,23 @@ public class Round {
         }
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    public List<Guess> getGuesses() {
-        return guesses;
+    public Hint getHint() {
+        return hint;
     }
 
     public String getWord() {
         return word;
     }
 
-    public Hint getHint() {
-        return hint;
+    public List<Feedback> getFeedbackList() {
+        return feedbackList;
+    }
+
+    public List<Guess> getGuesses() {
+        return guesses;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 }
