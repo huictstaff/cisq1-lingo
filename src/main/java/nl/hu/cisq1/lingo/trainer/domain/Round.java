@@ -1,5 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.GameLostException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundWonException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,21 +33,34 @@ public class Round {
     public void makeGuess(String guess) {
         Guess attempt = new Guess(guess);
         if (attempt.validateGuess(guess, this.word)) {
-            this.guesses.add(attempt);
-            Feedback feedback = new Feedback(guess);
-            List<Mark> marks = feedback.toMarkArray(feedback.prepareFeedback(this.word, guess));
-            feedback.setMarks(marks);
-            feedbackList.add(feedback);
+            switch (this.gameState) {
+                case LOST -> throw new GameLostException();
+                case WON -> throw new RoundWonException();
+                case CONTINUE -> {
+                    this.guesses.add(attempt);
+                    Feedback feedback = new Feedback(guess);
+                    List<Mark> marks = feedback.toMarkArray(feedback.prepareFeedback(this.word, guess));
+                    feedback.setMarks(marks);
+                    feedbackList.add(feedback);
+                    determineState(feedback);
+                }
+            }
+        }
+    }
+
+    private void determineState() {
+        if (guesses.size() > 4 && gameState != GameState.WON) {
+            this.gameState = GameState.LOST;
+        } else {
+            this.gameState = GameState.CONTINUE;
         }
     }
 
     public void determineState(Feedback feedback) {
         if (feedback.isWordGuessed()) {
-            gameState = GameState.WON;
-        } else if (guesses.size() > 4 && gameState != GameState.WON) {
-            gameState = GameState.LOST;
+            this.gameState = GameState.WON;
         } else {
-            gameState = GameState.CONTINUE;
+            determineState();
         }
     }
 
