@@ -32,9 +32,9 @@ public class Hint {
                 for (int j = 0; j < feedbackList.get(feedbackList.size() - 1).getMarks().size(); j++) {
                     if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.PRESENT) {
                         charList.set(j, '+');
-                    } else if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.ABSENT) {
-                        charList.set(j, '-');
+                        continue;
                     }
+                    charList.set(j, '-');
                 }
 
             }
@@ -48,7 +48,6 @@ public class Hint {
                 }
             }
         }
-
 
 
         this.hint = charList;
