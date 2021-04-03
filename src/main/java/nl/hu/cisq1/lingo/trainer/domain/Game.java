@@ -80,4 +80,8 @@ public class Game {
         this.gameState = this.checkGameState();
         this.round = null;
     }
+
+    public long getId() {
+        return id;
+    }
 }

@@ -150,6 +150,13 @@ class GameTest {
         }
     }
 
+    @Test
+    @DisplayName("Id getter")
+    void getId() {
+        Game game = new Game(1);
+        assertEquals(1, game.getId());
+    }
+
     @ParameterizedTest
     @DisplayName("Lenght of next word")
     @MethodSource("provideNextLenghtTest")
