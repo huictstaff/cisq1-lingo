@@ -145,7 +145,7 @@ class FeedbackTest {
                     Arguments.of(
                             List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT, ABSENT),
                             new Feedback("tovolo").toMarkArray(new Feedback("tovolo").prepareFeedback("tivoli", "tovolo"))),
-//
+
                     Arguments.of(
                             List.of(CORRECT, ABSENT, ABSENT, CORRECT, CORRECT, PRESENT),
                             new Feedback("torolv").toMarkArray(new Feedback("torolv").prepareFeedback("tivoli", "torolv"))),
