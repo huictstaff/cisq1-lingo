@@ -1,6 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import nl.hu.cisq1.lingo.trainer.domain.exception.GameLostException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundWonException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -55,7 +57,7 @@ class RoundTest {
     }
 
     @Test
-    @DisplayName("State should be lost after 4 incorrect guesses")
+    @DisplayName("State should be won after correct guess")
     void determineStateWon() {
         Round round = new Round("worsten");
         round.makeGuess("wnetsro");
@@ -68,7 +70,7 @@ class RoundTest {
     }
 
     @Test
-    @DisplayName("State should be lost after 4 incorrect guesses")
+    @DisplayName("State should be continue after 3 incorrect guesses")
     void determineStateContinue() {
         Round round = new Round("worsten");
         round.makeGuess("wnetsro");
@@ -81,11 +83,35 @@ class RoundTest {
 
     @Test
     @DisplayName("GetHint returns correct hint")
-    void getHing() {
+    void getHint() {
         Round round = new Round("worsten");
         round.makeGuess("wotseet");
         round.makeGuess("worstne");
         round.getHint().giveHint(round.getGuesses(), round.getFeedbackList(), round.getWord());
         assertEquals(List.of('w', 'o', 'r', 's', 't', 'e', '+'), round.getHint().giveHint(round.getGuesses(), round.getFeedbackList(), round.getWord()));
+    }
+
+    @Test
+    @DisplayName("RoundWonException is thrown when new guess is made when round is already won")
+    void GuessingImpossibleAfterRoundWon() {
+        Round round = new Round("woord");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("woord");
+        assertThrows(RoundWonException.class, () -> round.makeGuess("weerd"));
+    }
+
+    @Test
+    @DisplayName("GameLostException is thrown when new guess is made when game is lost")
+    void GuessingImpossibleAfterGameLost() {
+        Round round = new Round("woord");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        round.makeGuess("weerd");
+        assertThrows(GameLostException.class, () -> round.makeGuess("weerd"));
     }
 }
