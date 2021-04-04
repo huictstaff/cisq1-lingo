@@ -18,6 +18,5 @@ public class ProgresDTO {
         this.guess = game.getLastRound().getFeedback().getAttempt();
         this.hint = game.getLastRound().getFeedback().getHint();
         this.ratings = game.getLastRound().getFeedback().getRatings();
-
     }
 }

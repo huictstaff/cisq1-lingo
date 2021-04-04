@@ -5,7 +5,9 @@ import nl.hu.cisq1.lingo.domain.Game;
 import nl.hu.cisq1.lingo.presentation.dto.GameDTO;
 import nl.hu.cisq1.lingo.presentation.dto.GuessDTO;
 import nl.hu.cisq1.lingo.presentation.dto.ProgresDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/trainer")
@@ -23,9 +25,13 @@ public class TrainerController {
     }
 
     @GetMapping("/game/{id}")
-        public GameDTO getGame(@PathVariable long id){
-        Game game = trainerService.getGame(id);
-        return new GameDTO(game);
+        public ProgresDTO getGame(@PathVariable long id){
+        try{
+            Game game = trainerService.getGame(id);
+            return new ProgresDTO(game);
+        }catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     //Mooiste zou zijn exceptionhandler, maar trycatch is prima hier. #Hugo
