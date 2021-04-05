@@ -37,13 +37,12 @@ public class Feedback {
         }
     }
 
-    /* is the list is empty 'stream' will be true. */
     public boolean isWordGuessed() {
-        return !marks.isEmpty() && this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
+        return this.marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
     public boolean isGuessValid(List<Mark> marks) {
-        return !marks.isEmpty() && !marks.contains(Mark.INVALID);
+        return ! marks.isEmpty() && ! marks.contains(Mark.INVALID);
     }
 
     private boolean isPresent(char c, char[] cWord) {
@@ -103,7 +102,7 @@ public class Feedback {
                 int charOccurence = charOccuences(guessArray[i], actualArray);
                 boolean occurenceReached = occurenceReached(feedback, guessArray[i], charOccurence);
 
-                if (charOccurence == 0 || !present || occurenceReached) {
+                if (! present || occurenceReached) {
                     feedback.put(i, new MarkedLingoCharacter(guessArray[i], Mark.ABSENT));
                     continue;
                 }
