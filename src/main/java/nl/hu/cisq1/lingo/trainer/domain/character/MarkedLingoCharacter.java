@@ -19,11 +19,6 @@ public class MarkedLingoCharacter extends LingoCharacter {
         this.mark = mark;
     }
 
-    @Override
-    public Character getCharacter() {
-        return super.getCharacter();
-    }
-
     public Mark getMark() {
         return mark;
     }

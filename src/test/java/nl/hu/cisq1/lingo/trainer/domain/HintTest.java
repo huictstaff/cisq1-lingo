@@ -23,8 +23,18 @@ class HintTest {
     @Test
     @DisplayName("Different guess and feedback size")
     void differentGuessAndFeedbackSize() {
-        Hint hint = new Hint(List.of('h', 'i', 'n', 't'));
-        assertThrows(InvalidListSizeException.class, () -> hint.giveHint(List.of(new Guess("guess"), new Guess("guess")), List.of(new Feedback("guess1")), "guess"));
+        try {
+            List<Character> charList = List.of('h', 'i', 'n', 't');
+            Hint hint = new Hint(charList);
+            Guess guess = new Guess("guess");
+            Guess guess1 = new Guess("guess");
+            List<Guess> guessList = List.of(guess, guess1);
+            Feedback feedback = new Feedback("guess1");
+            List<Feedback> feedbackList = List.of(feedback);
+            assertThrows(InvalidListSizeException.class, () -> hint.giveHint(guessList, feedbackList, "guess"));
+        } catch (Exception e) {
+            assertNull(e);
+        }
     }
 
     @ParameterizedTest

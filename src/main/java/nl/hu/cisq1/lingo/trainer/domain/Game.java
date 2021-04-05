@@ -62,9 +62,9 @@ public class Game {
 
     public void calculateScore() {
         int score = 0;
-        for (Round round : this.rounds) {
-            if (round.getGameState() == GameState.WON) {
-                score += 5 * (5 - round.getGuesses().size()) + 5;
+        for (Round r : this.rounds) {
+            if (r.getGameState() == GameState.WON) {
+                score += 5 * (5 - r.getGuesses().size()) + 5;
             }
         }
         this.points = score;

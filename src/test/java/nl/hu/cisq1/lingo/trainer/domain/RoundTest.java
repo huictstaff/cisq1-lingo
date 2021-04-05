@@ -50,8 +50,8 @@ class RoundTest {
     void makeGuessValid() {
         Round round = new Round("lingo");
         round.makeGuess("longe");
-        assertEquals(round.getGuesses().get(0).getGuess(), "longe");
-        assertEquals(round.getFeedbackList().get(0).getMarks(), List.of(CORRECT, PRESENT, CORRECT, CORRECT, ABSENT));
+        assertEquals("longe", round.getGuesses().get(0).getWordattempt());
+        assertEquals(List.of(CORRECT, PRESENT, CORRECT, CORRECT, ABSENT), round.getFeedbackList().get(0).getMarks());
     }
 
     @Test

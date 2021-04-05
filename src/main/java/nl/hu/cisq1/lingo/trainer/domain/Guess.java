@@ -3,20 +3,20 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
 
 public class Guess {
-    private String guess;
+    private final String wordattempt;
 
-    public Guess(String guess) {
-        char[] chars = guess.toCharArray();
+    public Guess(String wordattempt) {
+        char[] chars = wordattempt.toCharArray();
         for (char character : chars) {
             if (!Character.isLetter(character)) {
                 throw new InvalidCharacterException();
             }
         }
-        this.guess = guess;
+        this.wordattempt = wordattempt;
     }
 
-    public String getGuess() {
-        return guess;
+    public String getWordattempt() {
+        return wordattempt;
     }
 
     private boolean composedOfLetters(String guess) {

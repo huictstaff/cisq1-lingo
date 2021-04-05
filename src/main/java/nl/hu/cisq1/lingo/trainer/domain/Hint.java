@@ -7,18 +7,30 @@ import java.util.Collections;
 import java.util.List;
 
 public class Hint {
-    private List<Character> hint;
+    private List<Character> hintChars;
 
     public Hint(List<Character> hint) {
-        this.hint = hint;
+        this.hintChars = hint;
     }
 
     public void setHint(List<Character> hint) {
-        this.hint = hint;
+        this.hintChars = hint;
     }
 
     public List<Character> getHint() {
-        return hint;
+        return hintChars;
+    }
+
+    private ArrayList<Character> validateCorrects(ArrayList<Character> charList, List<Guess> guesses, String word, List<Feedback> feedbackList) {
+        for (int i = 0; i < guesses.size(); i++) {
+            List<Mark> marksList = feedbackList.get(i).getMarks();
+            for (int j = 0; j < guesses.get(i).getWordattempt().length(); j++) {
+                if (marksList.get(j).equals(Mark.CORRECT)) {
+                    charList.set(j, word.charAt(j));
+                }
+            }
+        }
+        return charList;
     }
 
     public List<Character> giveHint(List<Guess> guesses, List<Feedback> feedbackList, String word) {
@@ -27,7 +39,7 @@ public class Hint {
             throw new InvalidListSizeException();
         }
 
-        for (int i = 0; i < guesses.get(guesses.size() - 1).getGuess().length(); i++) {
+        for (int i = 0; i < guesses.get(guesses.size() - 1).getWordattempt().length(); i++) {
             if (charList.get(i) == null) {
                 for (int j = 0; j < feedbackList.get(feedbackList.size() - 1).getMarks().size(); j++) {
                     if (feedbackList.get(feedbackList.size() - 1).getMarks().get(j) == Mark.PRESENT) {
@@ -36,21 +48,12 @@ public class Hint {
                     }
                     charList.set(j, '-');
                 }
-
             }
         }
 
-        for (int i = 0; i < guesses.size(); i++) {
-            List<Mark> marksList = feedbackList.get(i).getMarks();
-            for (int j = 0; j < guesses.get(i).getGuess().length(); j++) {
-                if (marksList.get(j).equals(Mark.CORRECT)) {
-                    charList.set(j, word.charAt(j));
-                }
-            }
-        }
+        validateCorrects(charList, guesses, word, feedbackList);
 
-
-        this.hint = charList;
+        this.hintChars = charList;
         return charList;
     }
 }

@@ -43,26 +43,46 @@ class FeedbackTest {
         @Test
         @DisplayName("Guess is invalid when one or more characters are invalid")
         void guessIsInvalid() {
-            assertThrows(InvalidCharacterException.class, () -> new Feedback(List.of(INVALID, CORRECT, CORRECT, CORRECT, CORRECT), "atmpt"));
+            try {
+                List<Mark> markList = List.of(INVALID, CORRECT, CORRECT, CORRECT, CORRECT);
+                assertThrows(InvalidCharacterException.class, () -> new Feedback(markList, "atmpt"));
+            } catch (Exception e) {
+                assertNull(e);
+            }
         }
 
         @Test
         @DisplayName("InvalidCharacterException if feedbacklist is null")
         void emtpyFeedbackValidation() {
-            assertThrows(InvalidCharacterException.class, () -> new Feedback(new ArrayList<>(), "woord"));
+            try {
+                ArrayList<Mark> arrayList = new ArrayList<>();
+                assertThrows(InvalidCharacterException.class, () -> new Feedback(arrayList, "woord"));
+            } catch (Exception e) {
+                assertNull(e);
+            }
         }
 
         @Test
         @DisplayName("Guess is valid when there are no invalid characters")
         void guessIsNotInvalid() {
-            Feedback feedback = new Feedback(List.of(Mark.PRESENT, CORRECT, CORRECT, CORRECT, CORRECT), "atmpt");
-            assertTrue(feedback.isGuessValid(feedback.getMarks()));
+            try {
+                List<Mark> markList = List.of(Mark.PRESENT, CORRECT, CORRECT, CORRECT, CORRECT);
+                Feedback feedback = new Feedback(markList, "atmpt");
+                assertTrue(feedback.isGuessValid(feedback.getMarks()));
+            } catch (Exception e) {
+                assertNull(e);
+            }
         }
 
         @Test
         @DisplayName("Constructor will throw exception if guess doens't match marklist size")
         void guessLengthNotValid() {
-            assertThrows(InvalidGuessLengthException.class, () -> new Feedback(List.of(Mark.PRESENT, CORRECT, CORRECT, CORRECT, CORRECT), "attempt"));
+            try {
+                List<Mark> markList = List.of(Mark.PRESENT, CORRECT, CORRECT, CORRECT, CORRECT);
+                assertThrows(InvalidGuessLengthException.class, () -> new Feedback(markList, "attempt"));
+            } catch (Exception e) {
+                assertNull(e);
+            }
         }
     }
 

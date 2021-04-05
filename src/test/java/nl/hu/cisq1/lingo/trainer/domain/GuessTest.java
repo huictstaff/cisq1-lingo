@@ -1,7 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidCharacterException;
-import org.checkerframework.checker.lock.qual.GuardedBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,7 @@ class GuessTest {
     @DisplayName("Get guess")
     void getGuess() {
         Guess guess = new Guess("droplui");
-        assertEquals("droplui", guess.getGuess());
+        assertEquals("droplui", guess.getWordattempt());
     }
 
     @Test
