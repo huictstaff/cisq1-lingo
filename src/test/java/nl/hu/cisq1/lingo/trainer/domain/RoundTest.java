@@ -27,11 +27,22 @@ class RoundTest {
     }
 
     @Test
-    @DisplayName("makeGuess should do nothing when guess is invalid")
+    @DisplayName("makeGuess should throw error when guess is invalid")
     void makeGuessInvalid() {
         Round round = new Round("lingo");
         assertThrows(InvalidCharacterException.class, () -> round.makeGuess("long😀"));
+    }
+
+    @Test
+    @DisplayName("MakeGuess should do nothing when guess is invalid")
+    void makeGuessInvalid1() {
+        Round round = new Round("lingo");
+        try {
+            round.makeGuess("long😀");
+        } catch (Exception ignore) {
+        }
         assertEquals(0, round.getFeedbackList().size());
+
     }
 
     @Test
