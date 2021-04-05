@@ -4,6 +4,7 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.ActiveRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.GameLostException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.NoActiveRoundException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.RoundWonException;
+import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
@@ -158,6 +159,13 @@ class GameTest {
     }
 
     @ParameterizedTest
+    @DisplayName("calculate score gives correct result")
+    @MethodSource("provideRoundsToCalculate")
+    void calculateScore(int expected, int actual) {
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
     @DisplayName("Lenght of next word")
     @MethodSource("provideNextLenghtTest")
     void provideNextLenghtWord(int expected, int actual) {
@@ -176,5 +184,70 @@ class GameTest {
                 Arguments.of(7, game1.provideNextLenghtWord()),
                 Arguments.of(5, game2.provideNextLenghtWord())
         );
+    }
+
+    private static Stream<Arguments> provideRoundsToCalculate() {
+        Game game = new Game();
+        game.newRound(new Word("woord").getValue());
+        game.makeGuess("woord");
+        game.endRound();
+
+        Game game1 = new Game();
+        game1.newRound("woord");
+        game1.makeGuess("woord");
+        game1.endRound();
+        game1.newRound("woordj");
+        game1.makeGuess("woordj");
+        game1.endRound();
+
+        Game game2 = new Game();
+        game2.newRound("woord");
+        game2.makeGuess("woord");
+        game2.endRound();
+        game2.newRound("woordj");
+        game2.makeGuess("woordj");
+        game2.endRound();
+        game2.newRound("woordj");
+        game2.makeGuess("woordz");
+        game2.makeGuess("woordz");
+        game2.makeGuess("woordz");
+        game2.makeGuess("woordz");
+        try {
+            game2.makeGuess("woordz");
+        } catch (Exception ignored) {
+        }
+        game2.endRound();
+
+        Game game3 = new Game();
+        game3.newRound("woord");
+        game3.makeGuess("woord");
+        game3.endRound();
+        game3.newRound("woordj");
+        game3.makeGuess("woordj");
+        game3.endRound();
+        game3.newRound("woordje");
+        game3.makeGuess("woordje");
+        game3.endRound();
+
+        Game game4 = new Game();
+        game4.newRound("woord");
+        game4.makeGuess("woord");
+        game4.endRound();
+        game4.newRound("woordj");
+        game4.endRound();
+        game4.newRound("woordje");
+        game4.makeGuess("woordjz");
+        game4.makeGuess("woordjz");
+        game4.makeGuess("woordjz");
+        game4.makeGuess("woordjz");
+        game4.makeGuess("woordje");
+        game4.endRound();
+
+        return Stream.of(
+                Arguments.of(25, game.getPoints()),
+                Arguments.of(50, game1.getPoints()),
+                Arguments.of(50, game2.getPoints()),
+                Arguments.of(75, game3.getPoints()),
+                Arguments.of(30, game4.getPoints()));
     }
 }
