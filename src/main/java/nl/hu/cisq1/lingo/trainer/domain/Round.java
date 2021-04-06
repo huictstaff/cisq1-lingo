@@ -2,12 +2,13 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class Round {
-    private String wordToGuess;
+public class Round implements Serializable {
+    private final String wordToGuess;
     private int tried;
 
     public Round(String word) {
@@ -33,12 +34,12 @@ public class Round {
             String charAsString = lowerCaseGuess.charAt(i)+"";
             if (lowerCaseGuess.charAt(i) == wordToGuess.charAt(i)) {
                 marks.add(Mark.CORRECT);
-                presentLetters.replaceFirst(charAsString, "");
+                presentLetters = presentLetters.replaceFirst(charAsString, "");
                 continue;
             }
             if (presentLetters.contains(charAsString)) {
                 marks.add(Mark.PRESENT);
-                presentLetters.replaceFirst(charAsString, "");
+                presentLetters = presentLetters.replaceFirst(charAsString, "");
                 continue;
             }
             marks.add(Mark.WRONG);

@@ -1,9 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-public class Game {
+import java.io.Serializable;
+
+@Data
+public class Game implements Serializable {
     private Round currentRound;
     private boolean going;
 
@@ -37,5 +39,4 @@ public class Game {
         if (!going) return;
         this.currentRound = new Round(word);
     }
-
 }

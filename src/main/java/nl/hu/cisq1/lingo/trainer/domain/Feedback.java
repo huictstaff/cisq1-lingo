@@ -3,12 +3,13 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import lombok.Generated;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 @Getter
-public class Feedback {
+public class Feedback implements Serializable {
     private final String attempt;
     private final List<Mark> marks;
 
