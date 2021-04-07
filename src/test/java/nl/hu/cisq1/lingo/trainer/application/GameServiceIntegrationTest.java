@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @Import(CiTestConfiguration.class)
 @ActiveProfiles("ci")
-public class GameServiceIntegrationTest {
+class GameServiceIntegrationTest {
     @Autowired
     private GameService service;
     private Long id;
@@ -44,7 +44,7 @@ public class GameServiceIntegrationTest {
     void guessGameTest() {
         this.service.guess(this.id, "woord");
         List<HintDTO> hintDTOS = this.service.getGame(this.id).rounds.get(0).hints;
-        assertEquals(hintDTOS.get(hintDTOS.size() - 1).guess, "woord");
+        assertEquals("woord", hintDTOS.get(hintDTOS.size() - 1).guess);
     }
 
     @Test
