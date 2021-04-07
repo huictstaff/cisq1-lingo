@@ -1,20 +1,20 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.trainer.domain;
 
-import trainer.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
-import javax.lang.model.element.Name;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.lang.invoke.SwitchPoint;
+import javax.persistence.*;
 import java.util.*;
 
-@Entity(name = "feedback")
+@Entity
 public class Feedback {
-    @OneToMany(mappedBy = "marks")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Mark> marks;
     private String attempt;
-    private String id;
+    @OneToOne(mappedBy = "feedback", targetEntity = Round.class)
+    private Round round;
 
     public Feedback(String attempt, List<Mark> marks) {
         this.marks = marks;
@@ -72,45 +72,31 @@ public class Feedback {
         return new Hint(hintString, newMarks);
     }
 
-    @Override
-    public String toString() {
-        return "Feedback{" +
-                "marks=" + marks +
-                ", attempt='" + attempt + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(marks, feedback.marks) && Objects.equals(attempt, feedback.attempt);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(marks, attempt);
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<Mark> getMarks() {
         return marks;
     }
 
-    public void setMarks(List<Mark> marks) {
-        this.marks = marks;
-    }
 
     public String getAttempt() {
         return attempt;
     }
 
-    @Id
-    public String getId() {
+    public void setAttempt(String attempt) {
+        this.attempt = attempt;
+    }
+    public void setMarks(List<Mark> marks) {
+        this.marks = marks;
+    }
+    public void setRound(Round round) {
+        this.round = round;
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+
+    public Long getId() {
         return id;
     }
 }

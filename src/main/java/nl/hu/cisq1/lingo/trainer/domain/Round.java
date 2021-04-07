@@ -1,45 +1,45 @@
-package trainer.domain;
+package nl.hu.cisq1.lingo.trainer.domain;
 
-import org.apache.tomcat.util.codec.binary.StringUtils;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidLengthException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.RoundIsOverException;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Entity(name = "rounds")
+@Entity
 public class Round {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne
+    private Game game;
     private int guesses = 5;
     private String word;
     private Boolean isWon = false;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "feedback_id", referencedColumnName = "id")
     private Feedback feedback;
-    private String id;
 
-    public Round(){
+    public Round() {
 
     }
 
-    public Round(String word) {
+    public Round(String word, Game game ) {
+        this.game = game;
         this.word = word;
         String str = "_";
         List<Mark> marks = Feedback.markAttempt(str.repeat(word.length()), word);
         this.feedback = new Feedback(str.repeat(word.length()), marks);
     }
 
-    public Hint guessWord (String guess){
-        if(guesses <= 0 || isWon){
-            return null;
-        }else{
-            List<Mark> marks = Feedback.markAttempt(guess, word);
-            Hint hint = feedback.giveHint(word, marks);
-            if (word.equals(String.join("", hint.getHintStrings()))){
-                isWon = true;
-            }
-            guesses--;
-            return hint;
-        }
+    @Override
+    public String toString() {
+        return "Round{" +
+                "id=" + id +
+                ", guesses=" + guesses +
+                ", word='" + word + '\'' +
+                ", isWon=" + isWon +
+                '}';
     }
 
     public Boolean getWon() {
@@ -62,6 +62,14 @@ public class Round {
         this.word = word;
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
     public Feedback getFeedback() {
         return feedback;
     }
@@ -74,12 +82,11 @@ public class Round {
         return guesses;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Id
-    public String getId() {
+    public Long getId() {
         return id;
     }
 }
