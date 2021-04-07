@@ -1,18 +1,22 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
     private final Long id = 1L;
     private final int score = 1;
-    private final Word woord = new Word("woord");
+    private final String woord = "woord";
     private final Round round = new Round(woord);
     private final List<Round> rounds = new ArrayList<>(List.of(round));
     private final Game game = new Game(id, score, rounds);
@@ -29,7 +33,7 @@ class GameTest {
     @DisplayName("starting a new round should return the active round")
     void newRoundWhenActiveRound() {
         Round originalRound = this.game.getActiveRound();
-        this.game.newRound(new Word("worod"));
+        this.game.newRound("worod");
         assertEquals(this.game.getActiveRound(), originalRound);
     }
 
@@ -37,16 +41,8 @@ class GameTest {
     @DisplayName("starting a new round when the previous round is finished should make that the active round")
     void newRoundWhenPreviousRoundIsDone() {
         this.game.getActiveRound().setState(State.GUESSED);
-        Round round = this.game.newRound(new Word("worod"));
+        Round round = this.game.newRound("worod");
         assertEquals(this.game.getActiveRound(), round);
-    }
-
-    @Test
-    @DisplayName("when the active round is finished, the guess should return null")
-    void guessingWithoutActiveRound() {
-        this.game.getActiveRound().setState(State.LOST);
-        List<Character> hint = this.game.guess("woord");
-        assertTrue(hint.isEmpty());
     }
 
     @Test
@@ -95,8 +91,25 @@ class GameTest {
     @Test
     void setRounds() {
         List<Round> rounds = new ArrayList<>();
-        rounds.add(new Round(new Word("worod")));
+        rounds.add(new Round("worod"));
         this.emptyGame.setRounds(rounds);
         assertEquals(this.emptyGame.getRounds(), rounds);
+    }
+
+    @ParameterizedTest
+    @MethodSource("nextWordInput")
+    @DisplayName("next word length should be one higher than the previous or back to 5")
+    void nextWordLength(String word, int nextLength) {
+        this.emptyGame.setRounds(List.of(new Round(word)));
+        int length = this.emptyGame.nextWordLength();
+        assertEquals(nextLength, length);
+    }
+
+    private static Stream<Arguments> nextWordInput() {
+        return Stream.of(
+                Arguments.of("woord", 6),
+                Arguments.of("wooord", 7),
+                Arguments.of("woooord", 5)
+        );
     }
 }

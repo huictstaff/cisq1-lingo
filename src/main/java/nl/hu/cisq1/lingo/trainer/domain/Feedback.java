@@ -3,7 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 public class Feedback {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "feedback_id_sequence")
+    @SequenceGenerator(name="feedback_id_sequence", sequenceName = "feedback_id_seq")
     private long id;
     private String guess;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Mark> marks;
     @ManyToOne
     @JoinColumn(name = "round_id", nullable = false)
@@ -39,7 +40,7 @@ public class Feedback {
     }
 
     public boolean wordIsGuessed() {
-        if (!guessIsValid()) throw new InvalidFeedbackException();
+        if (!guessIsValid()) throw new InvalidGuessException();
         return marks.stream().allMatch(mark -> mark == Mark.CORRECT);
     }
 
@@ -51,6 +52,6 @@ public class Feedback {
     public Hint giveHint(Hint previousHint) {
         if (guessIsValid()) {
             return new Hint(previousHint, this);
-        } else throw new InvalidFeedbackException();
+        } else throw new InvalidGuessException();
     }
 }

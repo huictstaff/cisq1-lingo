@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ import java.util.List;
 @Setter
 public class Hint {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "hint_id_sequence")
+    @SequenceGenerator(name="hint_id_sequence", sequenceName = "hint_id_seq")
     private long id;
     private String guess;
     @ElementCollection
@@ -41,7 +43,7 @@ public class Hint {
 
     public List<Character> getHint() {
         List<Character> hint = new ArrayList<>();
-        if (isInvalid()) return hint;
+        if (isInvalid()) throw new InvalidGuessException();
         for (int i = 0; i < currentMarks.size(); i++) {
             Mark currentMark = currentMarks.get(i);
             char previousCharachter = this.previousHint.get(i);

@@ -16,7 +16,7 @@ public class GameController {
         this.service = service;
     }
 
-    @PostMapping("/game")
+    @PostMapping("/games")
     public ResponseEntity<GameDTO> createGame() {
         return new ResponseEntity<>(this.service.createGame(), HttpStatus.OK);
     }
@@ -26,8 +26,13 @@ public class GameController {
         return new ResponseEntity<>(this.service.getGame((long) id), HttpStatus.OK);
     }
 
-    @PostMapping("/games/{id}")
+    @PostMapping("/games/{id}/guess")
     public ResponseEntity<GameDTO> guess(@PathVariable int id, @RequestBody GuessDTO guess) {
         return new ResponseEntity<>(this.service.guess((long) id, guess.getGuess()), HttpStatus.OK);
+    }
+
+    @PostMapping("/games/{id}")
+    public ResponseEntity<GameDTO> newRound(@PathVariable int id) {
+        return new ResponseEntity<>(this.service.newRound((long) id), HttpStatus.OK);
     }
 }

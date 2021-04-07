@@ -1,7 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.words.domain.Word;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
-    private final Round round = new Round(new Word("woord"));
-    private final Round fullRound = new Round(1L, new Word("woord"), State.IN_PROGRESS, 0, new ArrayList<>(), new ArrayList<>(), new Game());
+    private final Round round = new Round("woord");
+    private final Round fullRound = new Round(1L, "woord", State.IN_PROGRESS, 0, new ArrayList<>(), new ArrayList<>(), new Game());
 
     @Test
     @DisplayName("guessing should return a list of characters with hints")
@@ -25,15 +25,23 @@ class RoundTest {
     @ParameterizedTest
     @MethodSource(value = "correctIncorrectGuessInput")
     @DisplayName("round should be finished if the guess is correct")
-    void isFinished(String guess, Word word) {
+    void isFinished(String guess, String word) {
         Round round = new Round(word);
         round.guess(guess);
-        assertEquals(round.isFinished(), guess.equals(word.getValue()));
+        assertEquals(round.isFinished(), guess.equals(word));
+    }
+
+    @Test
+    @DisplayName("guessing 5 times should change the state to LOST")
+    void lostState() {
+        this.round.setAttempts(4);
+        this.round.guess("worod");
+        assertEquals(State.LOST, this.round.getState());
     }
 
     @Test
     void getWordToGuess() {
-        assertEquals("woord", this.round.getWordToGuess().getValue());
+        assertEquals("woord", this.round.getWordToGuess());
     }
 
     @Test
@@ -76,7 +84,7 @@ class RoundTest {
     @Test
     @DisplayName("word to guess should be updated when function is called")
     void setWordToGuess() {
-        Word newWord = new Word("worod");
+        String newWord = "worod";
         this.fullRound.setWordToGuess(newWord);
         assertEquals(this.fullRound.getWordToGuess(), newWord);
     }
@@ -101,7 +109,7 @@ class RoundTest {
     @DisplayName("setting feedback should update feedback list")
     void setFeedback() {
         List<Feedback> feedback = new ArrayList<>();
-        Validator validator = new Validator("worod", round.getWordToGuess().getValue());
+        Validator validator = new Validator("worod", round.getWordToGuess());
         feedback.add(new Feedback("worod", validator.validate()));
         this.fullRound.setAllFeedback(feedback);
         assertEquals(this.fullRound.getAllFeedback(), feedback);

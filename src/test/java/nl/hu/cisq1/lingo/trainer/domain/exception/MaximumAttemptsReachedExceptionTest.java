@@ -14,7 +14,7 @@ class MaximumAttemptsReachedExceptionTest {
     @Test
     @DisplayName("exception should be thrown when guessing is tried after reaching 5 guesses")
     void exceptionTest() {
-        Round round = new Round(new Word("woord"));
+        Round round = new Round("woord");
         round.setAttempts(5);
         assertThrows(MaximumAttemptsReachedException.class, () -> round.guess("woord"));
     }

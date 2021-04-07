@@ -1,6 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.words.domain.Word;
+import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidGuessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HintTest {
     private final Hint hint = new Hint(1L, "woord", new ArrayList<>(), new ArrayList<>(), new Round());
@@ -21,10 +22,8 @@ class HintTest {
     void emptyHint() {
 //        Given
         Hint hint = new Hint();
-//        When
-        int size = hint.getHint().size();
-//        Then
-        assertEquals(0, size);
+//        When/Then
+        assertThrows(InvalidGuessException.class, hint::getHint);
     }
 
     @Test
@@ -114,7 +113,7 @@ class HintTest {
     @Test
     @DisplayName("setting the round should update it")
     void setRound() {
-        Round round = new Round(new Word("worod"));
+        Round round = new Round("worod");
         this.hint.setRound(round);
         assertEquals(round, this.hint.getRound());
     }

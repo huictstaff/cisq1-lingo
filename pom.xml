@@ -20,8 +20,7 @@
         <sonar.projectKey>ItsGers8_cisq1-lingo</sonar.projectKey>
         <sonar.organization>itsgers8</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
-        <sonar.exclusions>**/*DTO.java</sonar.exclusions>
+        <sonar.exclusions>**/LingoApplication.java,**/*DTO.java</sonar.exclusions>
     </properties>
 
     <dependencies>
@@ -106,9 +105,7 @@
                             <excludes>
                                 <exclude>**/LingoApplication.*</exclude>
                                 <exclude>nl/hu/cisq1/lingo/trainer/**/dto/*.*</exclude>
-                                <exclude>**/trainer/presentation/*.*</exclude>
                                 <exclude>**/trainer/data/*.*</exclude>
-                                <exclude>**/trainer/application/*.*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -143,9 +140,7 @@
                             <excludes>
                                 <exclude>**/LingoApplication.*</exclude>
                                 <exclude>nl/hu/cisq1/lingo/trainer/**/dto/*.*</exclude>
-                                <exclude>**/trainer/presentation/*.*</exclude>
                                 <exclude>**/trainer/data/*.*</exclude>
-                                <exclude>**/trainer/application/*.*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -163,7 +158,6 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <mutationThreshold>90</mutationThreshold>
                     <timestampedReports>false</timestampedReports>
                 </configuration>
             </plugin>
