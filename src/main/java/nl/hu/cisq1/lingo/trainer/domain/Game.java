@@ -1,12 +1,13 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 
-@Data
 public class Game implements Serializable {
+    @Getter
     private Round currentRound;
+    @Getter
     private boolean going;
 
     public Game(String word) {

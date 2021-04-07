@@ -4,9 +4,7 @@ import lombok.Generated;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Getter
 public class Feedback implements Serializable {
@@ -26,26 +24,6 @@ public class Feedback implements Serializable {
             }
         }
         return Mark.CORRECT;
-    }
-
-    public Feedback appendCorrect(Feedback feedback) {
-        List<Mark> allCorrect = new ArrayList<>(this.marks);
-        StringBuilder returnWord = new StringBuilder();
-
-        for (int i = 0; i < this.marks.size(); i++) {
-            if (feedback.getMarks().get(i) == Mark.CORRECT) {
-                allCorrect.set(i, Mark.CORRECT);
-                returnWord.append(feedback.getAttempt().toLowerCase().charAt(i));
-            } else if (this.getMarks().get(i) == Mark.CORRECT) {
-                allCorrect.set(i, Mark.CORRECT);
-                returnWord.append(this.getAttempt().toLowerCase().charAt(i));
-            } else {
-                allCorrect.set(i, Mark.WRONG);
-                returnWord.append(".");
-            }
-        }
-
-        return new Feedback(returnWord.toString(), allCorrect);
     }
 
     @Override
@@ -68,4 +46,11 @@ public class Feedback implements Serializable {
         return marks.equals(feedback.marks);
     }
 
+    @Generated
+    @Override
+    public int hashCode() {
+        int result = attempt.hashCode();
+        result = 31 * result + marks.hashCode();
+        return result;
+    }
 }

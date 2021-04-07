@@ -10,10 +10,12 @@ import java.util.List;
 public class Round implements Serializable {
     private final String wordToGuess;
     private int tried;
+    private Hint lastHint;
 
     public Round(String word) {
         this.wordToGuess = word;
         this.tried = 0;
+        this.lastHint = new Hint(word, true);
     }
 
     public Feedback guess(String guess) {
@@ -44,7 +46,9 @@ public class Round implements Serializable {
             }
             marks.add(Mark.WRONG);
         }
+        Feedback feedback = new Feedback(guess, marks);
+        this.lastHint = this.lastHint.appendFeedback(feedback);
 
-        return new Feedback(guess, marks);
+        return feedback;
     }
 }

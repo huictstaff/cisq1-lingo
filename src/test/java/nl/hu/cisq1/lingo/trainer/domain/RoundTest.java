@@ -28,10 +28,15 @@ class RoundTest {
     @DisplayName("word is guessed if all letters are correct")
     void guessWord() {
         assertEquals(List.of(CORRECT, WRONG, PRESENT, WRONG, WRONG), round.guess("arend").getMarks());
+        System.out.println(round.getLastHint().getHintString());
         assertEquals(List.of(CORRECT, PRESENT, CORRECT, PRESENT, WRONG), round.guess("appel").getMarks());
+        System.out.println(round.getLastHint().getHintString());
         assertEquals(List.of(ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL), round.guess("beren").getMarks());
+        System.out.println(round.getLastHint().getHintString());
         assertEquals(List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT), round.guess("aapje").getMarks());
+        System.out.println(round.getLastHint().getHintString());
         assertEquals(4, round.getTried());
+        assertEquals("aapje", round.getLastHint().getHintString());
     }
 
     @Test

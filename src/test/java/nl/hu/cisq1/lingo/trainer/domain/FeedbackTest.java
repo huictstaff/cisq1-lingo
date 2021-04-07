@@ -62,14 +62,4 @@ class FeedbackTest {
         assertEquals("Feedback{attempt='arm', marks=[WRONG, WRONG, WRONG]}", feedback.toString());
     }
 
-    @Test
-    @DisplayName("appending test")
-    void appendCorrect() {
-        Feedback lastAllCorrect = new Feedback("a.O.A", List.of(CORRECT, WRONG, CORRECT, WRONG, CORRECT));
-        Feedback newFeedback = new Feedback("Arkje", List.of(CORRECT, CORRECT, WRONG, WRONG, WRONG));
-
-        Feedback expected = new Feedback("aro.a", List.of(CORRECT, CORRECT, CORRECT, WRONG, CORRECT));
-
-        assertEquals(expected, lastAllCorrect.appendCorrect(newFeedback));
-    }
 }
