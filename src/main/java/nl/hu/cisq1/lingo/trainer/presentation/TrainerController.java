@@ -45,7 +45,7 @@ public class TrainerController {
 
     @PostMapping("start")
     public GameStatus startGame(@RequestBody BeginWord beginWord) {
-        return this.service.provideNewGame(beginWord.word);
+        return this.service.provideNewGame(beginWord);
     }
 
     @PostMapping("{id}/guess")

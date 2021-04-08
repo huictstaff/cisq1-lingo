@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Mark;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.BeginWord;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GameStatus;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.Guess;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +48,11 @@ class TrainerServiceTest {
                 });
 
         TrainerService service = new TrainerService(mockRepository);
-        GameStatus status = service.provideNewGame("appel");
+        BeginWord beginWord = new BeginWord();
+        beginWord.word = "appel";
+
+
+        GameStatus status = service.provideNewGame(beginWord);
 
         assertNotNull(status.getCurrentHint());
         assertNotNull(status.getId());

@@ -4,6 +4,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Feedback;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
+import nl.hu.cisq1.lingo.trainer.presentation.dto.BeginWord;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GameStatus;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.Guess;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class TrainerService {
         this.gameRepository = gameRepository;
     }
 
-    public GameStatus provideNewGame(String beginWord) {
-        Game game = new Game(beginWord);
+    public GameStatus provideNewGame(BeginWord beginWord) {
+        Game game = new Game(beginWord.word);
 
         this.gameRepository.save(game);
 
