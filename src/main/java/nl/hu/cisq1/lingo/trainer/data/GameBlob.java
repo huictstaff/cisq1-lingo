@@ -1,15 +1,14 @@
 package nl.hu.cisq1.lingo.trainer.data;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 
 import javax.persistence.*;
 
 @Entity(name = "games")
 @NoArgsConstructor
-@Getter
+@AllArgsConstructor
+@Getter @Setter
 public class GameBlob {
 
     @Id

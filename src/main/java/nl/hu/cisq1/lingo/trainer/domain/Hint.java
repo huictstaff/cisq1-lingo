@@ -2,8 +2,10 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class Hint {
+public class Hint implements Serializable {
     private String hintString;
 
     public Hint(String word, boolean firstHint) {
@@ -24,10 +26,6 @@ public class Hint {
     }
 
     public Hint appendFeedback(Feedback feedback) {
-//        if (this.hintString.length() != feedback.getMarks().size()) {
-//            throw new Exception("UnmatchedWordLengthException");
-//        }
-
         StringBuilder newHint = new StringBuilder();
 
         for (int i = 0; i < this.hintString.length(); i++) {
