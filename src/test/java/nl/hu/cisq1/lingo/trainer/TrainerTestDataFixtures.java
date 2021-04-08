@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer;
 
-import nl.hu.cisq1.lingo.trainer.data.GameBlob;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import org.springframework.boot.CommandLineRunner;
@@ -13,9 +12,9 @@ public class TrainerTestDataFixtures implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        this.repository.save(new GameBlob(1L, new Game("pizza")));
-        this.repository.save(new GameBlob(2L, new Game("oranje")));
-        this.repository.save(new GameBlob(3L, new Game("wanorde")));
+    public void run(String... args) {
+        this.repository.save(new Game(1L, "pizza"));
+        this.repository.save(new Game(2L, "oranje"));
+        this.repository.save(new Game(3L, "wanorde"));
     }
 }

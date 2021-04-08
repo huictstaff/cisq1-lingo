@@ -1,14 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.application;
 
-import nl.hu.cisq1.lingo.trainer.data.GameBlob;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Mark;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.GameStatus;
 import nl.hu.cisq1.lingo.trainer.presentation.dto.Guess;
-import nl.hu.cisq1.lingo.words.data.SpringWordRepository;
-import nl.hu.cisq1.lingo.words.domain.Word;
-import nl.hu.cisq1.lingo.words.domain.exception.WordLengthNotSupportedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,7 +26,7 @@ class TrainerServiceTest {
     void providesCorrectGameStatus(long id, Game game) throws Exception {
         SpringGameRepository mockRepository = mock(SpringGameRepository.class);
         when(mockRepository.findById(id))
-                .thenReturn(Optional.of(new GameBlob(id, game)));
+                .thenReturn(Optional.of(game));
 
         TrainerService service = new TrainerService(mockRepository);
         GameStatus result = service.getStatus(id);
@@ -43,11 +39,11 @@ class TrainerServiceTest {
     @DisplayName("returns gamestatus for new game without feedback")
     void startsNewGame() {
         SpringGameRepository mockRepository = mock(SpringGameRepository.class);
-        when(mockRepository.save(Mockito.any(GameBlob.class)))
+        when(mockRepository.save(Mockito.any(Game.class)))
                 .thenAnswer(i -> {
-                    GameBlob blob = (GameBlob) i.getArguments()[0];
-                    blob.setId(1L);
-                    return blob;
+                    Game game = (Game) i.getArguments()[0];
+                    game.setId(1L);
+                    return game;
                 });
 
         TrainerService service = new TrainerService(mockRepository);
@@ -64,7 +60,7 @@ class TrainerServiceTest {
     void guessAnswer(long id, Game game) throws Exception {
         SpringGameRepository mockRepository = mock(SpringGameRepository.class);
         when(mockRepository.findById(id))
-                .thenReturn(Optional.of(new GameBlob(id, game)));
+                .thenReturn(Optional.of(game));
 
         TrainerService service = new TrainerService(mockRepository);
         Guess guess = new Guess();
@@ -82,9 +78,9 @@ class TrainerServiceTest {
 
     static Stream<Arguments> randomGameExamples() {
         return Stream.of(
-                Arguments.of(1, new Game("pizza")),
-                Arguments.of(2, new Game("castle")),
-                Arguments.of(3, new Game("knights"))
+                Arguments.of(1, new Game(1L, "pizza")),
+                Arguments.of(2, new Game(2L, "castle")),
+                Arguments.of(3, new Game(3L, "knights"))
         );
     }
 }

@@ -1,11 +1,23 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity(name = "hints")
+@NoArgsConstructor
 @Getter
 public class Hint implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String hintString;
 
     public Hint(String word, boolean firstHint) {
