@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
     private final Long id = 1L;
@@ -52,6 +51,21 @@ class GameTest {
         this.game.guess("porod");
         List<Character> hints = this.game.guess(guess);
         assertEquals(hints.size(), guess.length());
+    }
+
+    @Test
+    @DisplayName("when you win, the score should increase")
+    void winningGuessScore() {
+        for (int i = 0; i < 5; i++) {
+            this.game.setScore(0);
+            this.game.getActiveRound().setAttempts(i);
+            this.game.getActiveRound().setState(State.IN_PROGRESS);
+
+            this.game.guess("woord");
+
+            int expectedScore = 5 * (5 - (i + 1)) + 5;
+            assertEquals(expectedScore, this.game.getScore());
+        }
     }
 
     @Test

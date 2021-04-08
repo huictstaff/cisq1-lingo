@@ -42,7 +42,11 @@ public class Game {
         if (this.getActiveRound().isFinished()) {
             throw new RoundIsFinishedException();
         } else {
-            return this.getActiveRound().guess(guess);
+            List<Character> hint = this.getActiveRound().guess(guess);
+            if (this.getActiveRound().getState() == State.GUESSED) {
+                score += 5 * (5 - this.getActiveRound().getAttempts()) + 5;
+            }
+            return hint;
         }
     }
 
