@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Getter
-public class Feedback implements Serializable {
+public class Feedback {
     private final String attempt;
     private final List<Mark> marks;
 

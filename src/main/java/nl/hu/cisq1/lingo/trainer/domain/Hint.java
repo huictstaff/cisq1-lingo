@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity(name = "hints")
 @NoArgsConstructor
 @Getter
-public class Hint implements Serializable {
+public class Hint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

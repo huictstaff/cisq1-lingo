@@ -19,7 +19,7 @@ public class Round {
     private String wordToGuess;
     private int tried;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Hint lastHint;
 
     public Round(String word) {

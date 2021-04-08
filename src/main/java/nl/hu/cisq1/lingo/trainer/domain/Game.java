@@ -17,7 +17,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Round currentRound;
 
     private boolean going;
