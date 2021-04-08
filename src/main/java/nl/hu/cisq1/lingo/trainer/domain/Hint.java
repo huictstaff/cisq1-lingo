@@ -18,10 +18,4 @@ public class Hint {
     public List<Mark> getMarks() {
         return marks;
     }
-
-    @Override
-    public String toString() {
-        return "hintStrings=" + hintStrings +
-                        ", marks=" + marks;
-    }
 }

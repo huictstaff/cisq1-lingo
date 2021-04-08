@@ -28,6 +28,15 @@ public class Feedback {
 
     }
 
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id=" + id +
+                ", marks=" + marks +
+                ", attempt='" + attempt + '\'' +
+                '}';
+    }
+
     public static List<Mark> markAttempt(String attempt, String wordToGuess) {
         List<Mark> marks = new ArrayList<>();
         for (int i = 0; i < attempt.length(); i++) {

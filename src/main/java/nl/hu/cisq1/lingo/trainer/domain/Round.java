@@ -42,51 +42,51 @@ public class Round {
                 '}';
     }
 
-    public Boolean getWon() {
-        return isWon;
-    }
-
-    public void setFeedback(Feedback feedback) {
-        this.feedback = feedback;
-    }
-
-    public void setGuesses(int guesses) {
-        this.guesses = guesses;
-    }
-
-    public void setWon(Boolean won) {
-        isWon = won;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setGame(Game game) {
         this.game = game;
     }
 
+    public void setGuesses(int guesses) {
+        this.guesses = guesses;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setWon(Boolean won) {
+        isWon = won;
+    }
+
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public Game getGame() {
         return game;
-    }
-
-    public Feedback getFeedback() {
-        return feedback;
-    }
-
-    public String getWord() {
-        return word;
     }
 
     public int getGuesses() {
         return guesses;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getWord() {
+        return word;
     }
 
-    public Long getId() {
-        return id;
+    public Boolean getWon() {
+        return isWon;
+    }
+
+    public Feedback getFeedback() {
+        return feedback;
     }
 }
