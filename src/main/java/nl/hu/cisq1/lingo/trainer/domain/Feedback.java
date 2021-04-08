@@ -69,25 +69,21 @@ public class Feedback {
         List<String> hintString = new ArrayList<>();
         List<Mark> newMarks = addMarks(marks, hintMarks);
         for (int i = 0; i < wordToGuess.length(); i++) {
-            switch (newMarks.get(i)) {
-                case PRESENT -> hintString.add("*");
-                case ABSENT -> hintString.add("_");
-                case CORRECT -> hintString.add("" + wordToGuess.charAt(i));
-                case INVALID -> hintString.add("#");
-                default -> System.err.println("Error Invalid mark.");
+            if(newMarks.get(i) == Mark.PRESENT){
+                hintString.add("*");
+            }
+            else if(newMarks.get(i) == Mark.ABSENT){
+                hintString.add("_");
+            }
+            else if(newMarks.get(i) == Mark.CORRECT){
+                hintString.add("" + wordToGuess.charAt(i));
+            }
+            else{
+                hintString.add("#");
             }
         }
         this.marks = newMarks;
         return new Hint(hintString, newMarks);
-    }
-
-    public List<Mark> getMarks() {
-        return marks;
-    }
-
-
-    public String getAttempt() {
-        return attempt;
     }
 
     public void setAttempt(String attempt) {
@@ -98,6 +94,19 @@ public class Feedback {
     }
     public void setRound(Round round) {
         this.round = round;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
+    }
+
+
+    public String getAttempt() {
+        return attempt;
     }
 
     public Round getRound() {

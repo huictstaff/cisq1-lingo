@@ -11,6 +11,14 @@ public class Hint {
         this.hintStrings = hintStrings;
     }
 
+    @Override
+    public String toString() {
+        return "Hint{" +
+                "hintStrings=" + hintStrings +
+                ", marks=" + marks +
+                '}';
+    }
+
     public List<String> getHintStrings() {
         return hintStrings;
     }

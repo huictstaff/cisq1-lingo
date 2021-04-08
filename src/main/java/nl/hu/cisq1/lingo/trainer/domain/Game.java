@@ -40,7 +40,7 @@ public class Game {
         }
         else {
             List<Mark> marks = Feedback.markAttempt(word, word);
-            Hint hint = round.getFeedback().giveHint(word, marks);
+            Hint hint = round.getFeedback().giveHint(round.getWord(), marks);
             if (word.equals(String.join("", hint.getHintStrings()))) {
                 round.setWon(true);
             }
