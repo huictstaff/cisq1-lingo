@@ -1,6 +1,8 @@
 package nl.hu.cisq1.lingo.trainer.application;
 
+import nl.hu.cisq1.lingo.trainer.presentation.DTO.GameDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.HintDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.DTO.RoundDTO;
 import nl.hu.cisq1.lingo.words.application.WordService;
 
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
@@ -23,11 +25,15 @@ public class TrainerService {
         this.wordService = wordService;
     }
 
-    public Game startGame (){
+    public GameDTO startGame (){
         Game game = new Game();
         game.makeRound(wordService.provideRandomWord(5));
         this.game = game;
-        return game;
+        return new GameDTO(game);
+    }
+
+    public RoundDTO makeRound(){
+        return new RoundDTO(game.makeRound(wordService.provideRandomWord(5 + game.getRounds().size())));
     }
     public HintDTO guess(String guess){
         return new HintDTO(this.game.guessWord(guess));

@@ -5,6 +5,7 @@ import nl.hu.cisq1.lingo.trainer.domain.exception.RoundIsOverException;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.AttemptDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.GameDTO;
 import nl.hu.cisq1.lingo.trainer.presentation.DTO.HintDTO;
+import nl.hu.cisq1.lingo.trainer.presentation.DTO.RoundDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,21 +18,27 @@ public class TrainerController {
     }
 
     @PostMapping("game")
-    public GameDTO startGame(){
+    public GameDTO startGame() {
         trainerService.startGame();
         trainerService.saveGame();
         return new GameDTO(trainerService.getGame());
     }
 
     @PatchMapping("guess")
-    public HintDTO guess(@RequestBody AttemptDTO attemptDTO){
+    public HintDTO guess(@RequestBody AttemptDTO attemptDTO) {
         try {
-            System.out.println(attemptDTO);
             HintDTO hintDTO = trainerService.guess(attemptDTO.getAttempt());
             trainerService.saveGame();
             return hintDTO;
-        }catch (RoundIsOverException e){
+        } catch (RoundIsOverException e) {
             throw e;
         }
+    }
+
+    @PatchMapping("/round")
+    public RoundDTO newRound() {
+        RoundDTO roundDTO = trainerService.makeRound();
+        trainerService.saveGame();
+        return roundDTO;
     }
 }

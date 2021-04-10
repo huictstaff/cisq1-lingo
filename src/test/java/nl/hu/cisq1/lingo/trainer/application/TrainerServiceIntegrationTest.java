@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import nl.hu.cisq1.lingo.CiTestConfiguration;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidLengthException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.RoundIsOverException;
+import nl.hu.cisq1.lingo.trainer.presentation.DTO.GameDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,7 @@ class TrainerServiceIntegrationTest {
     @Test
     @DisplayName("Creates a game object and starts the first round.")
     void startsGame() {
-        Game game = trainerService.startGame();
+        GameDTO game = trainerService.startGame();
         assertEquals(1, game.getRounds().size());
     }
 
