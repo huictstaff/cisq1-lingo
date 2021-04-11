@@ -42,11 +42,10 @@ class RoundTest {
     @Test
     @DisplayName("guess is some illegal value")
     void weirdGuess() {
-        List fullyIllegal = List.of(ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL);
+        List<Mark> fullyIllegal = List.of(ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL, ILLEGAL);
         assertEquals(fullyIllegal, round.guess(null).getMarks());
         assertEquals(fullyIllegal, round.guess("").getMarks());
         assertEquals(fullyIllegal, round.guess("da").getMarks());
-
     }
 
 }

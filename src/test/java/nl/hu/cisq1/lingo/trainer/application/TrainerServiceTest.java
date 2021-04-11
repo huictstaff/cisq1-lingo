@@ -50,13 +50,35 @@ class TrainerServiceTest {
         TrainerService service = new TrainerService(mockRepository);
         BeginWord beginWord = new BeginWord();
         beginWord.word = "appel";
-
-
         GameStatus status = service.provideNewGame(beginWord);
+
 
         assertNotNull(status.getCurrentHint());
         assertNotNull(status.getId());
+        assertFalse(status.isLost());
         assertNull(status.getLastFeedback());
+    }
+
+    @Test
+    @DisplayName("returns gamestatus for new game without feedback")
+    void lostGame() throws Exception {
+        Game gameOne = new Game("woord");
+
+        SpringGameRepository mockRepository = mock(SpringGameRepository.class);
+        when(mockRepository.findById(anyLong()))
+                .thenReturn(Optional.of(gameOne));
+
+        GameStatus status = null;
+        for (int i = 0; i < 5; i++) {
+            TrainerService service = new TrainerService(mockRepository);
+            Guess guess = new Guess();
+            guess.guess = "woops";
+            status = service.guess(1L, guess);
+        }
+
+        assertEquals("woo..", status.getCurrentHint().getHintString());
+        assertTrue(status.isLost());
+        assertNotNull(status.getLastFeedback());
     }
 
     @ParameterizedTest
@@ -70,7 +92,6 @@ class TrainerServiceTest {
         TrainerService service = new TrainerService(mockRepository);
         Guess guess = new Guess();
         guess.guess = game.getCurrentRound().getWordToGuess();
-
         GameStatus status = service.guess(id, guess);
 
         assertFalse(status.isLost());
@@ -78,7 +99,6 @@ class TrainerServiceTest {
         assertNotNull(status.getCurrentHint());
         assertEquals(Mark.CORRECT, status.getLastFeedback().totalMark());
         assertEquals(game.getCurrentRound().getWordToGuess(), status.getCurrentHint().getHintString());
-
     }
 
     static Stream<Arguments> randomGameExamples() {
