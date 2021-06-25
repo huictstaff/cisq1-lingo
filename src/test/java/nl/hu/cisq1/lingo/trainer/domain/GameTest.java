@@ -74,26 +74,4 @@ class GameTest {
         System.out.println(String.join("", game.guessWord("appel").getHintStrings()));
         assertFalse(game.getLastRound().getWon());
     }
-
-    @Test
-    void setId() {
-        Game game = new Game();
-        game.setId(Long.parseLong("3"));
-        assertEquals(Long.parseLong("3"), game.getId());
-    }
-
-    @Test
-    void setRounds() {
-        Game game = new Game();
-        game.setRounds(List.of(new Round()));
-        assertEquals(List.of(new Round()).toString(), game.getRounds().toString());
-    }
-
-    @Test
-    void getLastRound() {
-        Game game = new Game();
-        game.makeRound("woord");
-        assertEquals(new Round("woord", game).toString(), game.getLastRound().toString());
-
-    }
 }

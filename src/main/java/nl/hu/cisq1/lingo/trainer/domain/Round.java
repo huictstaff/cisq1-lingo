@@ -1,12 +1,13 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidLengthException;
-import nl.hu.cisq1.lingo.trainer.domain.exception.RoundIsOverException;
+import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Round {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,8 +25,7 @@ public class Round {
 
     }
 
-    public Round(String word, Game game ) {
-        this.game = game;
+    public Round(String word) {
         this.word = word;
         String str = "_";
         List<Mark> marks = Feedback.markAttempt(str.repeat(word.length()), word);
@@ -42,51 +42,13 @@ public class Round {
                 '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public void setGuesses(int guesses) {
-        this.guesses = guesses;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public void setWon(Boolean won) {
-        isWon = won;
-    }
-
-    public void setFeedback(Feedback feedback) {
-        this.feedback = feedback;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public int getGuesses() {
-        return guesses;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
     public Boolean getWon() {
         return isWon;
     }
-
-    public Feedback getFeedback() {
-        return feedback;
+    public void setWon(Boolean isWon){
+        this.isWon = isWon;
+    }
+    public void setGuesses(int guesses) {
+        this.guesses = guesses;
     }
 }

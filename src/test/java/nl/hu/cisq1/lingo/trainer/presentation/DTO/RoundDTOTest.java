@@ -12,7 +12,7 @@ class RoundDTOTest {
 
     @BeforeEach
     void prepTest(){
-        roundDTO = new RoundDTO(new Round("woord", new Game()));
+        roundDTO = new RoundDTO(new Round("woord"));
     }
 
     @Test

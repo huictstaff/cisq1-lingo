@@ -18,14 +18,6 @@ class GameDTOTest {
     }
 
     @Test
-    void setRounds() {
-        GameDTO gameDTO = new GameDTO(new Game());
-        gameDTO.setRounds(List.of(new RoundDTO(new Round("woord", new Game()))));
-        assertEquals(List.of(new RoundDTO(new Round("woord", new Game()))).toString()
-                ,gameDTO.getRounds().toString());
-    }
-
-    @Test
     void testToString() {
         GameDTO gameDTO = new GameDTO(new Game());
         assertNotNull(gameDTO.toString());

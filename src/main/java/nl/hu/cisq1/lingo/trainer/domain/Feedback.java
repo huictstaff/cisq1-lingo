@@ -1,11 +1,13 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidFeedbackException;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Getter
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,35 +88,17 @@ public class Feedback {
         return new Hint(hintString, newMarks);
     }
 
-    public void setAttempt(String attempt) {
-        this.attempt = attempt;
-    }
-    public void setMarks(List<Mark> marks) {
-        this.marks = marks;
-    }
-    public void setRound(Round round) {
-        this.round = round;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Mark> getMarks() {
-        return marks;
-    }
-
-
-    public String getAttempt() {
-        return attempt;
-    }
-
-    public Round getRound() {
-        return round;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
+//    public void setAttempt(String attempt) {
+//        this.attempt = attempt;
+//    }
+//    public void setMarks(List<Mark> marks) {
+//        this.marks = marks;
+//    }
+//    public void setRound(Round round) {
+//        this.round = round;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 }

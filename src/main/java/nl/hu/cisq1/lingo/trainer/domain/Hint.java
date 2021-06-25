@@ -1,7 +1,10 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class Hint {
     private List<String> hintStrings;
     private List<Mark> marks;
@@ -17,13 +20,5 @@ public class Hint {
                 "hintStrings=" + hintStrings +
                 ", marks=" + marks +
                 '}';
-    }
-
-    public List<String> getHintStrings() {
-        return hintStrings;
-    }
-
-    public List<Mark> getMarks() {
-        return marks;
     }
 }

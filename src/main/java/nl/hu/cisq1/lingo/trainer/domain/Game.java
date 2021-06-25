@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
 import nl.hu.cisq1.lingo.trainer.domain.exception.InvalidLengthException;
 import nl.hu.cisq1.lingo.trainer.domain.exception.RoundIsOverException;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity(name = "games")
+@Getter
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +20,7 @@ public class Game {
     }
 
     public Round makeRound(String word){
-        Round round = new Round(word, this);
+        Round round = new Round(word);
         rounds.add(round);
         return round;
     }
@@ -39,7 +41,7 @@ public class Game {
             throw new InvalidLengthException();
         }
         else {
-            List<Mark> marks = Feedback.markAttempt(word, word);
+            List<Mark> marks = Feedback.markAttempt(word, round.getWord());
             Hint hint = round.getFeedback().giveHint(round.getWord(), marks);
             if (word.equals(String.join("", hint.getHintStrings()))) {
                 round.setWon(true);
@@ -49,21 +51,6 @@ public class Game {
         }
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setRounds(List<Round> rounds) {
-        this.rounds = rounds;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<Round> getRounds() {
-        return rounds;
-    }
 
     public Round getLastRound(){
         return rounds.get(rounds.size()-1);

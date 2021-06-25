@@ -170,33 +170,4 @@ class FeedbackTest {
         Feedback feedback = new Feedback();
         assertNotNull(feedback.toString());
     }
-
-    //setter tests
-    @Test
-    void setId() {
-        Feedback feedback = new Feedback();
-        feedback.setId(Long.parseLong("2"));
-        assertEquals(Long.parseLong("2"), feedback.getId());
-    }
-
-    @Test
-    void setAttempt() {
-        Feedback feedback = new Feedback();
-        feedback.setAttempt("woord");
-        assertEquals(feedback.getAttempt(), "woord");
-    }
-
-    @Test
-    void setMarks() {
-        Feedback feedback = new Feedback();
-        feedback.setMarks(List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-        assertEquals(feedback.getMarks(), List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-    }
-
-    @Test
-    void setRound() {
-        Feedback feedback = new Feedback();
-        feedback.setRound(new Round());
-        assertEquals(feedback.getRound().toString(), new Round().toString());
-    }
 }
