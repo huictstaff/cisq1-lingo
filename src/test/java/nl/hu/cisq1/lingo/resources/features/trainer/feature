@@ -2,3 +2,9 @@ Feature: Training for Lingo
 As a Lingo Player
 I want to practice guessing 5, 6 and 7 letter words
 In order to be a better Lingo player.
+
+Scenario: Start a new game of Lingo
+When: I start a new game
+Then: the word to guess has 5 letters
+And: I should see the first letter
+And: my score is 0
