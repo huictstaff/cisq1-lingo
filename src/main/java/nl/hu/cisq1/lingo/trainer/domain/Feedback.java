@@ -1,6 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Feedback {
     private String attempt;
@@ -12,11 +13,6 @@ public class Feedback {
     }
 
     public boolean isWordGuessed() {
-        for (Mark result : markList){
-            if(result!=Mark.CORRECT){
-                return false;
-            }
-        }
-        return true;
+        return markList.stream().allMatch(result -> result == Mark.CORRECT);
     }
 }
