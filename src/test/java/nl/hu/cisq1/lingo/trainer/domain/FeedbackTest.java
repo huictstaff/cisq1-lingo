@@ -20,9 +20,21 @@ class FeedbackTest {
     void wordIsNotGuessed(){
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT));
         assertFalse(feedback.isWordGuessed());
-
     }
 
+    @Test
+    @DisplayName("word is not guessed because all the letters are invallid")
+    void guessIsInvalid(){
+        Feedback feedback = new Feedback("woord", List.of(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID));
+        assertFalse(feedback.isWordGuessed());
+    }
+
+    @Test
+    @DisplayName("word is not guessed because all the letters are invallid")
+    void guessIsNotInvalid(){
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
+        assertTrue(feedback.isWordGuessed());
+    }
 
 
 
