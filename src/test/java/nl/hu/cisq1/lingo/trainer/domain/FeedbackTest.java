@@ -15,6 +15,14 @@ class FeedbackTest {
         assertTrue(feedback.isWordGuessed());
 
     }
+    @Test
+    @DisplayName("word is not guessed because all the letters are incorrect")
+    void wordIsNotGuessed(){
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT));
+        assertFalse(feedback.isWordGuessed());
+
+    }
+
 
 
 
