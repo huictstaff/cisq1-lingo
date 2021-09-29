@@ -14,8 +14,8 @@ class FeedbackTest {
     void wordIsGuessed(){
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
         assertTrue(feedback.isWordGuessed());
-
     }
+
     @Test
     @DisplayName("word is not guessed because all the letters are incorrect")
     void wordIsNotGuessed(){
@@ -37,21 +37,39 @@ class FeedbackTest {
         assertTrue(feedback.isWordGuessed());
     }
 
+
+
     @Test
     @DisplayName("hint given matches the hint expected")
-    void hintIsCorrect(){
+    void hintWithFormerHint(){
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.CORRECT));
 
         String expectedHint = "woo-d";
-        List<Character> expectedHintList = new ArrayList<>();
+        String formerHint = "wo---";
 
-        for (char ch: expectedHint.toCharArray()) {
-            expectedHintList.add(ch);
-        }
-        assertEquals(expectedHintList,feedback.giveHint());
-
-
+        assertEquals(expectedHint,feedback.giveHint(formerHint));
     }
 
+    @Test
+    @DisplayName("hint given matches the hint expected")
+    void hintWithoutFormerHint(){
+        Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT, Mark.ABSENT));
+
+        String expectedHint = "woo--";
+        String formerHint = "";
+
+        assertEquals(expectedHint,feedback.giveHint(formerHint));
+    }
+
+    @Test
+    @DisplayName("hint given matches the hint expected")
+    void hintButNothingInTheAttemptWasCorrect(){
+        Feedback feedback = new Feedback("woord", List.of(Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT));
+
+        String expectedHint = "jo---";
+        String formerHint = "jo---";
+
+        assertEquals(expectedHint,feedback.giveHint(formerHint));
+    }
 
 }
