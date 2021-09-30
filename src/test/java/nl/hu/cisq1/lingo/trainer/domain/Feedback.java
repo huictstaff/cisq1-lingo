@@ -5,46 +5,55 @@ import java.util.List;
 
 public class Feedback {
     private String attempt;
-    private List<Mark> list;
+    private List<Mark> FBlist;
+    private List<String> hintList;
 
     public boolean isWordGuessed() {
-        int counter = 0;
-        boolean reply = false;
-
-        for ( Mark feedB : this.list){
-            if (feedB == Mark.CORRECT) {
-                counter = counter + 1;
+        for ( Mark feedB : this.FBlist){
+            if (feedB == Mark.ABSENT || feedB == Mark.PRESENT || feedB == Mark.INVALID ) {
+                return false;
             }
         }
-        if (counter==5){
-            reply = true;
-        }
-        return reply;
-    }
-
-    public boolean WordIsNotGuessed() {
-        int counter = 0;
-        boolean reply = false;
-
-        for ( Mark feedB : this.list){
-            if (feedB == Mark.CORRECT) {
-                counter = counter + 1;
-            }
-        }
-        if (counter==5){
-            reply = true;
-        }
-        return reply;
+        return true;
     }
 
     public enum Mark {
         CORRECT,
-        INCORRECT,
-        ABSENT
+        ABSENT,
+        PRESENT,
+        INVALID
     }
 
     public Feedback(String attempt, List<Mark> list) {
-        this.list    = list;
-        this.attempt = attempt;
+        this.FBlist    = list;
+        this.attempt   = attempt;
+        this.hintList  = new ArrayList<>();
+    }
+
+    public String giveHint(String vorigeHint, String wordToGuess, List<Feedback.Mark> FBList){
+        StringBuilder replyString = new StringBuilder();
+        String[] attemptSplit = wordToGuess.split("");
+        if (hintList.isEmpty()){
+            replyString = new StringBuilder(attemptSplit[0]);
+            replyString.append("?".repeat(wordToGuess.length()));
+            hintList.add(replyString.toString());
+        }
+
+        if (hintList.get(hintList.size() - 1).equals(vorigeHint)){
+            return vorigeHint;
+        }
+
+        //if feedback was just right
+        int fbChars =  FBlist.size();
+        if (fbChars == wordToGuess.length()){
+            for (int i = 1; i < wordToGuess.length(); i++) {
+                if (FBlist.get(i) == Mark.CORRECT){
+                    replyString.append(attemptSplit[i]);
+                }else{
+                    replyString.append("?");
+                }
+            }
+        }
+        return replyString.toString();
     }
 }
