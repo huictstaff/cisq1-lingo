@@ -30,23 +30,21 @@ public class Feedback {
         this.hintList  = new ArrayList<>();
     }
 
-    public String giveHint(String vorigeHint, String wordToGuess, List<Feedback.Mark> FBList){
+    public String giveHint(String lastHint){
         StringBuilder replyString = new StringBuilder();
-        String[] attemptSplit = wordToGuess.split("");
+        String[] attemptSplit = attempt.split("");
         if (hintList.isEmpty()){
             replyString = new StringBuilder(attemptSplit[0]);
-            replyString.append("?".repeat(wordToGuess.length()));
+            replyString.append("?".repeat(attempt.length()));
             hintList.add(replyString.toString());
         }
-
-        if (hintList.get(hintList.size() - 1).equals(vorigeHint)){
-            return vorigeHint;
+        if (hintList.get(hintList.size() - 1).equals(lastHint)){
+            return lastHint;
         }
-
         //if feedback was just right
         int fbChars =  FBlist.size();
-        if (fbChars == wordToGuess.length()){
-            for (int i = 1; i < wordToGuess.length(); i++) {
+        if (fbChars == attempt.length()){
+            for (int i = 1; i < attempt.length(); i++) {
                 if (FBlist.get(i) == Mark.CORRECT){
                     replyString.append(attemptSplit[i]);
                 }else{
