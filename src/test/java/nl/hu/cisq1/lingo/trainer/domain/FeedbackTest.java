@@ -1,7 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
 import nl.hu.cisq1.lingo.words.domain.Feedback;
-import nl.hu.cisq1.lingo.words.domain.Mark;
+import nl.hu.cisq1.lingo.words.domain.Game;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,23 +10,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
 
-
-
     @Test
     @DisplayName("Word is guessed if all letters are correct")
     void wordIsGuessed()
     {
         // Given - Pre-condition
+        var feedback = new Feedback();
 
         // When - Action
-        var feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
 
         // Then - Post-condition
         assertTrue(feedback.isWordGuessed());
@@ -37,10 +34,9 @@ class FeedbackTest {
     void wordIsNotGuessed()
     {
         // Given - Pre-condition
-
+        var feedback = new Feedback();
         // When - Action
-        var feedback = new Feedback("woord", List.of(Mark.INVALID, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
-
+        feedback.giveHint(".,.,.,.,.,.", "winkel", "winoel");
         // Then - Post-condition
         assertFalse(feedback.isWordGuessed());
     }
@@ -50,12 +46,13 @@ class FeedbackTest {
     void guessIsValid()
     {
         // Given - Pre-condition
+        var feedback = new Feedback();
 
         // When - Action
-        var feedback = new Feedback("woord", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
-
+        feedback.giveHint(".,.,.,.,.,.", "winkel", "winkel");
+        //feedback.calculateMarks("winkel", "winkel");
         // Then - Post-condition
-        assertTrue(feedback.guessIsValid());
+        assertTrue(feedback.guessIsValid("winkel"));
     }
 
     @Test
@@ -63,12 +60,45 @@ class FeedbackTest {
     void guessIsNotValid()
     {
         // Given - Pre-condition
+        var feedback = new Feedback();
 
         // When - Action
-        var feedback = new Feedback("wood", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
+        // Then - Post-condition
+        assertFalse(feedback.guessIsValid("wiel"));
+    }
+
+    @Test
+    @DisplayName("Marks test")
+    void marksTest()
+    {
+        // Given - Pre-condition
+        var feedback = new Feedback();
+
+        // When - Action
+        var result = feedback.calculateMarks("huis", "guit");
 
         // Then - Post-condition
-        assertFalse(feedback.guessIsValid());
+        assertTrue(result.toString().equals("[ABSENT, CORRECT, CORRECT, ABSENT]"));
+    }
+
+    @Test
+    @DisplayName("Guess correct word")
+     void guessCorrectWord()
+    {
+        var game = new Game("winkel");
+        var feedback = game.getCurrentRound().guessWord("winkel");
+
+        assertTrue(feedback.isWordGuessed());
+    }
+
+    @Test
+    @DisplayName("Guess wrong word")
+    void guessWrongWord()
+    {
+        var game = new Game("winkel");
+        var feedback = game.getCurrentRound().guessWord("winken");
+
+        assertFalse(feedback.isWordGuessed());
     }
 
     @Test
@@ -78,8 +108,8 @@ class FeedbackTest {
         // Given - Pre-condition
 
         // When - Action
-        var feedback1 = new Feedback("wood", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
-        var feedback2 = new Feedback("wood", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
+        var feedback1 = new Feedback();
+        var feedback2 = new Feedback();
 
         // Then - Post-condition
         assertTrue(feedback1.toString().equals(feedback2.toString()));
@@ -92,8 +122,8 @@ class FeedbackTest {
         // Given - Pre-condition
 
         // When - Action
-        var feedback1 = new Feedback("wood", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
-        var feedback2 = new Feedback("wood", List.of(Mark.INVALID, Mark.ABSENT, Mark.PRESENT, Mark.CORRECT, Mark.CORRECT));
+        var feedback1 = new Feedback();
+        var feedback2 = new Feedback();
 
         // Then - Post-condition
         assertTrue(feedback1.equals(feedback2));
@@ -106,23 +136,26 @@ class FeedbackTest {
                 Arguments.of(
 
                         new ArrayList<Character>(Arrays.asList('w', 'i', '.', '.', 'e', '.')),
-                        new Feedback("wassen", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT)),
+                        new Feedback(),
                         "w,i,.,.,.,.",
-                        "winkel"
+                        "winkel",
+                        "wassen"
                 ),
                 Arguments.of(
 
                         new ArrayList<Character>(Arrays.asList('w', '.', '.', '.', 'e', '.')),
-                        new Feedback("wassen", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT)),
+                        new Feedback(),
                         "w,.,.,.,.,.",
-                        "winkel"
+                        "winkel",
+                        "wassen"
                 ),
                 Arguments.of(
 
                         new ArrayList<Character>(Arrays.asList('w', '.', '.', 'k', 'e', '.')),
-                        new Feedback("werken", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT)),
+                        new Feedback(),
                         "w,.,.,.,.,.",
-                        "winkel"
+                        "winkel",
+                        "werken"
                 )
                 );
     }
@@ -131,17 +164,50 @@ class FeedbackTest {
     @ParameterizedTest
     @MethodSource("provideHintExamples")
     @DisplayName("Test hint")
-    void testHint(ArrayList<Character> charListToCompare, Feedback feedback, String previousHint, String wordToGuess)
+    void testHint(ArrayList<Character> charListToCompare, Feedback feedback, String previousHint, String wordToGuess, String attempt)
     {
         // When - Action
 
+        System.out.println(feedback.giveHint(previousHint, wordToGuess, attempt)
+                .toString()
+                .replace(" ", ""));
+
+        System.out.println(charListToCompare
+                .toString()
+                .replace(" ", ""));
         // Then - Post-condition
         assertTrue(
-                feedback.giveHint(previousHint, wordToGuess)
+                feedback.giveHint(previousHint, wordToGuess, attempt)
                         .toString()
                         .replace(" ", "")
                 .equals(charListToCompare
                         .toString()
                         .replace(" ", "")));
+    }
+
+    @Test
+    @DisplayName("Test new game")
+    public void testNewGame()
+    {
+        var game1 = new Game("huis");
+        var result = game1.getCurrentRound().guessWord("huis");
+
+        assertTrue(result.isWordGuessed());
+    }
+
+    @Test
+    @DisplayName("Test new round at existing game")
+    public void testNewGameRound()
+    {
+        System.out.println("test new game round");
+
+        var game1 = new Game("huis");
+
+        var feedbackFirstRound = game1.getCurrentRound().guessWord("huis");
+
+        game1.newRound("auto");
+        var feedbackSecondRound = game1.getCurrentRound().guessWord("huis");
+
+        assertTrue(feedbackFirstRound.isWordGuessed() != feedbackSecondRound.isWordGuessed());
     }
 }

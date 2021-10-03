@@ -1,21 +1,15 @@
 package nl.hu.cisq1.lingo.words.domain;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Feedback
 {
     String attempt;
-    String previousHint;
-    List<Mark> marks;
+    ArrayList<Mark> marks = new ArrayList<>();
 
-    public Feedback(String attempt, List<Mark> markList)
+    public Feedback()
     {
-        this.attempt = attempt;
-        this.marks = markList;
     }
 
     public boolean isWordGuessed()
@@ -23,19 +17,18 @@ public class Feedback
         return marks.stream().allMatch(m -> m == Mark.CORRECT);
     }
 
-    public boolean guessIsValid()
+    public boolean guessIsValid(String attempt)
     {
-        if(attempt.length() == 5) {return true;}
+        if(attempt.length() >= 5) {return true;}
         else return false;
     }
 
-    public List<Character> giveHint(String previousHint, String wordToGuess)
+    public List<Character> giveHint(String previousHint, String wordToGuess, String attempt)
     {
+        calculateMarks(wordToGuess, attempt);
 
         String previousHintWithoutComma = previousHint.replace(",", "");
         char[] ch = previousHintWithoutComma.toCharArray();
-
-
 
         List<Character> charList = new ArrayList<Character>();
 
@@ -61,6 +54,34 @@ public class Feedback
         }
 
         return charList;
+    }
+
+    public List<Mark> calculateMarks(String wordToGuess, String attempt){
+        if(marks != null){
+            marks.clear();
+        }
+
+        for (int i = 0; i < wordToGuess.length(); i++) {
+
+
+            switch(wordToGuess.charAt(i)) {
+                case ',':
+                    break;
+                case '.':
+                    marks.add(Mark.ABSENT);
+                    break;
+                default:
+                    if(wordToGuess.charAt(i) == attempt.charAt(i))
+                    {marks.add(Mark.CORRECT);
+                    }
+                    else
+                    {
+                        marks.add(Mark.ABSENT);
+                    }
+
+            }
+        }
+        return marks;
     }
 
     @Override
