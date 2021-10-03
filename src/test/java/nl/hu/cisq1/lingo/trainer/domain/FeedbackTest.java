@@ -4,7 +4,15 @@ import nl.hu.cisq1.lingo.words.domain.Feedback;
 import nl.hu.cisq1.lingo.words.domain.Mark;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
@@ -89,5 +97,51 @@ class FeedbackTest {
 
         // Then - Post-condition
         assertTrue(feedback1.equals(feedback2));
+    }
+
+    @MethodSource("provideHintExamples")
+    static Stream<Arguments> provideHintExamples()
+    {
+        return Stream.of(
+                Arguments.of(
+
+                        new ArrayList<Character>(Arrays.asList('w', 'i', '.', '.', 'e', '.')),
+                        new Feedback("wassen", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT)),
+                        "w,i,.,.,.,.",
+                        "winkel"
+                ),
+                Arguments.of(
+
+                        new ArrayList<Character>(Arrays.asList('w', '.', '.', '.', 'e', '.')),
+                        new Feedback("wassen", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.ABSENT)),
+                        "w,.,.,.,.,.",
+                        "winkel"
+                ),
+                Arguments.of(
+
+                        new ArrayList<Character>(Arrays.asList('w', '.', '.', 'k', 'e', '.')),
+                        new Feedback("werken", List.of(Mark.CORRECT, Mark.ABSENT, Mark.ABSENT, Mark.CORRECT, Mark.CORRECT, Mark.ABSENT)),
+                        "w,.,.,.,.,.",
+                        "winkel"
+                )
+                );
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("provideHintExamples")
+    @DisplayName("Test hint")
+    void testHint(ArrayList<Character> charListToCompare, Feedback feedback, String previousHint, String wordToGuess)
+    {
+        // When - Action
+
+        // Then - Post-condition
+        assertTrue(
+                feedback.giveHint(previousHint, wordToGuess)
+                        .toString()
+                        .replace(" ", "")
+                .equals(charListToCompare
+                        .toString()
+                        .replace(" ", "")));
     }
 }
