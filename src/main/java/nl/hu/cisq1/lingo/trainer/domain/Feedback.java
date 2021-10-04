@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Feedback {
-    private String attempt;
+    private String guessWord;
     private List<Mark> markList;
     private List<String> hintList;
 
@@ -24,51 +24,50 @@ public class Feedback {
         INVALID
     }
 
-    public Feedback(String attempt, List<Mark> list) {
+    public Feedback(String guessWord, String lastHint, List<Mark> list) {
         this.markList = list;
-        this.attempt   = attempt;
-        this.hintList  = new ArrayList<>();
+        this.guessWord = guessWord;
+        this.hintList = new ArrayList<>();
+        this.hintList.add(lastHint);
     }
 
     public String giveHint(String lastHint){
-//        System.out.println(FBlist.toString());
         StringBuilder replyString = new StringBuilder();
-        String[] attemptSplit = attempt.split("");
-        replyString.append(attemptSplit[0]);
+        replyString.append(guessWord.charAt(0));
         //if feedback was just right
         int fbChars =  markList.size();
-
-        if (fbChars == attempt.length()){
-            for (int i = 1; i < attempt.length(); i++) {
-                if (markList.get(i) == Mark.INVALID) {
-                    return lastHint;
-                }
+        if (markList.contains(Mark.INVALID)){
+            return lastHint;
+        }
+        if (fbChars == guessWord.length()){
+            for (int i = 1; i < guessWord.length(); i++) {
                 if (markList.get(i) == Mark.CORRECT){
-                    replyString.append(attemptSplit[i]);
+                    replyString.append(guessWord.charAt(i));
                 }else{
                     replyString.append("?");
                 }
             }
         }
-
         if (!hintList.isEmpty()){
             if (hintList.get(hintList.size() - 1).equals(lastHint)) {
                 return lastHint;
             }
         }
-
         return replyString.toString();
     }
 
     @Override
     public String toString() {
-        StringBuilder replyFB = new StringBuilder("word attempted: " + attempt + " Marks: ");
-        for (int i = 0; i < attempt.length(); i++) {
+        StringBuilder replyFB = new StringBuilder("word attempted: " + guessWord + " Marks: ");
+        System.out.println(markList.size());
+
+        for (int i = 0; i < guessWord.length(); i++) {
+            System.out.println(markList.get(i));
             replyFB.append(markList.get(i)).append(" ");
         }
         replyFB.append("Hints: ");
-        for (int i = 0; i < attempt.length(); i++) {
-            replyFB.append(hintList.get(i)).append(" ");
+        for (String s : hintList) {
+            replyFB.append(s).append(" ");
         }
         return replyFB.toString();
     }

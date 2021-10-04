@@ -6,48 +6,52 @@ import java.util.List;
 
 public class Round {
 
-    private String wordToGuess;
-    private List<String> wordLetters;
+    private final String rightWord;
+    private final List<Character> wordLetters;
     private int attempts;
     private List<Feedback> FBlist;
-    private String startingHint;
+    private final String startingHint;
 
     public Round(String wordToGuess){
-        this.wordToGuess = wordToGuess;
+        this.rightWord = wordToGuess;
         this.attempts = 0;
         this.FBlist = new ArrayList<>();
         this.wordLetters = new ArrayList<>();
-        StringBuilder replyString = new StringBuilder();
-        String[] wordSplit = wordToGuess.split("");
-        replyString.append(wordSplit[0]);
-        replyString.append("?".repeat(Math.max(0, wordToGuess.length() - 1)));
-        wordLetters.addAll(Arrays.asList(wordSplit).subList(0, wordToGuess.length()));
-        this.startingHint = replyString.toString();
+        this.startingHint = rightWord.charAt(0) + "?".repeat(Math.max(0, wordToGuess.length() - 1));
+        for (char letter : rightWord.toCharArray()) {
+            wordLetters.add(letter);
+        }
     }
 
-    public Feedback giveFeedBack(String attempt){
-        attempt +=1;
+    public Feedback giveFeedBack(String guessWord){
+        this.attempts +=1;
         List<Feedback.Mark> markList = new ArrayList<>();
-        List<String> restOfTheLetters = this.wordLetters;
-        String[] attemptSplit = wordToGuess.split("");
-
-        if (attempt.length() != wordToGuess.length()){
+        List<Character> restOfTheLetters = new ArrayList<>(); //TODO change list type to character //TODO wordToGuess & attempt
+        for (int i = 0; i < rightWord.length()-1; i++) {
+            restOfTheLetters.add(wordLetters.get(i));
+        }
+        if (guessWord.length() != rightWord.length()){
             markList.add(Feedback.Mark.INVALID);
         }
-
-        for (int i = 0; i <= wordToGuess.length(); i++) {
-           if (this.wordLetters.get(i).equals(attemptSplit[i])){
+        for (int i = 0; i < rightWord.length(); i++) {
+           if (this.wordLetters.get(i)==guessWord.charAt(i)){
                markList.add(Feedback.Mark.CORRECT);
                restOfTheLetters.remove(i);
            }else{
-               if (restOfTheLetters.contains(attemptSplit[i])){
+               if (restOfTheLetters.contains(guessWord.charAt(i))){ //TODO only the first encounter should be counted as PRESENT
+                   for (int x = 0; i < restOfTheLetters.size(); i++){
+                        if (restOfTheLetters.get(x) == guessWord.charAt(i)){
+                            restOfTheLetters.remove(x);
+                            break;
+                        }
+                   }
                    markList.add(Feedback.Mark.PRESENT);
                }else{
                    markList.add(Feedback.Mark.ABSENT);
                }
            }
         }
-        Feedback replyFeedBack = new Feedback(attempt,markList);
+        Feedback replyFeedBack = new Feedback(guessWord, startingHint, markList);
         FBlist.add(replyFeedBack);
         return replyFeedBack;
     }
