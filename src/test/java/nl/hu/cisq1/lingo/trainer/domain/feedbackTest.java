@@ -40,6 +40,7 @@ class feedbackTest {
         return Stream.of(
                 Arguments.of("D?????", "Dragon", "D???on", List.of(Feedback.Mark.CORRECT, Feedback.Mark.ABSENT,  Feedback.Mark.ABSENT,  Feedback.Mark.ABSENT, Feedback.Mark.CORRECT, Feedback.Mark.CORRECT)),
                 Arguments.of("D???on", "Dragon", "Dr??on", List.of(Feedback.Mark.CORRECT, Feedback.Mark.CORRECT, Feedback.Mark.ABSENT,  Feedback.Mark.ABSENT, Feedback.Mark.CORRECT, Feedback.Mark.CORRECT)),
+                Arguments.of("D???on", "Drago?", "D???on", List.of(Feedback.Mark.CORRECT, Feedback.Mark.CORRECT, Feedback.Mark.ABSENT,  Feedback.Mark.ABSENT, Feedback.Mark.CORRECT, Feedback.Mark.INVALID)),
                 Arguments.of("D???on", "Dragon", "Dra?on", List.of(Feedback.Mark.CORRECT, Feedback.Mark.CORRECT, Feedback.Mark.CORRECT, Feedback.Mark.ABSENT, Feedback.Mark.CORRECT, Feedback.Mark.CORRECT))
         );}
 

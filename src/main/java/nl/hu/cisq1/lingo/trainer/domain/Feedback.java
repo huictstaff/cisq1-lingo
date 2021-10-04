@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Feedback {
     private String attempt;
-    private List<Mark> FBlist;
+    private List<Mark> markList;
     private List<String> hintList;
 
     public boolean isWordGuessed() {
-        for ( Mark feedB : this.FBlist){
+        for ( Mark feedB : this.markList){
             if (feedB == Mark.ABSENT || feedB == Mark.PRESENT || feedB == Mark.INVALID ) {
                 return false;
             }
@@ -25,33 +25,51 @@ public class Feedback {
     }
 
     public Feedback(String attempt, List<Mark> list) {
-        this.FBlist    = list;
+        this.markList = list;
         this.attempt   = attempt;
         this.hintList  = new ArrayList<>();
     }
 
     public String giveHint(String lastHint){
+//        System.out.println(FBlist.toString());
         StringBuilder replyString = new StringBuilder();
         String[] attemptSplit = attempt.split("");
-        if (hintList.isEmpty()){
-            replyString = new StringBuilder(attemptSplit[0]);
-            replyString.append("?".repeat(attempt.length()));
-            hintList.add(replyString.toString());
-        }
-        if (hintList.get(hintList.size() - 1).equals(lastHint)){
-            return lastHint;
-        }
+        replyString.append(attemptSplit[0]);
         //if feedback was just right
-        int fbChars =  FBlist.size();
+        int fbChars =  markList.size();
+
         if (fbChars == attempt.length()){
             for (int i = 1; i < attempt.length(); i++) {
-                if (FBlist.get(i) == Mark.CORRECT){
+                if (markList.get(i) == Mark.INVALID) {
+                    return lastHint;
+                }
+                if (markList.get(i) == Mark.CORRECT){
                     replyString.append(attemptSplit[i]);
                 }else{
                     replyString.append("?");
                 }
             }
         }
+
+        if (!hintList.isEmpty()){
+            if (hintList.get(hintList.size() - 1).equals(lastHint)) {
+                return lastHint;
+            }
+        }
+
         return replyString.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder replyFB = new StringBuilder("word attempted: " + attempt + " Marks: ");
+        for (int i = 0; i < attempt.length(); i++) {
+            replyFB.append(markList.get(i)).append(" ");
+        }
+        replyFB.append("Hints: ");
+        for (int i = 0; i < attempt.length(); i++) {
+            replyFB.append(hintList.get(i)).append(" ");
+        }
+        return replyFB.toString();
     }
 }
