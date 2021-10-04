@@ -5,40 +5,40 @@ import java.util.List;
 
 public class LingoRound {
     private String toGuess;
-    private String previousGuess;
+    private String previousHint;
     private int turn;
+    private ValidateAttempt validate;
 
     public LingoRound(String toGuess){
         this.toGuess = toGuess;
-    }
-    private List<Mark> getMarks(String attempt){
-        List<Mark> markList= new ArrayList<>();
-        markList = getCorrectMarks(attempt, markList);
-
-        return markList;
-    }
-
-    private List<Mark> getCorrectMarks(String attempt, List<Mark> markList){
-        for (int index =0; index<toGuess.length(); index++){
-            if (attempt.charAt(index)==toGuess.charAt(index)){
-                markList.add(Mark.CORRECT);
-            }
-            else{
-                markList.add(Mark.ABSENT);
-            }
+        previousHint = "";
+        turn = 0;
+        for (int index = 0; index<toGuess.length(); index++){
+            previousHint+="-";
         }
-        return markList;
+        validate = new ValidateAttempt(toGuess);
     }
 
-    private List<Mark> getPresent(String attempt, List<Mark> markList){
-        for (int index =0; index<toGuess.length(); index++){
-            if (markList.get(index) != Mark.CORRECT){
-                
-            }
-        }
-        return markList;
+    public String guess(String attempt){
+        turn+=1;
+        System.out.println(attempt + " 21");
+
+        List<Mark> markList = getMarks(attempt);
+
+        previousHint = new Feedback(attempt,markList).giveHint(previousHint);
+
+        return previousHint;
     }
 
 
+    /*part of guess*/
+    public List<Mark> getMarks(String attempt){
+        return validate.validate(attempt);
+    }
+
+
+    public boolean checkTurns(){
+        return turn==5;
+    }
 
 }
