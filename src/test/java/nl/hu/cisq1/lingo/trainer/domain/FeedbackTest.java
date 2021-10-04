@@ -50,7 +50,7 @@ class FeedbackTest {
         Feedback feedback = new Feedback("woord", List.of(Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT, Mark.CORRECT));
         assertTrue(feedback.isWordGuessed());
     }
-    
+
     @ParameterizedTest
     @MethodSource({"hintTest"})
     @DisplayName("Hint given depends on the attempted word andprevious hint")

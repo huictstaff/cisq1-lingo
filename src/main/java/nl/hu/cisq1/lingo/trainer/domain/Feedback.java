@@ -12,7 +12,6 @@ public class Feedback {
     public Feedback(String attempt, List<Mark> markList) {
         this.attempt = attempt;
         this.markList = markList;
-
     }
 
     public String giveHint(String formerHint){
