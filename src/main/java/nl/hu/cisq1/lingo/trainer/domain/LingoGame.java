@@ -39,6 +39,8 @@ public class LingoGame {
         return points;
     }
 
+
+
     /*
         na 5 kansen wordt er gecheckt of je het woord hebt geraden,
         als niet dan opnieuw beginnen en punten printen

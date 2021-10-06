@@ -16,4 +16,19 @@ class LingoGameTest {
         assertEquals(30,lingoGame.getPoints());
     }
 
+    @Test
+    @DisplayName("Check if new LingoRound works")
+    public void multipleRoundPointTest() {
+        LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
+        lingoGame.playRound("wdddd");
+        lingoGame.playRound("woord");
+
+
+        assertEquals(25,lingoGame.getPoints());
+
+    }
+
+
+
+
 }
