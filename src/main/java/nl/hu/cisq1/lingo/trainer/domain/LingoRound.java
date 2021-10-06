@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.domain;
 import java.util.List;
 
 public class LingoRound {
+    private boolean wordIsGuessed;
     private String toGuess;
     private String previousHint;
     private int turn;
@@ -16,32 +17,42 @@ public class LingoRound {
             previousHint+="-";
         }
         validate = new ValidateAttempt(toGuess);
+        wordIsGuessed = false;
     }
 
     public String guess(String attempt){
-        turn+=1;
+
         System.out.println(attempt + " 21");
-
         List<Mark> markList = getMarks(attempt);
-
         previousHint = new Feedback(attempt,markList).giveHint(previousHint);
 
+        System.out.println("turn: "+ turn);
+        System.out.println("Your Guess: " + attempt);
+        System.out.println("Your Hint is: " + previousHint);
+        if (previousHint.equals(toGuess)){
+            wordIsGuessed = true;
+            return previousHint;
+        }
+
+        turn+=1;
         return previousHint;
     }
 
+    public int getTurn() {
+        return turn;
+    }
 
     /*part of guess*/
     public List<Mark> getMarks(String attempt){
         return validate.validate(attempt);
     }
 
-
-    public boolean gameOver(){
-        return turn>=5 && !toGuess.equals(previousHint);
+    public boolean isWordIsGuessed() {
+        return wordIsGuessed;
     }
 
-    public boolean win(){
-        return toGuess.equals(previousHint);
+    public boolean gameOver(){
+        return turn==5;
     }
 
     public int currentTurn(){

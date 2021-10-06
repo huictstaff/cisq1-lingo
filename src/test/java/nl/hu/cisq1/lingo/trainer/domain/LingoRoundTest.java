@@ -45,6 +45,18 @@ class LingoRoundTest {
         assertEquals(marks,round.getMarks("owrdo"));
     }
 
+    @Test
+    @DisplayName("test if the turn counter works properly")
+    public void turnTest(){
+        System.out.println("checkTurn");
+        LingoRound round = new LingoRound("woord");
+        round.guess("twooo");
+        assertEquals(1,round.getTurn());
+        round.guess("dsagg");
+        assertEquals(2,round.getTurn());
+
+    }
+
     public static Stream<Arguments> roundTest(){
         return Stream.of(
                 Arguments.of(new LingoRound("banaan"), "banana", "bana--"),
@@ -60,6 +72,7 @@ class LingoRoundTest {
                 Arguments.of(new LingoRound("eeaaae"), "aaeeae", "----ae")
         );
     }
+
     @ParameterizedTest
     @MethodSource({"roundTest"})
     @DisplayName("Hint given depends on the attempted word")

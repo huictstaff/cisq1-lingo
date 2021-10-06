@@ -43,7 +43,6 @@ public class ValidateAttempt {
     private List<Mark> getPresent(String attempt, List<Mark> markList){
         for (int index =0; index<toGuess.length(); index++){
             if (markList.get(index) != Mark.CORRECT){
-                //markList.index of gebruiken?
                 try{
                     if (markList.get(toGuess.indexOf(attempt.charAt(index))) != Mark.CORRECT){
                         markList.set(index, Mark.PRESENT);
