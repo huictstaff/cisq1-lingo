@@ -1,0 +1,46 @@
+Feature: Training for Lingo
+As a Lingo Player
+I want to practice guessing 5, 6 and 7 letter words
+In order to be a better Lingo player.
+
+Scenario: Start a new game of Lingo
+When: I start a new game
+Then: the word to guess has 5 letters
+And: I should see the first letter
+And: my score is 0
+
+Scenario Outline: Start a new round
+Given: I am playing a game
+And: the round was won
+And: the last word had "<previous length>" letters
+When: I start a new round
+Then: the word to guess has "<next length>" letters
+
+Examples:
+     | previous length | next length |
+     | 5               | 6           |
+     | 6               | 7           |
+     | 7               | 5           |
+
+# Failure path
+Given I am playing a game
+And the round was lost
+Then I cannot start a new round
+
+
+Scenario Outline: Guessing a word
+Given: I am playing a round
+And: I haven't won or lost yet
+When: I try to guess "<word>"
+Then: I try "<guess>"
+And: I receive "<feedback>"
+Then: If i haven't won or lost i continue guessing the word
+
+Examples:
+     | word             | guess         | feedback                                   |
+     | BAARD            | BONJE         | CORRECT, ABSENT, ABSENT, ABSENT, ABSENT    |
+     | BAARD            | BARST         | CORRECT, CORRECT, PRESENT, ABSENT, ABSENT  |
+     | BAARD            | BAARD         | CORRECT, CORRECT, CORRECT, CORRECT, CORRECT|
+
+
+
