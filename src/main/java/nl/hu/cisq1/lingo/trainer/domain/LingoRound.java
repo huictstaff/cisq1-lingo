@@ -1,6 +1,5 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LingoRound {
@@ -37,8 +36,16 @@ public class LingoRound {
     }
 
 
-    public boolean checkTurns(){
-        return turn==5;
+    public boolean gameOver(){
+        return turn>=5 && !toGuess.equals(previousHint);
+    }
+
+    public boolean win(){
+        return toGuess.equals(previousHint);
+    }
+
+    public int currentTurn(){
+        return turn;
     }
 
 }
