@@ -28,6 +28,23 @@ class LingoGameTest {
 
     }
 
+    @Test
+    @DisplayName("Check if new LingoRound works")
+    public void Statustest() {
+        LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
+        assertEquals(Status.PLAYING,lingoGame.getStatus());
+        lingoGame.playRound("woord");
+        assertEquals(Status.WON,lingoGame.getStatus());
+
+        LingoGame lingoGame2 = new LingoGame(new LingoRound("woord"));
+        lingoGame2.playRound("wdddd");
+        lingoGame2.playRound("wdddd");
+        lingoGame2.playRound("wdddd");
+        lingoGame2.playRound("wdddd");
+        lingoGame2.playRound("wdddd");
+
+        assertEquals(Status.LOST,lingoGame2.getStatus());
+    }
 
 
 

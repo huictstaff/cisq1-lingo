@@ -40,18 +40,22 @@ public class LingoGame {
     }
 
 
+    /*Remove later, this is purely for testing purposes*/
+    public Status getStatus() {
+        return status;
+    }
 
     /*
-        na 5 kansen wordt er gecheckt of je het woord hebt geraden,
-        als niet dan opnieuw beginnen en punten printen
-        als je het woord hebt geraden voor 5 pogingen dan
-        krijg je punten op basis van welke beurt het is
-        een Quit functie toevoegen.
-        een functie toevoegen dat:
-            -de huidige hint geeft,
-            -de poging geeft
-            -de marks terug geeft
-        */
+            na 5 kansen wordt er gecheckt of je het woord hebt geraden,
+            als niet dan opnieuw beginnen en punten printen
+            als je het woord hebt geraden voor 5 pogingen dan
+            krijg je punten op basis van welke beurt het is
+            een Quit functie toevoegen.
+            een functie toevoegen dat:
+                -de huidige hint geeft,
+                -de poging geeft
+                -de marks terug geeft
+            */
     private void setPoints(){
         if (status==Status.WON)
         points += 5 * (5-lingoRound.currentTurn()) +5;
