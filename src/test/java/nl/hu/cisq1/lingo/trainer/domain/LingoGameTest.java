@@ -34,6 +34,7 @@ class LingoGameTest {
         LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
         assertEquals(Status.PLAYING,lingoGame.getStatus());
         lingoGame.playRound("woord");
+        lingoGame.playRound("woord");
         assertEquals(Status.WON,lingoGame.getStatus());
 
         LingoGame lingoGame2 = new LingoGame(new LingoRound("woord"));
@@ -61,6 +62,20 @@ class LingoGameTest {
         lingoGame.nextRound("woordje");
         lingoGame.playRound("woordje");
 
+
+    }
+
+    @Test
+    @DisplayName("Check if you can start a new LingoGame in LingoGame")
+    public void newGameTest(){
+        LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
+        lingoGame.playRound("wdddd");
+        lingoGame.playRound("wdddd");
+        lingoGame.playRound("wdddd");
+        lingoGame.playRound("wdddd");
+        lingoGame.playRound("wdddd");
+        lingoGame.newLingoGame(new LingoRound("nieuw"));
+        lingoGame.playRound("nieuw");
 
     }
 

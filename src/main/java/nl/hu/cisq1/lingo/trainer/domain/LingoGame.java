@@ -24,10 +24,11 @@ public class LingoGame {
             if (lingoRound.isWordIsGuessed()){
                 status = Status.WON;
                 setPoints();
-                System.out.println(points);
+                System.out.println("Current points: "+points);
             }
             if (lingoRound.gameOver()){
                 status = Status.LOST;
+                System.out.println("Game over!: \nyour points: " + points);
             }
         }
         else if (status==Status.WON){
