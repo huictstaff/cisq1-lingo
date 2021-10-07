@@ -30,7 +30,7 @@ class LingoGameTest {
 
     @Test
     @DisplayName("Check if new LingoRound works")
-    public void Statustest() {
+    public void StatusTest() {
         LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
         assertEquals(Status.PLAYING,lingoGame.getStatus());
         lingoGame.playRound("woord");
@@ -44,6 +44,18 @@ class LingoGameTest {
         lingoGame2.playRound("wdddd");
 
         assertEquals(Status.LOST,lingoGame2.getStatus());
+    }
+
+    @Test
+    @DisplayName("Check if new LingoRound works")
+    public void newRoundTest() {
+        LingoGame lingoGame = new LingoGame(new LingoRound("woord"));
+        lingoGame.nextRound("other");
+        lingoGame.playRound("woord");
+        lingoGame.nextRound("woordje");
+        lingoGame.playRound("woordje");
+
+
     }
 
 

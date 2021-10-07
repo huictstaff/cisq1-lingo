@@ -11,6 +11,7 @@ public class LingoGame {
         this.lingoRound = lingoRound;
         points = 0;
     }
+
     public void playRound(String attempt){
         if (status==Status.PLAYING){
             String hint = lingoRound.guess(attempt);

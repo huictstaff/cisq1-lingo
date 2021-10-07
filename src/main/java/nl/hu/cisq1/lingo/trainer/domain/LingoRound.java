@@ -50,11 +50,9 @@ public class LingoRound {
     public boolean isWordIsGuessed() {
         return wordIsGuessed;
     }
-
     public boolean gameOver(){
         return turn==5;
     }
-
     public int currentTurn(){
         return turn;
     }
