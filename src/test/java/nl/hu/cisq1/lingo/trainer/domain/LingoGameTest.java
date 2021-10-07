@@ -42,8 +42,14 @@ class LingoGameTest {
         lingoGame2.playRound("wdddd");
         lingoGame2.playRound("wdddd");
         lingoGame2.playRound("wdddd");
-
+        lingoGame2.playRound("wdddd");
         assertEquals(Status.LOST,lingoGame2.getStatus());
+        assertEquals(0,lingoGame2.getPoints());
+
+        lingoGame2.newLingoGame(new LingoRound("woord"));
+        lingoGame2.playRound("woord");
+        assertEquals(30,lingoGame2.getPoints());
+
     }
 
     @Test
