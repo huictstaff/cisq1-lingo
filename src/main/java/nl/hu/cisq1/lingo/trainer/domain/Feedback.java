@@ -6,7 +6,7 @@ import java.util.List;
 public class Feedback {
     private String guessWord;
     private List<Mark> markList;
-    private List<String> hintList;
+    private String hint;
 
     public boolean isWordGuessed() {
         for ( Mark feedB : this.markList){
@@ -27,8 +27,7 @@ public class Feedback {
     public Feedback(String guessWord, String lastHint, List<Mark> list) {
         this.markList = list;
         this.guessWord = guessWord;
-        this.hintList = new ArrayList<>();
-        this.hintList.add(lastHint);
+        this.hint = lastHint;
     }
 
     public String giveHint(String lastHint){
@@ -48,11 +47,6 @@ public class Feedback {
                 }
             }
         }
-        if (!hintList.isEmpty()){
-            if (hintList.get(hintList.size() - 1).equals(lastHint)) {
-                return lastHint;
-            }
-        }
         return replyString.toString();
     }
 
@@ -60,15 +54,11 @@ public class Feedback {
     public String toString() {
         StringBuilder replyFB = new StringBuilder("word attempted: " + guessWord + " Marks: ");
         System.out.println(markList.size());
-
-        for (int i = 0; i < guessWord.length(); i++) {
-            System.out.println(markList.get(i));
-            replyFB.append(markList.get(i)).append(" ");
+        if(!markList.isEmpty()) {
+            replyFB.append(markList);
         }
-        replyFB.append("Hints: ");
-        for (String s : hintList) {
-            replyFB.append(s).append(" ");
-        }
+        replyFB.append(" Hint: ");
+        replyFB.append(hint);
         return replyFB.toString();
     }
 }

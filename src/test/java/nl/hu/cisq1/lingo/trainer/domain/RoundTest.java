@@ -25,17 +25,18 @@ class RoundTest {
     @DisplayName("a hint is given, This test should be able give hints")
     public void giveHint(String rightWord, String guessWord, String answer){
         Round test = new Round (rightWord);
+        System.out.println(test.toString());
         Feedback testFB = test.giveFeedBack(guessWord);
-
+        testFB.giveHint(guessWord);
         assertEquals(testFB.toString(), answer);
     }
 
     static Stream<Arguments> provideFeedBackExamples() {
         return Stream.of(
-                Arguments.of("Grond", "Grond",  "word attempted: Grond Marks: CORRECT CORRECT CORRECT CORRECT CORRECT Hints: Grond "),
-                Arguments.of("Grond", "Gronds", "word attempted: Gronds Marks: CORRECT CORRECT CORRECT CORRECT CORRECT Hints: G???? "),
-                Arguments.of("Grond", "Angel",  "word attempted: Angel Marks: CORRECT CORRECT CORRECT CORRECT CORRECT Hints: G???? "),
-                Arguments.of("Grond", "Grdon",  "word attempted: Grdon Marks: CORRECT CORRECT CORRECT CORRECT CORRECT Hints: Gr??? "),
-                Arguments.of("Grond", "DonrG",  "word attempted: DonrG Marks: CORRECT CORRECT CORRECT CORRECT CORRECT Hints: G???? "));
+                Arguments.of("Grond", "Grond",  "word attempted: Grond Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: GROND"),
+                Arguments.of("Grond", "Gronds", "word attempted: Gronds Marks: [INVALID] Hint: G????"),
+                Arguments.of("Grond", "Angel",  "word attempted: Angel Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: G????"),
+                Arguments.of("Grond", "Grdon",  "word attempted: Grdon Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: GR???"),
+                Arguments.of("Grond", "DonrG",  "word attempted: DonrG Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: G????"));
     }
 }
