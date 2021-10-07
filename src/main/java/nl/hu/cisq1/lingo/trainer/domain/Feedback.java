@@ -48,6 +48,7 @@ public class Feedback {
         return markList.stream().allMatch(result -> result == Mark.CORRECT);
     }
 
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,6 +62,7 @@ public class Feedback {
     public int hashCode() {
         return Objects.hash(attempt, markList);
     }
+*/
 
     @Override
     public String toString() {
