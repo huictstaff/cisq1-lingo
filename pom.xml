@@ -14,9 +14,15 @@
     <name>lingo</name>
     <description>Lingo trainer for CISQ1 at the HU</description>
 
+
+
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>fong-suen</sonar.projectKey>
+        <sonar.organization>fong-suen</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
     </properties>
 
     <dependencies>
