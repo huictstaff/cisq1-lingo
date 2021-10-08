@@ -69,7 +69,7 @@
 
     <build>
         <plugins>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>1.7.1</version>
@@ -84,7 +84,7 @@
                     <timestampedReports>false</timestampedReports>
                     <mutationThreshold>0</mutationThreshold>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -125,7 +125,7 @@
                             </excludes>
                         </configuration>
                     </execution>
-                    <execution>
+<!--                    <execution>
                         <id>jacoco-check</id>
                         <goals>
                             <goal>check</goal>
@@ -154,7 +154,7 @@
                                 </rule>
                             </rules>
                         </configuration>
-                    </execution>
+                    </execution>-->
 
                 </executions>
             </plugin>
