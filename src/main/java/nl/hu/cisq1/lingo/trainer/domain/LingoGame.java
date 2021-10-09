@@ -51,12 +51,13 @@ public class LingoGame {
 
 
 
+    /*TODO Remove later, this is purely for testing purposes*/
     public int getPoints() {
         return points;
     }
 
 
-    /*Remove later, this is purely for testing purposes*/
+    /*TODO Remove later, this is purely for testing purposes*/
     public Status getStatus() {
         return status;
     }
