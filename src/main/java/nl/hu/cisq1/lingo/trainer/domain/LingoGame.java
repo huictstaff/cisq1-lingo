@@ -12,17 +12,30 @@ public class LingoGame {
         points = 0;
     }
 
+    public void newLingoGame(LingoRound lingoRound){
+        status = Status.PLAYING;
+        this.lingoRound = lingoRound;
+        points = 0;
+    }
+
     public void playRound(String attempt){
         if (status==Status.PLAYING){
             String hint = lingoRound.guess(attempt);
             if (lingoRound.isWordIsGuessed()){
                 status = Status.WON;
                 setPoints();
-                System.out.println(points);
+                System.out.println("Current points: "+points);
             }
             if (lingoRound.gameOver()){
                 status = Status.LOST;
+                System.out.println("Game over!: \nyour points: " + points);
             }
+        }
+        else if (status==Status.WON){
+            System.out.println("You have won the game, start the next round!");
+        }
+        else {
+            System.out.println("You have lost the game, start a new game!");
         }
     }
 
@@ -36,12 +49,15 @@ public class LingoGame {
         }
     }
 
+
+
+    /*TODO Remove later, this is purely for testing purposes*/
     public int getPoints() {
         return points;
     }
 
 
-    /*Remove later, this is purely for testing purposes*/
+    /*TODO Remove later, this is purely for testing purposes*/
     public Status getStatus() {
         return status;
     }
@@ -58,7 +74,6 @@ public class LingoGame {
                 -de marks terug geeft
             */
     private void setPoints(){
-        if (status==Status.WON)
         points += 5 * (5-lingoRound.currentTurn()) +5;
     }
 }
