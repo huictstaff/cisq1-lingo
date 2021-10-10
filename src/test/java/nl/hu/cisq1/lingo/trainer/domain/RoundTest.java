@@ -35,6 +35,21 @@ class RoundTest {
                 Arguments.of("Grond", "Angel",  "word attempted: Angel Marks: [ABSENT, PRESENT, PRESENT, ABSENT, ABSENT] Hint: ?!!??"),
                 Arguments.of("Grond", "Grdon",  "word attempted: Grdon Marks: [CORRECT, CORRECT, PRESENT, ABSENT, PRESENT] Hint: GR!?!"),
                 Arguments.of("Grond", "DonrG",  "word attempted: DonrG Marks: [ABSENT, PRESENT, PRESENT, ABSENT, ABSENT] Hint: ?!!??"),
-                Arguments.of("Pepo", "Poop",    "word attempted: Poop Marks: [CORRECT, PRESENT, ABSENT, PRESENT] Hint: P!?!"));
+                Arguments.of("Pope",  "Peep",   "word attempted: Peep Marks: [CORRECT, PRESENT, ABSENT, PRESENT] Hint: P!?!"));
     }
+
+    //TODO: ask HUGO how i can test this or if i can at all
+//    @Test
+//    @DisplayName("Max attempts already reached, This test should fail cause the attempts are over 5")
+//    public void gameOver(){
+//        Round test = new Round ("Grond");
+//        Feedback testFB1 = test.giveFeedBack("Gangs");
+//        Feedback testFB2 = test.giveFeedBack("Gangs");
+//        Feedback testFB3 = test.giveFeedBack("Gangs");
+//        Feedback testFB4 = test.giveFeedBack("Gangs");
+//        Feedback testFB5 = test.giveFeedBack("Gangs");
+//        Feedback testFB6 = test.giveFeedBack("Gangs");
+//
+//        assertEquals(testFB6.toString(),"dsd");
+//    }
 }

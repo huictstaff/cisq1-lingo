@@ -7,20 +7,33 @@ public class Game {
     private List<Round> roundList;
     private GameState status;
 
-    public Game() {
-        this.score = 0;
-    }
-
     public enum GameState {
         PLAYING,
         STOPPED
     }
 
-    public void calculateScore() {
-        this.score = (roundList.size()-1)*100;
+    public Game() {
+        setScore(0);
+    }
+
+    public void startGame() {
+        setStatus(GameState.PLAYING);
     }
 
     public void stopGame() {
-        this.status = GameState.STOPPED;
+        setStatus(GameState.STOPPED);
+    }
+
+    public void calculateScore() {
+       setScore(((roundList.size()-1)*100));
+    }
+
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setStatus(GameState status) {
+        this.status = status;
     }
 }

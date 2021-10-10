@@ -39,16 +39,15 @@ public class Round {
                         markList.add(Feedback.Mark.ABSENT);
                     }
                 }
-                String copyOfWordToGuess = rightWord;
-                String copyOfAttempt = guessWord;
-                for (int i = 0; i < copyOfAttempt.length(); i++) {
+                String dummyRightWord = rightWord;
+                for (int i = 0; i < guessWord.length(); i++) {
                     if (markList.get(i) == Feedback.Mark.ABSENT) {
-                        for (int a = 0; a < copyOfWordToGuess.length(); a++) {
+                        for (int a = 0; a < dummyRightWord.length(); a++) {
                             if (markList.get(a) == Feedback.Mark.ABSENT){
-                                if (copyOfWordToGuess.charAt(a) == copyOfAttempt.charAt(i) & copyOfAttempt.charAt(i) != '.'){
+                                if (dummyRightWord.charAt(a) == guessWord.charAt(i)){
                                     markList.set(i, Feedback.Mark.PRESENT);
-                                    copyOfAttempt = replaceCharUsingCharArray(copyOfAttempt, '.', i);
-                                    copyOfWordToGuess = replaceCharUsingCharArray(copyOfWordToGuess, '.', a);
+                                    dummyRightWord = findingThePresentChars(dummyRightWord, '?', a);
+//                                    System.out.println(dummyRightWord);
                                 }
                             }
                         }
@@ -82,7 +81,7 @@ public class Round {
         return replyString.toString();
     }
 
-    public String replaceCharUsingCharArray(String str, char ch, int index) {
+    public String findingThePresentChars(String str, char ch, int index) {
         char[] chars = str.toCharArray();
         chars[index] = ch;
         return String.valueOf(chars);

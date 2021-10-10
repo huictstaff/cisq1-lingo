@@ -1,12 +1,11 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Feedback {
-    private String guessWord;
-    private List<Mark> markList;
-    private String hint;
+    private final String guessWord;
+    private final List<Mark> markList;
+    private final String hint;
 
     public boolean isWordGuessed() {
         for ( Mark feedB : this.markList){
@@ -53,7 +52,6 @@ public class Feedback {
     @Override
     public String toString() {
         StringBuilder replyFB = new StringBuilder("word attempted: " + guessWord + " Marks: ");
-        System.out.println(markList.size());
         if(!markList.isEmpty()) {
             replyFB.append(markList);
         }
