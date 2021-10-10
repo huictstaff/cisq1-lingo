@@ -1,6 +1,4 @@
-package nl.hu.cisq1.lingo.words.domain;
-
-import java.util.List;
+package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
 public class Round
 {

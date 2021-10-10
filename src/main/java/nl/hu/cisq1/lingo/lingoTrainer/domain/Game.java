@@ -1,8 +1,6 @@
-package nl.hu.cisq1.lingo.words.domain;
+package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 enum GameStatus
 {
@@ -37,11 +35,13 @@ public class Game
 
     public void newRound(String wordToGuess)
     {
-        if(currentRound != null)
+        if(currentRound != null && wordToGuess.length() > 4)
         {
             rounds.add(currentRound);
         }
+        else{
+            this.currentRound = new Round(wordToGuess);
 
-        this.currentRound = new Round(wordToGuess);
+        }
     }
 }

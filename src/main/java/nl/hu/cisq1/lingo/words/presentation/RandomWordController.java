@@ -1,7 +1,7 @@
 package nl.hu.cisq1.lingo.words.presentation;
 
 import nl.hu.cisq1.lingo.words.application.WordService;
-import nl.hu.cisq1.lingo.words.domain.exception.WordLengthNotSupportedException;
+import nl.hu.cisq1.lingo.lingoTrainer.domain.exception.WordLengthNotSupportedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

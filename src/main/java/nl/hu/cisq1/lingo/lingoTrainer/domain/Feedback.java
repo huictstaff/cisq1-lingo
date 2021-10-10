@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.words.domain;
+package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
 
 import java.util.*;
@@ -6,6 +6,15 @@ import java.util.*;
 public class Feedback
 {
     String attempt;
+
+    public ArrayList<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(ArrayList<Mark> marks) {
+        this.marks = marks;
+    }
+
     ArrayList<Mark> marks = new ArrayList<>();
 
     public Feedback()
@@ -60,12 +69,16 @@ public class Feedback
         if(marks != null){
             marks.clear();
         }
+        else if(marks == null)
+        {
+            marks = new ArrayList<Mark>();
+        }
 
         for (int i = 0; i < wordToGuess.length(); i++) {
 
-
             switch(wordToGuess.charAt(i)) {
                 case ',':
+                    System.out.println();
                     break;
                 case '.':
                     marks.add(Mark.ABSENT);
@@ -84,18 +97,7 @@ public class Feedback
         return marks;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(attempt, feedback.attempt) && Objects.equals(marks, feedback.marks);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(attempt, marks);
-    }
 
     @Override
     public String toString() {
@@ -103,5 +105,13 @@ public class Feedback
                 "attempt='" + attempt + '\'' +
                 ", mark=" + marks +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Feedback feedback = (Feedback) o;
+        return Objects.equals(attempt, feedback.attempt) && Objects.equals(marks, feedback.marks);
     }
 }

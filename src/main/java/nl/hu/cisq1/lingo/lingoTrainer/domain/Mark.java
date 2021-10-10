@@ -1,4 +1,4 @@
-package nl.hu.cisq1.lingo.words.domain;
+package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
     public enum Mark
     {
