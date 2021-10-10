@@ -15,6 +15,12 @@
     <description>Lingo trainer for CISQ1 at the HU</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.projectKey>cb74e0def069652e387ba0ea2ea93f08034453ce</sonar.projectKey>
+        <sonar.organization>yasin-kilic-sonarcloud</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.exclusions>**/LingoApplication.java</sonar.exclusions>
+
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
