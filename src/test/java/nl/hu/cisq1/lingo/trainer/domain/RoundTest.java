@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +15,7 @@ class RoundTest {
     public void connectingFeedbackWithRound(){
         Round test = new Round ("Grond");
         Feedback testFB = test.giveFeedBack("Gangs");
-        assertEquals(testFB.toString(),"word attempted: Gangs Marks: CORRECT ABSENT PRESENT ABSENT ABSENT Hints: G???? ");
+        assertEquals(testFB.toString(),"word attempted: Gangs Marks: [CORRECT, ABSENT, PRESENT, ABSENT, ABSENT] Hint: G?!??");
     }
 
     @ParameterizedTest
@@ -25,7 +23,6 @@ class RoundTest {
     @DisplayName("a hint is given, This test should be able give hints")
     public void giveHint(String rightWord, String guessWord, String answer){
         Round test = new Round (rightWord);
-        System.out.println(test.toString());
         Feedback testFB = test.giveFeedBack(guessWord);
         testFB.giveHint(guessWord);
         assertEquals(testFB.toString(), answer);
@@ -35,8 +32,9 @@ class RoundTest {
         return Stream.of(
                 Arguments.of("Grond", "Grond",  "word attempted: Grond Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: GROND"),
                 Arguments.of("Grond", "Gronds", "word attempted: Gronds Marks: [INVALID] Hint: G????"),
-                Arguments.of("Grond", "Angel",  "word attempted: Angel Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: G????"),
-                Arguments.of("Grond", "Grdon",  "word attempted: Grdon Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: GR???"),
-                Arguments.of("Grond", "DonrG",  "word attempted: DonrG Marks: [CORRECT, CORRECT, CORRECT, CORRECT, CORRECT] Hint: G????"));
+                Arguments.of("Grond", "Angel",  "word attempted: Angel Marks: [ABSENT, PRESENT, PRESENT, ABSENT, ABSENT] Hint: ?!!??"),
+                Arguments.of("Grond", "Grdon",  "word attempted: Grdon Marks: [CORRECT, CORRECT, PRESENT, ABSENT, PRESENT] Hint: GR!?!"),
+                Arguments.of("Grond", "DonrG",  "word attempted: DonrG Marks: [ABSENT, PRESENT, PRESENT, ABSENT, ABSENT] Hint: ?!!??"),
+                Arguments.of("Pepo", "Poop",    "word attempted: Poop Marks: [CORRECT, PRESENT, ABSENT, PRESENT] Hint: P!?!"));
     }
 }
