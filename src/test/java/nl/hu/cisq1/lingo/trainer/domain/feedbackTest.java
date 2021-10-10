@@ -31,9 +31,7 @@ class feedbackTest {
     @DisplayName("a hint is given, This test should be able give hints")
     public void giveHint(String lastHint, String word, String answer, List<Feedback.Mark> FBList){
         Feedback testPos = new Feedback(word, lastHint, FBList);
-
         String testHint = testPos.giveHint(lastHint);
-
         assertEquals(testHint,answer);
     }
     static Stream<Arguments> provideHintExamples() {

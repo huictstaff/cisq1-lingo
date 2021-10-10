@@ -49,13 +49,12 @@ public class Feedback {
         return replyString.toString();
     }
 
-    @Override
     public String toString() {
-        StringBuilder replyFB = new StringBuilder("word attempted: " + guessWord + " Marks: ");
+        StringBuilder replyFB = new StringBuilder("word attempted: " + guessWord + ", Marks: ");
         if(!markList.isEmpty()) {
             replyFB.append(markList);
         }
-        replyFB.append(" Hint: ");
+        replyFB.append(", Hint: ");
         replyFB.append(hint);
         return replyFB.toString();
     }

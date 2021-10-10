@@ -21,7 +21,7 @@ public class Round {
         this.hintsList.add(startingHint);
     }
 
-    public Feedback giveFeedBack(String guessWord){
+    public Feedback inputWord(String guessWord){
         List<Feedback.Mark> markList = new ArrayList<>();
         if(attempts > 4) {
             throw new RuntimeException("Max attempts already reached");
@@ -87,13 +87,19 @@ public class Round {
         return String.valueOf(chars);
     }
 
-    @Override
+    public int getAttempts() {
+        return attempts;
+    }
+
+    public int getCurrentWordLength() {
+        return rightWord.length();
+    }
+
+    public String getGuessWord() {
+        return this.rightWord;
+    }
+
     public String toString() {
-        return "Round{" +
-                "rightWord='" + rightWord + '\'' +
-                ", attempts=" + attempts +
-                ", FeedBacklist=" + FBList +
-                ", startingHint='" + startingHint + '\'' +
-                '}';
+        return "guess word: " + rightWord + ", attempts = " + attempts + ", the starting hint: " + startingHint + ", feedback list: " + FBList;
     }
 }
