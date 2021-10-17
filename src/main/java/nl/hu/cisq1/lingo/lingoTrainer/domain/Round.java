@@ -1,10 +1,19 @@
 package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Round
 {
     public String previousHint;
     public String wordToGuess;
     public int timesGuessed;
+
+    @javax.persistence.Id
+    @GeneratedValue
+    private Long Id;
 
     public String getPreviousHint() {
         return previousHint;

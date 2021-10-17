@@ -1,11 +1,17 @@
 package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
 
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class Feedback
 {
     String attempt;
+
+    @javax.persistence.Id
+    @GeneratedValue
+    private Long Id;
 
     public ArrayList<Mark> getMarks() {
         return marks;

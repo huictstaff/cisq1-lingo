@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 
 enum GameStatus
@@ -7,10 +8,18 @@ enum GameStatus
     STARTED,
     STOPPED
 }
+
+@Entity
 public class Game
 {
     private ArrayList<Round> rounds = new ArrayList<>();
+
+    @OneToOne
     private Round currentRound;
+
+    @Id
+    @GeneratedValue
+    private Long Id;
 
     public Game(String wordToGuess)
     {
