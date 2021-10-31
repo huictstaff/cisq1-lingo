@@ -32,9 +32,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> findAll(List<Long> ids) {
-        return gameRepository.findAllById(ids);
-    }
+    public List<Game> findAll(List<Long> ids) {return gameRepository.findAllById(ids);}
 
     @Override
     public List<Game> findAll(Sort sort){

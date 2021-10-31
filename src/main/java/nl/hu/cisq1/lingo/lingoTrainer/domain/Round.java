@@ -1,15 +1,24 @@
 package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Round
+public class Round implements Serializable
 {
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public String previousHint;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public String wordToGuess;
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+
     public int timesGuessed;
+
+    @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    public Feedback previousFeedback;
 
     @javax.persistence.Id
     @GeneratedValue
@@ -37,13 +46,16 @@ public class Round
         this.timesGuessed = 0;
     }
 
+    public Round() {
+    }
+
     public Feedback guessWord(String attempt)
     {
         var feedback = new Feedback();
         feedback.giveHint(previousHint, wordToGuess, attempt);
 
         this.timesGuessed = this.timesGuessed + 1;
-
+        previousFeedback = feedback;
         return feedback;
     }
 }

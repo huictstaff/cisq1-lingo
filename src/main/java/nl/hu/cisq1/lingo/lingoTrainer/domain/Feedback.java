@@ -2,10 +2,11 @@ package nl.hu.cisq1.lingo.lingoTrainer.domain;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
-public class Feedback
+public class Feedback implements Serializable
 {
     String attempt;
 

@@ -1,5 +1,6 @@
 package nl.hu.cisq1.lingo.lingoTrainer.controllers;
 
+import nl.hu.cisq1.lingo.lingoTrainer.domain.Feedback;
 import nl.hu.cisq1.lingo.lingoTrainer.domain.Game;
 import nl.hu.cisq1.lingo.lingoTrainer.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +17,47 @@ public class GameController {
     private GameService gameService;
 
     @PostMapping("/game")
-    public Game save(@RequestBody Game game){
-        return gameService.save(game);
+    public String newGame(@RequestParam String wordToGuess) {
+
+        var game = new Game();
+        game.newRound(wordToGuess);
+
+        var gameSaved = gameService.save(game);
+        return "New game started with the id: " + gameSaved.Id + " and the word to guess: " + wordToGuess;
     }
 
-    @GetMapping("/game/{id}")
-    public Game getById(@PathVariable(value = "id") Long id){
-        return gameService.find(id);
+    @PostMapping("/game/{id}/guess")
+    public String guess(@PathVariable Long id, @RequestParam String guessAttempt) {
+
+        var game = gameService.find(id);
+
+        if (game.getCurrentRound().previousFeedback != null) {
+            if (game.getCurrentRound().previousFeedback.isWordGuessed()) {
+                return "Word was already guessed, you won!";
+            }
+
+
+            if (game.getCurrentRound().timesGuessed >= 5) {
+                return "Round is over, you lost.";
+            }
+        }
+        var feedback = game.getCurrentRound().guessWord(guessAttempt);
+        gameService.save(game);
+        return feedback.toString();
     }
 
-    @GetMapping("/game")
-    public List<Game> getAll(){
-        return gameService.findAll();
+    @PostMapping("/game/{id}/newRound")
+    public String newRound(@PathVariable Long id, @RequestParam String wordToGuess) {
+
+        var game = gameService.find(id);
+        game.newRound(wordToGuess);
+        gameService.save(game);
+        return "New round started!";
     }
 
-    @DeleteMapping("/game/{id}")
-    public void deleteById(@PathVariable(value = "id") Long id){
-        gameService.delete(id);
-    }
-
-    @DeleteMapping("/game")
-    public void deleteAll(){
-        gameService.deleteAll();
-    }
-
-    @GetMapping("/game/count")
-    public long count(){
-        return gameService.count();
+    @GetMapping("/game/{id}/gameStatus")
+    public String gameStatus(@PathVariable Long id) {
+        var game = gameService.find(id);
+        return game.toString();
     }
 }

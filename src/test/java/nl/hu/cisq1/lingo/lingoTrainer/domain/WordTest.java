@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.lingoTrainer.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.Test;
 
 class WordTest {
