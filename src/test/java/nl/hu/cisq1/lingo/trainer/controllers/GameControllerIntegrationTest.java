@@ -47,4 +47,38 @@ public class GameControllerIntegrationTest {
                 .andExpect(jsonPath("$.gameStatus", is("GAME_STARTED_WAITING_FOR_NEW_ROUND")));
 
     }
+
+    @Test
+    void testGetGameProgress() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/game/getGameProgress").param("gameId", "1");
+
+        mockMvc.perform(request)
+                .andExpect(jsonPath("$.gameStatus", is("GAME_STARTED_WAITING_FOR_NEW_ROUND")))
+                .andExpect(jsonPath("$.gameId", is(1)));
+
+    }
+
+    @Test
+    void testNewGameRound() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/game/newGameRound").param("gameId", "1");
+
+        mockMvc.perform(request)
+                .andExpect(jsonPath("$.gameStatus", is("ROUND_STARTED_WAITING_FOR_NEW_GUESS")))
+                .andExpect(jsonPath("$.gameId", is(1)));
+
+    }
+
+    @Test
+    void testGameGuessWord() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/api/game/gameGuessWord")
+                .param("wordGuess", "appel")
+                .param("gameId", "1");
+
+
+        mockMvc.perform(request)
+                .andExpect(jsonPath("$.guessWord", is("appel")));
+    }
 }
