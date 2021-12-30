@@ -16,4 +16,4 @@ jobs:
       - name: Build with Maven
         run:
         -mvn --batch-mode --update-snapshots verify
-        -mvnw -B verify "-Dspring.profiles.active=ci"
+        -mvn -B verify "-Dspring.profiles.active=ci"
