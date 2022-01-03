@@ -20,4 +20,4 @@ jobs:
          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
          restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvnw verify "-Dspring.profiles.active=ci"
+        run: mvn verify "-Dspring.profiles.active=ci"
