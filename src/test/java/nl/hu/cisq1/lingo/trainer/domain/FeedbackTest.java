@@ -2,8 +2,12 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,5 +40,22 @@ class FeedbackTest {
         assertFalse(feedback.guessIsValid());
     }
 
+    @ParameterizedTest
+    @DisplayName("hint are given right")
+    @MethodSource("provideHintExamples")
+    void giveHints(String previusHint, String wordToGuess, String guess,List<Mark> marks, String nextHint) throws Exception {
+        Feedback feedback = new Feedback(guess, marks);
+        assertEquals(nextHint,feedback.giveHint(previusHint,wordToGuess));
 
+
+    }
+
+    static Stream<Arguments> provideHintExamples() {
+        return Stream.of(
+                Arguments.of("w....","woord","waard", List.of(Mark.Correct,Mark.Absent,Mark.Absent,Mark.Correct,Mark.Correct),"w..rd"),
+                Arguments.of("w..rd", "woord","woerd",List.of(Mark.Correct,Mark.Correct,Mark.Absent,Mark.Correct,Mark.Correct),"wo.rd"),
+                Arguments.of("wo.rd","woord", "woord",List.of(Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct),"woord")
+
+        );
+    }
 }

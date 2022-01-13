@@ -50,4 +50,18 @@ public class Feedback {
         }
         return false;
     }
+
+    public String giveHint(String previusHint, String wordToGuess) throws Exception {
+        //String nextHint = previusHint;
+        StringBuilder nextHint = new StringBuilder(previusHint);
+
+        for(var i = 0; i < wordToGuess.length(); i++){
+            String letter = String.valueOf(nextHint.charAt(i));
+
+            if(letter.equals(".") && Mark.getString(mark.get(i)).equals("Correct")){
+                nextHint.setCharAt(i,wordToGuess.charAt(i));
+            }
+        }
+        return String.valueOf(nextHint);
+    }
 }
