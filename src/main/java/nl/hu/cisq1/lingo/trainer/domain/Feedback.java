@@ -51,17 +51,17 @@ public class Feedback {
         return false;
     }
 
-    public String giveHint(String previusHint, String wordToGuess) throws Exception {
+    public String giveHint(String previusHint) throws Exception {
         //String nextHint = previusHint;
         StringBuilder nextHint = new StringBuilder(previusHint);
-
-        for(var i = 0; i < wordToGuess.length(); i++){
-            String letter = String.valueOf(nextHint.charAt(i));
-
-            if(letter.equals(".") && Mark.getString(mark.get(i)).equals("Correct")){
-                nextHint.setCharAt(i,wordToGuess.charAt(i));
+        if(!mark.contains(Mark.Invalid)) {
+            for (var i = 0; i < attempt.length(); i++) {
+                if (Mark.getString(mark.get(i)).equals("Correct")) {
+                    nextHint.setCharAt(i, attempt.charAt(i));
+                }
             }
         }
         return String.valueOf(nextHint);
     }
+
 }

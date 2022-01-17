@@ -3,7 +3,8 @@ package nl.hu.cisq1.lingo.trainer.domain;
 public enum Mark {
     Correct,
     Absent,
-    Present;
+    Present,
+    Invalid;
 
     public static String getString(Mark feedback) throws Exception {
         switch (feedback){
@@ -13,8 +14,10 @@ public enum Mark {
                 return "Absent";
             case Present:
                 return "Present";
+            case Invalid:
+                return "Invalid";
         }
-        throw new Exception("Status unknown, use one of the following: Correct, Absent, Present");
+        throw new Exception("Status unknown, use one of the following: Correct, Absent, Present or Invalid");
     }
 
 }

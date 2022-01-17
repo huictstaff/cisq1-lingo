@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -12,6 +13,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
+
 
     @Test
     @DisplayName("word is guessed if all letters are correct")
@@ -41,20 +43,20 @@ class FeedbackTest {
     }
 
     @ParameterizedTest
-    @DisplayName("hint are given right")
+    @DisplayName("hint are given based on previous hints and feedback")
     @MethodSource("provideHintExamples")
-    void giveHints(String previusHint, String wordToGuess, String guess,List<Mark> marks, String nextHint) throws Exception {
+    void giveHints(String previusHint, String guess,List<Mark> marks, String nextHint) throws Exception {
         Feedback feedback = new Feedback(guess, marks);
-        assertEquals(nextHint,feedback.giveHint(previusHint,wordToGuess));
+        assertEquals(nextHint,feedback.giveHint(previusHint));
 
 
     }
 
     static Stream<Arguments> provideHintExamples() {
         return Stream.of(
-                Arguments.of("w....","woord","waard", List.of(Mark.Correct,Mark.Absent,Mark.Absent,Mark.Correct,Mark.Correct),"w..rd"),
-                Arguments.of("w..rd", "woord","woerd",List.of(Mark.Correct,Mark.Correct,Mark.Absent,Mark.Correct,Mark.Correct),"wo.rd"),
-                Arguments.of("wo.rd","woord", "woord",List.of(Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct),"woord")
+                Arguments.of("w....","waard", List.of(Mark.Correct,Mark.Absent,Mark.Absent,Mark.Correct,Mark.Correct),"w..rd"),
+                Arguments.of("w..rd","woerd",List.of(Mark.Correct,Mark.Correct,Mark.Absent,Mark.Correct,Mark.Correct),"wo.rd"),
+                Arguments.of("wo.rd", "woord",List.of(Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct,Mark.Correct),"woord")
 
         );
     }
