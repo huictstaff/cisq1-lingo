@@ -57,9 +57,9 @@ class WordServiceTest {
 
     static Stream<Arguments> randomWordExamples() {
         return Stream.of(
-                Arguments.of(5, "tower"),
-                Arguments.of(6, "castle"),
-                Arguments.of(7, "knights")
+                Arguments.of(5, "groep"),
+                Arguments.of(6, "school"),
+                Arguments.of(7, "student")
         );
     }
 }
