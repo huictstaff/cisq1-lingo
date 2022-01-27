@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -39,6 +38,29 @@ class WordServiceTest {
                 WordLengthNotSupportedException.class,
                 () -> service.provideRandomWord(5)
         );
+    }
+
+    @Test
+    @DisplayName("word exists")
+    void wordExists() {
+        WordRepository mockRepository = mock(WordRepository.class);
+        when(mockRepository.existsById("groep")).thenReturn(true);
+
+        WordService service = new WordService(mockRepository);
+        boolean result = service.wordExists("groep");
+
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("word does not exist")
+    void wordDoesNotExist() {
+        WordRepository mockRepository = mock(WordRepository.class);
+
+        WordService service = new WordService(mockRepository);
+        boolean result = service.wordExists("groep");
+
+        assertFalse(result);
     }
 
     @ParameterizedTest

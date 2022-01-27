@@ -8,11 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class WordServiceIntegrationTest {
@@ -35,6 +33,20 @@ class WordServiceIntegrationTest {
                 WordLengthNotSupportedException.class,
                 () -> this.service.provideRandomWord(10)
         );
+    }
+
+    @Test
+    @DisplayName("word exists")
+    void wordExists() {
+        boolean result = this.service.wordExists(RANDOM_WORD_5);
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("word does not exist")
+    void wordDoesNotExist() {
+        boolean result = this.service.wordExists("goner");
+        assertFalse(result);
     }
 
     @Test
