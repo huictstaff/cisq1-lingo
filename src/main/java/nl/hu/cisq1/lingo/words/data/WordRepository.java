@@ -11,7 +11,7 @@ import java.util.Optional;
  * Spring generates an implementation based on our configured adapters
  * (see: application.properties and pom.xml)
  */
-public interface SpringWordRepository extends JpaRepository<Word, String> {
+public interface WordRepository extends JpaRepository<Word, String> {
     @Query(nativeQuery=true, value="SELECT * FROM words w WHERE w.length = ?1 ORDER BY random() LIMIT 1")
     Optional<Word> findRandomWordByLength(Integer length);
 }
