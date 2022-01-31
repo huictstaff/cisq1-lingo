@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.hamcrest.Matchers.hasLength;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -50,11 +49,9 @@ class WordControllerIntegrationTest {
                 .get("/words/random")
                 .param("length", String.valueOf(5));
 
-        String expectedProperties = String.format("{'word' : '%s'}", RANDOM_WORD_5);
-
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedProperties));
+                .andExpect(jsonPath("$.word", is(RANDOM_WORD_5)));
     }
 
     @Test
@@ -64,11 +61,9 @@ class WordControllerIntegrationTest {
                 .get("/words/random")
                 .param("length", String.valueOf(6));
 
-        String expectedProperties = String.format("{'word' : '%s'}", RANDOM_WORD_6);
-
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedProperties));
+                .andExpect(jsonPath("$.word", is(RANDOM_WORD_6)));
     }
 
     @Test
@@ -78,11 +73,9 @@ class WordControllerIntegrationTest {
                 .get("/words/random")
                 .param("length", String.valueOf(7));
 
-        String expectedProperties = String.format("{'word' : '%s'}", RANDOM_WORD_7);
-
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedProperties));
+                .andExpect(jsonPath("$.word", is(RANDOM_WORD_7)));
     }
 
     @BeforeEach
