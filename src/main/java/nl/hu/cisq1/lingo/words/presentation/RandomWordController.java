@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("words")
+@RequestMapping("/words")
 public class RandomWordController {
     private final WordService service;
 
@@ -18,10 +18,11 @@ public class RandomWordController {
         this.service = service;
     }
 
-    @GetMapping("random")
-    public String getRandomWord(@RequestParam Integer length) {
+    @GetMapping("/random")
+    public WordResult getRandomWord(@RequestParam Integer length) {
         try {
-            return this.service.provideRandomWord(length);
+            String word = this.service.provideRandomWord(length);
+            return new WordResult(word);
         } catch (WordLengthNotSupportedException exception) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
         }
