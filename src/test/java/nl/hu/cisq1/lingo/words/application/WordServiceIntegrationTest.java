@@ -73,6 +73,7 @@ class WordServiceIntegrationTest {
     @BeforeEach
     void loadTestData() {
         // Load test fixtures into test database before each test case
+        repository.deleteAll();
         repository.save(new Word(RANDOM_WORD_5));
         repository.save(new Word(RANDOM_WORD_6));
         repository.save(new Word(RANDOM_WORD_7));
