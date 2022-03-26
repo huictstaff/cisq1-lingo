@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Feedback {
-    private String attempt;
-    private List<Mark> marks;
-    private List<String> hint = new ArrayList<>();
+    private String attempt; /** word */
+    private List<Mark> marks; /** e.g.: CORRECT, PRESENT, CORRECT, CORRECT, ABSENT */
+    private List<String> hint = new ArrayList<>(); /** e.g.: B . . . D*/
 
     public Feedback(String attempt, List<Mark> marks) {
         this.attempt = attempt;
