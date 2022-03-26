@@ -29,14 +29,14 @@ class FeedbackTest {
     }
 
     @Test
-    @DisplayName("word is not guessed if not all letters are correct")
+    @DisplayName("guess is valid if there are no invalid letters")
     void guessIsInvalid() {
         Feedback feedback = new Feedback("boers", List.of(ABSENT, ABSENT, ABSENT, CORRECT, CORRECT));
         assertTrue(feedback.guessIsValid());
     }
 
     @Test
-    @DisplayName("word is not guessed if not all letters are correct")
+    @DisplayName("guess is not valid if there are invalid letters")
     void guessIsNotInvalid() {
         Feedback feedback = new Feedback("haring", List.of(Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID, Mark.INVALID));
         assertFalse(feedback.guessIsValid());
