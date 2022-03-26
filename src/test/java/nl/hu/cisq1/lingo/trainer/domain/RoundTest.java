@@ -17,14 +17,21 @@ class RoundTest {
     @DisplayName("Test if the word was successfully guessed this attempt")
     void isWordGuessed() {
         Round round = new Round(new Word("lingo"));
-        assertTrue(round.attempt("lingo"));
+        assertTrue(round.isWordGuessed("lingo"));
     }
 
     @Test
     @DisplayName("Test if the word was unsuccessfully guessed this attempt")
     void isWordNotGuessed() {
         Round round = new Round(new Word("lingo"));
-        assertFalse(round.attempt("lango"));
+        assertFalse(round.isWordGuessed("lango"));
+    }
+
+    @Test
+    @DisplayName("Test if invaled length gets catched by attempt")
+    void isWordOfInvalidLength() {
+        Round round = new Round(new Word("lingo"));
+        assertFalse(round.attemptValid("langer"));
     }
 
     @ParameterizedTest
@@ -57,6 +64,14 @@ class RoundTest {
             Arguments.of("BAKKER", "HAMBURGER", false)
 
         );
+    }
+
+    @Test
+    @DisplayName("Is there feedback?")
+    void returnValidFeedback() {
+        Round round = new Round(new Word("woord"));
+        round.attempt("brood");
+        assertEquals(1, round.getFeedback().size());
     }
 
 

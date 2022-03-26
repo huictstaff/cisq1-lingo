@@ -8,19 +8,32 @@ import java.util.List;
 public class Round {
 
     private final Word word;
-    private final List<Feedback> feedback = new ArrayList<>();
+    private final List<Feedback> feedbackList = new ArrayList<>();
 
     public Round(Word word) {
         this.word = word;
     }
 
-    public boolean attempt(String attemptedWord) {
-        /** TODO Length catch */
+    public void attempt(String guess) {
+        /** TODO exceptions for round over, etc */
+
+        /** check validity of attempt */
+        if (attemptValid(guess)) {
+            Feedback feedback = new Feedback().createFeedback(word.getValue(), guess);
+            feedbackList.add(feedback);
+            System.out.println(feedback);
+        }
+
+    }
+
+    public boolean attemptValid(String attemptedWord) {
+        /** TODO Length catch exception */
         if (!isWordLengthValid(attemptedWord)) {
             return false;
         }
+        /** TODO Rework this abomination, what is this even supposed to achieve */
         if (!isWordGuessed(attemptedWord)) {
-            return false;
+            return true;
         }
         return true;
     }
@@ -30,6 +43,15 @@ public class Round {
     }
 
     public boolean isWordGuessed(String attemptedWord) {
+        System.out.println(attemptedWord);
+        System.out.println(this.word.getValue());
+        System.out.println(attemptedWord.equals(this.word.getValue()));
         return attemptedWord.equals(this.word.getValue());
     }
+
+    public List<Feedback> getFeedback() {
+        return feedbackList;
+    }
+
+
 }
