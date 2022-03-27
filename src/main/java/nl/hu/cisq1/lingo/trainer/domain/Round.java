@@ -1,5 +1,7 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.GameException;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.TooManyAttemptsException;
@@ -10,9 +12,11 @@ import java.util.List;
 
 public class Round {
 
+    @Getter @Setter
     private final Word word;
     private final List<Feedback> feedbackList = new ArrayList<>();
 
+    @Getter @Setter
     public boolean hasWordBeenGuessed = false;
 
     public Round(Word word) {
@@ -38,7 +42,6 @@ public class Round {
 
         if (newestFeedback.wordIsGuessed()) {
             hasWordBeenGuessed = true;
-            throw new GameException("Guessed correctly, round is finished");
         }
 
         displayHint(newestFeedback);
@@ -58,6 +61,8 @@ public class Round {
         if (!isWordGuessed(attemptedWord)) {
             return true;
         }
+        /** TODO */
+        /** another if with a check if the word has been used before */
         return true;
     }
 
