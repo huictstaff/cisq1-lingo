@@ -13,7 +13,7 @@ public class Round {
     private final Word word;
     private final List<Feedback> feedbackList = new ArrayList<>();
 
-    public boolean isWordGuessed = false;
+    public boolean hasWordBeenGuessed = false;
 
     public Round(Word word) {
         this.word = word;
@@ -37,7 +37,7 @@ public class Round {
         }
 
         if (newestFeedback.wordIsGuessed()) {
-            isWordGuessed = true;
+            hasWordBeenGuessed = true;
             throw new GameException("Guessed correctly, round is finished");
         }
 

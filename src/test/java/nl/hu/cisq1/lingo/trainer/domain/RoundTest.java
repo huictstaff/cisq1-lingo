@@ -92,8 +92,7 @@ class RoundTest {
     void correctGuess() {
         Round round = new Round(new Word("brood"));
         round.attempt("braak");
-        round.attempt("brood");
-        assertTrue(round.isWordGuessed);
+        assertThrows(GameException.class, () -> round.attempt("brood"));
     }
 
     /** TODO make attempt function catch and send error message on invalid attempt with if (!attemptValid... */
