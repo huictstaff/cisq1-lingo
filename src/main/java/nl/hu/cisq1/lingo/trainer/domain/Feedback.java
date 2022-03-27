@@ -104,4 +104,12 @@ public class Feedback {
                 ", marks=" + marks +
                 '}';
     }
+
+    public String getAttempt() {
+        return attempt;
+    }
+
+    public List<Mark> getMarks() {
+        return marks;
+    }
 }
