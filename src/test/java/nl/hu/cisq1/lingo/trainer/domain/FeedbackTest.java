@@ -52,7 +52,7 @@ class FeedbackTest {
     }
 
     /** TODO dekt dit alles en test dit wel goed? */
-    static Stream<Arguments> hintInputStream(){
+    static Stream<Arguments> hintInputStream() {
         return Stream.of(
                 Arguments.of("BOOST", "BOTER", List.of(CORRECT, CORRECT, PRESENT, ABSENT, ABSENT), List.of("B",".",".",".","."), List.of("B","O",".",".",".")),
                 Arguments.of("BOOST", "SLOOT", List.of(PRESENT, ABSENT, CORRECT, PRESENT, CORRECT), List.of("B","O",".",".","."), List.of("B","O","O",".","T")),
