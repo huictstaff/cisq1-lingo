@@ -21,8 +21,6 @@ public class Game {
     @Getter @Setter
     private List<Word> previousWords = new ArrayList<>();
 
-
-
     public Game(Word word) {
         this.gamestate = gamestate.ACTIVE;
         this.rounds.add((new Round(word)));
