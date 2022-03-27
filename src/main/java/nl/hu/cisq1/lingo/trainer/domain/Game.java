@@ -22,7 +22,6 @@ public class Game {
     private List<Word> previousWords = new ArrayList<>();
 
 
-    public Game() {}
 
     public Game(Word word) {
         this.gamestate = gamestate.ACTIVE;
@@ -59,12 +58,13 @@ public class Game {
             this.rounds.add(new Round(word));
             gamestate = Gamestate.ACTIVE;
         } else {
+            /** throw at a wall when gamestate is not in WAITING */
             throw new GameException("Cant start a new round");
         }
     }
 
-    /** TODO At some point the word length must come into play */
+    /** At some point the word length must come into play */
     public int getWordLength() {
-        return 5;
+        return rounds.get(rounds.size() - 1).getWord().getLength();
     }
 }

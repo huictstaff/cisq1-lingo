@@ -88,12 +88,30 @@ class GameTest {
         assertEquals(45, game.getScore());
     }
 
+    @Test
+    @DisplayName("start a new round while the previous round is still ACTIVE or FINISHED")
+    void illegallyStartNewRound() {
+        Game game = new Game(new Word("BROOD"));
+        assertEquals(Gamestate.ACTIVE, game.getGamestate());
+        assertThrows(GameException.class, () -> game.startNewRound(new Word("TOREN")));
+    }
+
+
+    @Test
+    @DisplayName("to get the length of the previous rounds word, necessary for getting the next word")
+    void getWordLength() {
+        Game game = new Game(new Word("BROOD"));
+        game.guess("BROOD");
+        assertEquals(5, game.getWordLength());
+        game.startNewRound(new Word("TORENS"));
+        game.guess("TRANEN");
+        game.guess("TORENS");
+        assertEquals(6, game.getWordLength());
+    }
+
 
     /** TODO multiple rounds */
     /** TODO test if rounds history works */
     /** TODO multiple rounds and catch that same word gets asked multiple times */
-    /** TODO */
-    /** TODO */
-
 
 }

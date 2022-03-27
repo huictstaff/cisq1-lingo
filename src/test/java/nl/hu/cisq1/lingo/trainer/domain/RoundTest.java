@@ -110,8 +110,8 @@ class RoundTest {
     @DisplayName("test if the round is over after the word is guessed correctly")
     void throwGameExceptionAtGuessingCorrectly() {
         Round round = new Round(new Word("brood"));
-
-        assertThrows(GameException.class, () -> round.attempt("brood"));
+        round.attempt("brood");
+        assertEquals(true, round.hasWordBeenGuessed);
     }
 //
 //

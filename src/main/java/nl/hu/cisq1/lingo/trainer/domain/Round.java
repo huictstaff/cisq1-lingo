@@ -12,6 +12,7 @@ import java.util.List;
 
 public class Round {
 
+    @Getter @Setter
     private final Word word;
     private final List<Feedback> feedbackList = new ArrayList<>();
 
