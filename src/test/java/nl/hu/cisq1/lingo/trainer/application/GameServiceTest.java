@@ -3,6 +3,7 @@ package nl.hu.cisq1.lingo.trainer.application;
 import nl.hu.cisq1.lingo.trainer.data.SpringGameRepository;
 import nl.hu.cisq1.lingo.trainer.domain.Game;
 import nl.hu.cisq1.lingo.trainer.domain.Gamestate;
+import nl.hu.cisq1.lingo.trainer.domain.Progress;
 import nl.hu.cisq1.lingo.words.application.WordService;
 import nl.hu.cisq1.lingo.words.domain.Word;
 import org.junit.jupiter.api.DisplayName;
@@ -28,11 +29,11 @@ class GameServiceTest {
 
         when(wordService.provideRandomWord(anyInt())).thenReturn("BROOD");
 
-        Game game = gameService.startNewGame();
+        Progress progress = gameService.startNewGame();
 
-        assertEquals(Gamestate.ACTIVE, game.getGamestate());
-        assertEquals(1, game.getRounds().size());
-        assertEquals(0, game.getScore());
+        assertEquals(Gamestate.ACTIVE, progress.getGamestate());
+        assertEquals(0, progress.getRoundNumber());
+        assertEquals(0, progress.getScore());
     }
 
     @Test
@@ -51,10 +52,10 @@ class GameServiceTest {
         gameService.startNewGame();
 
         /** Make a guess */
-        Game game = gameService.guess(1, "BOTER");
-        assertEquals(Gamestate.ACTIVE, game.getGamestate());
-        assertEquals(0, game.getScore());
-        assertEquals(1, game.getRounds().size());
+        Progress progress = gameService.guess(1, "BOTER");
+        assertEquals(Gamestate.ACTIVE, progress.getGamestate());
+        assertEquals(0, progress.getScore());
+        assertEquals(1, progress.getRoundNumber());
     }
 
     @Test
@@ -74,18 +75,18 @@ class GameServiceTest {
         gameService.startNewGame();
 
         /** Make a guess */
-        Game game = gameService.guess(1, "BOTER");
-        assertEquals(Gamestate.ACTIVE, game.getGamestate());
-        assertEquals(0, game.getScore());
-        assertEquals(1, game.getRounds().size());
-        assertEquals(game.getRoundFeedback().get(0).getMarks(), List.of(CORRECT, PRESENT, ABSENT, ABSENT, PRESENT));
+        Progress progress = gameService.guess(1, "BOTER");
+        assertEquals(Gamestate.ACTIVE, progress.getGamestate());
+        assertEquals(0, progress.getScore());
+        assertEquals(1, progress.getRoundNumber());
+        assertEquals(progress.getMarks(), List.of(CORRECT, PRESENT, ABSENT, ABSENT, PRESENT));
 
         /** Make a correct guess */
-        game = gameService.guess(1, "BROOD");
-        assertEquals(Gamestate.WAITING, game.getGamestate());
-        assertEquals(20, game.getScore());
-        assertEquals(2, game.getRoundFeedback().size());
-        assertEquals(game.getRoundFeedback().get(1).getMarks(), List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT));
+        progress = gameService.guess(1, "BROOD");
+        assertEquals(Gamestate.WAITING, progress.getGamestate());
+        assertEquals(20, progress.getScore());
+        assertEquals(2, progress.getRoundNumber());
+        assertEquals(progress.getMarks(), List.of(CORRECT, CORRECT, CORRECT, CORRECT, CORRECT));
     }
 
     @Test
