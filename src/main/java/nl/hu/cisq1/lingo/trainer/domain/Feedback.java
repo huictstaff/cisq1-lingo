@@ -1,13 +1,26 @@
 package nl.hu.cisq1.lingo.trainer.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 
+@Entity(name = "feedback")
 public class Feedback {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
     private String attempt; /** word */
+
+    @Enumerated
+    @ElementCollection
     private List<Mark> marks; /** e.g.: CORRECT, PRESENT, CORRECT, CORRECT, ABSENT */
+
+    @ElementCollection
     private List<String> hint = new ArrayList<>(); /** e.g.: B . . . D*/
 
     public Feedback() {}

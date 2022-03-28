@@ -5,21 +5,35 @@ import lombok.Setter;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.GameException;
 import nl.hu.cisq1.lingo.words.domain.Word;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@Entity(name = "game")
 public class Game {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
     @Getter @Setter
-    private int id;
-    @Getter @Setter
+    @Column
     private Gamestate gamestate;
+
     @Getter @Setter
+    @Column
     private int score;
+
+    /** nog een mappedBy = "game" toevoegen aan OneToMany? */
     @Getter @Setter
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private final List<Round> rounds = new ArrayList<>();
-    @Getter @Setter
-    private List<Word> previousWords = new ArrayList<>();
+
+//    @Getter @Setter
+//    private List<Word> previousWords = new ArrayList<>();
+
+    public Game() {}
 
     public Game(Word word) {
         this.gamestate = gamestate.ACTIVE;

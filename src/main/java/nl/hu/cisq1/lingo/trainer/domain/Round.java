@@ -6,13 +6,23 @@ import nl.hu.cisq1.lingo.trainer.domain.exeption.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.TooManyAttemptsException;
 import nl.hu.cisq1.lingo.words.domain.Word;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@Entity(name = "round")
 public class Round {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
     @Getter @Setter
-    private final Word word;
+    @OneToOne
+    private Word word;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private final List<Feedback> feedbackList = new ArrayList<>();
 
     @Getter @Setter
@@ -21,6 +31,8 @@ public class Round {
     public Round(Word word) {
         this.word = word;
     }
+
+    public Round() {}
 
     /** make a guess, attempt */
     public void attempt(String guess) {

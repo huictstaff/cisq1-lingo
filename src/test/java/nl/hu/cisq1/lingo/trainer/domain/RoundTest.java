@@ -124,7 +124,6 @@ class RoundTest {
         /** last element contains correct data */
         assertEquals("lyngo", feedbackElement.getAttempt());
         assertEquals(List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT), feedbackElement.getMarks());
-
     }
 
     @Test
