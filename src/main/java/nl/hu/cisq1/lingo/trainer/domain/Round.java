@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import nl.hu.cisq1.lingo.trainer.domain.exeption.GameException;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.InvalidAttemptException;
 import nl.hu.cisq1.lingo.trainer.domain.exeption.TooManyAttemptsException;
 import nl.hu.cisq1.lingo.words.domain.Word;
@@ -25,9 +24,8 @@ public class Round {
 
     /** make a guess, attempt */
     public void attempt(String guess) {
-        /** TODO exceptions for round over, etc */
 
-        Feedback newestFeedback = new Feedback();
+        Feedback newestFeedback;
         if (feedbackList.size() >= 5) {
             throw new TooManyAttemptsException("You have already used all attempts for this round");
         }
@@ -48,30 +46,25 @@ public class Round {
     }
 
     private void displayHint(Feedback newestFeedback) {
-        /** TODO future rework to fancier display? */
         System.out.println(newestFeedback.getMarks());
     }
 
     public boolean attemptValid(String attemptedWord) {
-        /** TODO Length catch exception */
         if (!isWordLengthValid(attemptedWord)) {
             return false;
         }
-        /** TODO Rework this abomination, what is this even supposed to achieve */
-        if (!isWordGuessed(attemptedWord)) {
+
+        if (isWordGuessed(attemptedWord)) {
             return true;
         }
-        /** TODO */
-        /** another if with a check if the word has been used before */
+        /** TODO another if with a check if the word has been used before */
         return true;
     }
 
-    /** TODO Maybe refactor this to Feedback responsibility */
     public boolean isWordLengthValid(String attemptedWord) {
         return this.word.getLength().equals(attemptedWord.length());
     }
 
-    /** TODO Maybe refactor this to Feedback responsibility */
     public boolean isWordGuessed(String attemptedWord) {
         return attemptedWord.equals(this.word.getValue());
     }

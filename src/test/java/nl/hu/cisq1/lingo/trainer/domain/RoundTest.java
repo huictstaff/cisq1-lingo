@@ -80,13 +80,6 @@ class RoundTest {
         assertEquals(1, round.getFeedback().size());
     }
 
-//
-//    /** TODO stream arguments to test the creation of hint with no guesses, 1 guess, multiple guesses */
-//    void createHint() {
-//
-//    }
-//
-    /** TODO test when word is guessed correctly */
     @Test
     @DisplayName("test when the correct guess is made if the marks are correct")
     void correctGuess() {
@@ -96,7 +89,7 @@ class RoundTest {
         assertEquals(true, round.hasWordBeenGuessed);
     }
 
-    /** TODO make attempt function catch and send error message on invalid attempt with if (!attemptValid... */
+
     @Test
     @DisplayName("test if an error is thrown if an invalid attempt is made ")
     void throwInvalidAttemptException() {
@@ -104,8 +97,8 @@ class RoundTest {
 
         assertThrows(InvalidAttemptException.class, () -> round.attempt("bramen"));
     }
-//
-//    /** TODO test after word is guessed correctly and if round is over */
+
+
     @Test
     @DisplayName("test if the round is over after the word is guessed correctly")
     void throwGameExceptionAtGuessingCorrectly() {
@@ -113,9 +106,8 @@ class RoundTest {
         round.attempt("brood");
         assertEquals(true, round.hasWordBeenGuessed);
     }
-//
-//
-//    /** TODO test if round is over after five incorrect guesses */
+
+
     @Test
     @DisplayName("Check if 5 attempts do result in a feedback containing all attempts and feedback")
     void feedbackContainsAllAndCorrectData() {
@@ -128,10 +120,10 @@ class RoundTest {
         List<Feedback> feedback = round.getFeedback();
         Feedback feedbackElement = feedback.get(4);
         /** does contain 5 elements */
-        assertTrue(round.getFeedback().size() == 5);
+        assertEquals(5, round.getFeedback().size());
         /** last element contains correct data */
-        assertTrue(feedbackElement.getAttempt().equals("lyngo"));
-        assertTrue(feedbackElement.getMarks().equals(List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT)));
+        assertEquals("lyngo", feedbackElement.getAttempt());
+        assertEquals(List.of(CORRECT, ABSENT, CORRECT, CORRECT, CORRECT), feedbackElement.getMarks());
 
     }
 

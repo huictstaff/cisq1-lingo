@@ -2,7 +2,6 @@ package nl.hu.cisq1.lingo.trainer.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static nl.hu.cisq1.lingo.trainer.domain.Mark.*;
 
@@ -50,7 +49,6 @@ public class Feedback {
 
                 markList.add(PRESENT);
                 present.append(letter);
-                /** TODO check if this does work correctly, passes test though */
                 incorrect.deleteCharAt(incorrect.indexOf(letter));
             } else {
                 /** Whats left is ABSENT */
@@ -72,7 +70,6 @@ public class Feedback {
     }
 
     public List<String> giveHint(List<String> previousHint, String word) {
-        /** TODO cant this be better and prettier */
         for (int i = 0; i < word.length(); i++) {
             if ((marks.get(i) == CORRECT) || (!previousHint.get(i).equals("."))) {
                 this.hint.add(word.substring(i, i+1));

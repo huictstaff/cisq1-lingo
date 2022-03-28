@@ -51,7 +51,6 @@ class FeedbackTest {
         assertEquals(expectedHint, feedback.giveHint(previousHint, word));
     }
 
-    /** TODO dekt dit alles en test dit wel goed? */
     static Stream<Arguments> hintInputStream() {
         return Stream.of(
                 Arguments.of("BOOST", "BOTER", List.of(CORRECT, CORRECT, PRESENT, ABSENT, ABSENT), List.of("B",".",".",".","."), List.of("B","O",".",".",".")),

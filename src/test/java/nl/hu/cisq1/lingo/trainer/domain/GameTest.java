@@ -71,9 +71,6 @@ class GameTest {
         System.out.println(game.getGamestate());
     }
 
-
-
-    /** TODO new round*/
     @Test
     @DisplayName("start a new round")
     void startNewRound() {
@@ -93,7 +90,8 @@ class GameTest {
     void illegallyStartNewRound() {
         Game game = new Game(new Word("BROOD"));
         assertEquals(Gamestate.ACTIVE, game.getGamestate());
-        assertThrows(GameException.class, () -> game.startNewRound(new Word("TOREN")));
+        Word testWord = new Word("TOREN");
+        assertThrows(GameException.class, () -> game.startNewRound(testWord));
     }
 
 
