@@ -13,6 +13,7 @@ import java.util.UUID;
 @Entity(name = "game")
 public class Game {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -88,4 +89,5 @@ public class Game {
     public List<Feedback> getRoundFeedback() {
         return rounds.get(rounds.size()-1).getFeedback();
     }
+
 }

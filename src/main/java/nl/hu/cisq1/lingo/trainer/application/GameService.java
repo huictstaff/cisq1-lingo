@@ -34,10 +34,28 @@ public class GameService {
         return game;
     }
 
-    public boolean startNewRound() {
-        return true;
+    public Game startNewRound(int id) {
+        Game game = getGame(id);
+
+        int lastWordLength = game.getWordLength();
+
+        Word newWord;
+
+        if (lastWordLength < 7) {
+            newWord = new Word(wordService.provideRandomWord(lastWordLength+1));
+        }
+        else {
+            newWord = new Word(wordService.provideRandomWord(5));
+        }
+
+        game.startNewRound(newWord);
+        springGameRepository.save(game);
+
+        return game;
     }
 
+    /** TODO need something to send to front end user, game object as return value is not good enough */
+    /** something to easely get the game data  */
     public boolean getGameProgress() {
         return true;
     }

@@ -91,11 +91,29 @@ class GameServiceTest {
     @Test
     @DisplayName("Getting the right score")
     void getCorrectScore() {
-        
+
     }
 
     @Test
+    @DisplayName("starting a new round")
     void startNewRound() {
+        WordService wordService = mock(WordService.class);
+        SpringGameRepository springGameRepository = mock(SpringGameRepository.class);
+        GameService gameService = new GameService(wordService, springGameRepository);
+
+        Game game = new Game(new Word("BROOD"));
+        game.guess("BROOD");
+
+        when(springGameRepository.getById(anyInt())).thenReturn(game);
+        when(wordService.provideRandomWord(6)).thenReturn("BRODEN");
+
+        assertEquals(Gamestate.WAITING, game.getGamestate());
+
+        gameService.startNewRound(1);
+
+        assertEquals(Gamestate.ACTIVE, game.getGamestate());
+        assertEquals(2, game.getRounds().size());
+
     }
 
     @Test
