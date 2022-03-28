@@ -12,7 +12,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private int id;
 
     private String attempt; /** word */
 

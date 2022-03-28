@@ -16,7 +16,7 @@ public class Round {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private int id;
 
     @Getter @Setter
     @OneToOne

@@ -26,8 +26,12 @@ public class GameService {
         return game;
     }
 
-    public boolean guess(int id, String guess) {
-        return true;
+    public Game guess(int id, String guess) {
+        Game game = getGame(id);
+        game.guess(guess);
+        springGameRepository.save(game);
+
+        return game;
     }
 
     public boolean startNewRound() {
@@ -38,9 +42,9 @@ public class GameService {
         return true;
     }
 
-    public boolean getGame() {
-
-        return true;
+    public Game getGame(int id) {
+        Game game = springGameRepository.getById(id);
+        return game;
     }
 
 

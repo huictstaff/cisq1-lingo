@@ -15,7 +15,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private int id;
 
     @Getter @Setter
     @Column
@@ -64,6 +64,7 @@ public class Game {
     }
 
 
+
     public void startNewRound(Word word) {
         /** if to check if there is a game that is in gamestate waiting */
         if (gamestate.equals(Gamestate.WAITING)) {
@@ -78,5 +79,13 @@ public class Game {
     /** At some point the word length must come into play */
     public int getWordLength() {
         return rounds.get(rounds.size() - 1).getWord().getLength();
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public List<Feedback> getRoundFeedback() {
+        return rounds.get(rounds.size()-1).getFeedback();
     }
 }
