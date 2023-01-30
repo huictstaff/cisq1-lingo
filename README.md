@@ -18,6 +18,7 @@ For now, let's see if we can get this project started!
 1. Check if everything works by running the tests, either via your IDE or via `mvnw verify`
 1. Follow the instructions in the course assignments
 
+⚠️ Make sure you have at least JDK17 installed
 
 ### PostgreSQL without Docker
 
