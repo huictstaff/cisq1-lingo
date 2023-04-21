@@ -44,10 +44,10 @@ Although it is a less realistic test,
 it suffices to replace it with an in-memory database like H2.
 Our starter project already includes configuration for this, but you
 need to let Maven know that it should activate the continuous integration profile
-in Spring. The command to do this is as follows:
+in Spring. The command to do this is as follows (quotes added for PowerShell):
 
 ```shell
-mvnw verify -Dspring.profiles.active
+./mvnw verify "-Dspring.profiles.active=ci"
 ```
 
 ### I'd rather use an actual database during CI
