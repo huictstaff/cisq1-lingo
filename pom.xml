@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.2</version>
+        <version>3.2.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>nl.hu.cisq1</groupId>
@@ -15,7 +15,7 @@
     <description>Lingo trainer for CISQ1 at the HU</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
