@@ -3,6 +3,7 @@
 This project is part of a sophomore Software Development 
 *Continuous Integration and Software Quality 1 (CISQ1)* at the 
 Institute for ICT of the [Hogeschool Utrecht](https://www.hu.nl/).
+By cloning, copying or forking this repository and/or accepting a GitHub Classroom assignment based on this repository, you accept that copyright of any derived work and/or work build upon materials found in this repository, belong and remain to the HU as specified in [HU Copyright regulations (2017)](https://een.hu.nl/over-de-hu/rules-and-regulations-within-the-hu/hu-copyright-enforcement-regulations-pdf).
 
 ## How do I get started?
 
