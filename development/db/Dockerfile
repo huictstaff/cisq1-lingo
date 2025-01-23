@@ -1,4 +1,4 @@
-FROM postgres:13-alpine
+FROM postgres:alpine
 
 # Copy SQL for setting up words table and importing words
 COPY lingo_words.sql /data/lingo_words.sql

@@ -1,0 +1,4 @@
+### GET request to RandomWordController
+GET http://localhost:8080/words/random?length=5
+
+###
